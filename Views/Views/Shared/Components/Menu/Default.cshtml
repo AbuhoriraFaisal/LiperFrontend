@@ -1,0 +1,139 @@
+﻿@*@*@model IEnumerable<Core.Entities.RolePermissions>
+
+@if (Model.Any())
+{
+    <li class="nav-item">
+        <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-copy"></i>
+            <p>
+                System Management
+                <i class="fas fa-angle-left right"></i>
+                <span class="badge badge-info right"></span>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="pages/layout/top-nav.html" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Top Navigation</p>
+                </a>
+            </li>
+            @if (ViewBag.Users != null)
+            {
+                <li class="nav-item">
+                <a asp-action="Index" asp-controller="User" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Manage Users</p>
+                </a>
+                </li>
+            }
+            @if (ViewBag.Roles != null)
+            {
+                <li class="nav-item">
+                <a asp-action="Index" asp-controller="Role" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>manage Roles</p>
+                </a>
+                </li>
+            }
+            @if (ViewBag.RolePermission != null)
+            {
+                <li class="nav-item">
+                <a asp-action="Index" asp-controller="RolePermissions" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Manage Permissions</p>
+                </a>
+                </li>
+            }
+
+        </ul>
+    </li>
+
+
+    <li class="nav-item">
+        <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-copy"></i>
+            <p>
+                System Management
+                <i class="fas fa-angle-left right"></i>
+                <span class="badge badge-info right"></span>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+
+            @if (ViewBag.Users != null)
+            {
+                <li class="nav-item">
+                <a asp-action="Index" asp-controller="User" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Manage Users</p>
+                </a>
+                </li>
+            }
+        </ul>
+    </li>
+}
+@*@if (ViewBag.Users != null)
+        {
+            <div class="navbar" style="width:13%" id="navbarcollapse">
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="ndlist" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">Manage Users</a>
+
+                        <div class="dropdown-menu" aria-labelledby="ndlist">
+                            @foreach (var user in ViewBag.Users)
+                            {
+                                <a asp-action="@user.Action" asp-controller="@user.Controller" class="dropdown-item">@user.PermissionName</a>
+                            }
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        }
+        @if (ViewBag.Roles != null)
+        {
+            <div class="collapse navbar-collapse" id="navbarcollapse">
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="ndlist" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">Manage Roles</a>
+
+                        <div class="dropdown-menu" aria-labelledby="ndlist">
+                            @foreach (var role in ViewBag.Roles)
+                            {
+                                <a asp-action="@role.Action" asp-controller="@role.Controller" class="dropdown-item">@role.PermissionName</a>
+                            }
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        }
+        @if (ViewBag.RolePermission != null)
+        {
+            <div class="collapse navbar-collapse" style="width:5%" id="navbarcollapse">
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="ndlist" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">Manage Permission</a>
+
+                        <div class="dropdown-menu" aria-labelledby="ndlist">
+                            @foreach (var role in ViewBag.RolePermission)
+                            {
+                                <a asp-action="@role.Action" asp-controller="@role.Controller" class="dropdown-item">@role.PermissionName</a>
+                            }
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        }
+
+
+    </nav>
+@*</div>**@

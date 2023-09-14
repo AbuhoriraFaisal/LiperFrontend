@@ -1,0 +1,56 @@
+﻿@model AboutUsResponse
+
+@{
+    ViewData["Title"] = "About Us";
+    var permissions = ViewBag.Permissions;
+}
+<h1>About Us</h1>
+
+<div class="row">
+    <div class="col-md-4" style="padding:revert">
+        <form asp-action="AboutUs">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="titleEN" class="control-label"></label>
+                <input asp-for="titleEN" class="form-control" />
+                <span asp-validation-for="titleEN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="titleAR" class="control-label"></label>
+                <input asp-for="titleAR" class="form-control" />
+                <span asp-validation-for="titleAR" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="descriptionEN" class="control-label"></label>
+                <textarea asp-for="descriptionEN" class="form-control"></textarea>
+                <span asp-validation-for="descriptionEN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="descriptionAR" class="control-label"></label>
+                <textarea asp-for="descriptionAR" class="form-control"></textarea>
+                <span asp-validation-for="descriptionAR" class="text-danger"></span>
+            </div>
+          
+            <div class="form-group" style="padding-top:3%">
+                <input type="submit" value="Save" class="btn btn-primary"   />
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to Home</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+    });
+</script>

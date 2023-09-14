@@ -1,0 +1,140 @@
+﻿@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Categories";
+    //var permissions = ViewBag.Permissions;
+}
+<h1>Categories</h1>
+@*
+@if (permissions.Contains("Create"))
+{*@
+<p>
+    <a asp-action="Create" class="btn btn-outline-success">New Category</a>
+</p>
+@*}*@
+
+@*<div class="container">
+    <div class="table-responsive text-center">
+        <div class="col-lg-11 col-md-11 col-sm-11">
+*@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            @*<table id="example" class="table table-sm table-bordered table-hover">*@
+
+
+                            <caption>List of Categories : @Model.Count()</caption>
+
+                            <thead>
+                                <tr>
+                                    @*<th>
+                                    @Html.DisplayNameFor(model => model.Id)
+                                    </th>*@
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.nameEN)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model =>model.nameAR)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model =>model.imageURL)
+                                    </th>
+                                    @*<th>
+                                    @Html.DisplayNameFor(model => model.CreationDate)
+                                    </th>
+                                    <th>
+                                    @Html.DisplayNameFor(model => model.UpdateDate)
+                                    </th>
+                                    <th>
+                                    @Html.DisplayNameFor(model => model.DeleteDate)
+                                    </th>*@
+                                    @*@if (permissions.Contains("Update") || permissions.Contains("Delete"))
+                                    {
+                                    <th></th>
+                                    }*@
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        @* <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                    </td>*@
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.nameEN)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.nameAR)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.imageURL)
+                                        </td>
+                                        @*<td>
+                                    @Html.DisplayFor(modelItem => item.CreationDate)
+                                    </td>
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                                    </td>
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.DeleteDate)
+                                    </td>*@
+                                        @*  @if (permissions.Contains("Update") || permissions.Contains("Delete"))
+                                    {
+                                    <td>
+                                    @if (permissions.Contains("Update"))
+                                    {
+                                    <a asp-action="Update" class="btn btn-outline-info" asp-route-Id=@item.Id> Update</a>
+                                    ;
+                                    @Html.Display("|")
+                                    ;
+                                    }
+                                    @if (permissions.Contains("Delete"))
+                                    {
+                                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.Id>Delete</a>
+                                    }
+                                    </td>
+                                    }
+                                    *@
+                                    <td>
+                                            <a asp-action="CategorySubCategories" asp-controller="SubCategories" class="btn btn-outline-info" asp-route-Id=@item.id> Sub Categories</a>
+                                            <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.id> Update</a>
+
+                                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.id>Delete</a>
+
+                                    </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        //$('#example2').DataTable({
+        //    "paging": true,
+        //    "lengthChange": false,
+        //    "searching": false,
+        //    "ordering": true,
+        //    "info": true,
+        //    "autoWidth": false,
+        //    "responsive": true,
+        //});
+    });
+</script>
