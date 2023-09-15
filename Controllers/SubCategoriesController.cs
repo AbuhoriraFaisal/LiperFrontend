@@ -17,6 +17,14 @@ namespace LiperFrontend.Controllers
             return View(subcategoriesList.Item1.subCategories);
         }
 
+        // GET: CategoryController/Create
+        public ActionResult Create( int categoryId)
+        {
+            ViewBag.categoryId = categoryId;
+            return View();
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(SubCategory subCategory)

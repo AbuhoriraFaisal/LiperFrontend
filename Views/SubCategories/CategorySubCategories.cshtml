@@ -7,8 +7,20 @@
 <h1>CategorySubCategories</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
-</p>
+    <a asp-action="Create" asp-route-categoryId="@Context.Request.Query["id"]" class="btn btn-outline-success">Crveate New</a>
+
+    @if (Model.Count() > 0)
+    {
+        <a asp-action="Create" asp-route-categoryId="@Model.FirstOrDefault().categoryId" class="btn btn-outline-success">Create New</a>
+
+    }
+    else
+    {
+        <a asp-action="Create" asp-route-categoryId="0" class="btn btn-outline-success">Create New</a>
+
+    }
+    <a asp-action="Index" asp-controller="Categories" class="btn btn-outline-secondary">Back to Categories List</a>
+    </p>
 <table class="table">
     <thead>
         <tr>
