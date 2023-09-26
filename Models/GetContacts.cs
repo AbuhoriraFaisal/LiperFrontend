@@ -1,8 +1,8 @@
 ﻿namespace LiperFrontend.Models
 {
-    public class Categories
+    public class GetContacts
     {
+        public Contact contact { get; set; }
         public responseMessage responseMessage { get; set; }
-        public  List<Category> categories { get; set; }
     }
 }

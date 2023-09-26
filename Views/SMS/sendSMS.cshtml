@@ -1,0 +1,36 @@
+﻿@model LiperFrontend.Models.Sms
+
+@{
+    ViewData["Title"] = "sendSMS";
+}
+
+<h1>sendSMS</h1>
+
+<h4>Sms</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="sendSMS">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="mobileNumber" class="control-label"></label>
+                <input asp-for="mobileNumber" class="form-control" />
+                <span asp-validation-for="mobileNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="body" class="control-label"></label>
+                <textarea asp-for="body" class="form-control"></textarea>
+                <span asp-validation-for="body" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Send Message" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

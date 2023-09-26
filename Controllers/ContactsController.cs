@@ -2,39 +2,38 @@
 using LiperFrontend.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace LiperFrontend.Controllers
 {
-    public class CategoriesController : Controller
+    public class ContactsController : Controller
     {
-        // GET: CategoryController
-        public async Task<IActionResult> Index()
+        // GET: ContactsController
+        public async Task<ActionResult> Index()
         {
-            var categoriesList = await ApiCaller<Categories, string>.CallApiGet("Categories", "", "");
-            return View(categoriesList.Item1.categories);
+            var contacts = await ApiCaller<Contacts, string>.CallApiGet("Contacts", "", "");
+            return View(contacts.Item1.contacts);
         }
 
-        // GET: CategoryController/Details/5
+        // GET: ContactsController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: CategoryController/Create
+        // GET: ContactsController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: CategoryController/Create
+        // POST: ContactsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Category category)
+        public async Task<ActionResult> Create(Contact contact)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Category>.CallApiPost($"Categories/AddCategory", category, "");
+                var response = await ApiCaller<defaultResponse, Contact>.CallApiPost($"Contacts", contact, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
@@ -51,27 +50,26 @@ namespace LiperFrontend.Controllers
             }
         }
 
-        // GET: CategoryController/Edit/5
-        [HttpGet]
+        // GET: ContactsController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var getcategory = await ApiCaller<GetCategory, string>.CallApiGet($"Categories/GetCategoryById?Id={id}", "", "");
-            Category category = getcategory.Item1.category;
-            if (category != null)
+            var getcategory = await ApiCaller<GetContacts, string>.CallApiGet($"Contacts/GetById?id={id}", "", "");
+            Contact contact = getcategory.Item1.contact;
+            if (contact != null)
             {
-                return View(category);
+                return View(contact);
             }
             return View();
         }
 
-        // POST: CategoryController/Edit/5
+        // POST: ContactsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Category category)
+        public async Task<ActionResult> Edit(int id, Contact contact)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Category>.CallApiPut($"Categories/EditCategory", category, "");
+                var response = await ApiCaller<defaultResponse, Contact>.CallApiPut($"Contacts", contact, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
@@ -88,27 +86,26 @@ namespace LiperFrontend.Controllers
             }
         }
 
-        // GET: CategoryController/Delete/5
+        // GET: ContactsController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var getcategory = await ApiCaller<GetCategory, string>.CallApiGet($"Categories/GetCategoryById?Id={ id}", "", "");
-            Category category = getcategory.Item1.category;
-            if (category != null)
+            var contact_result = await ApiCaller<GetContacts, string>.CallApiGet($"Contacts/GetById?id={id}", "", "");
+            Contact contact = contact_result.Item1.contact;
+            if (contact != null)
             {
-                return View(category);
+                return View(contact);
             }
             return View();
         }
 
-        // POST: CategoryController/Delete/5
+        // POST: ContactsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
-            
             try
             {
-                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Categories/DeleteCategory?Id={id}", "", "");
+                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Contacts?id={id}", "", "");
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction(nameof(Index));

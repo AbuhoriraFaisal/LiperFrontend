@@ -1,8 +1,9 @@
 ﻿namespace LiperFrontend.Models
 {
-    public class Categories
+    public class SubCategories
     {
+        public List<SubCategory> subCategories { get; set; }
+        
         public responseMessage responseMessage { get; set; }
-        public  List<Category> categories { get; set; }
     }
 }

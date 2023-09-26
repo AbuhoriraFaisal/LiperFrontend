@@ -7,18 +7,19 @@
 <h1>CategorySubCategories</h1>
 
 <p>
-    <a asp-action="Create" asp-route-categoryId="@Context.Request.Query["id"]" class="btn btn-outline-success">Crveate New</a>
+   
+    @Html.ActionLink("New Sub Category","Create", new { id=Context.GetRouteValue("Id")} ,  new { @class="btn btn-outline-success"}) 
 
-    @if (Model.Count() > 0)
+   @*  @if (Model.Count() > 0)
     {
         <a asp-action="Create" asp-route-categoryId="@Model.FirstOrDefault().categoryId" class="btn btn-outline-success">Create New</a>
 
     }
     else
     {
-        <a asp-action="Create" asp-route-categoryId="0" class="btn btn-outline-success">Create New</a>
+        <a asp-action="Create" asp-route-categoryId="1" class="btn btn-outline-success">Create New</a>
 
-    }
+    } *@
     <a asp-action="Index" asp-controller="Categories" class="btn btn-outline-secondary">Back to Categories List</a>
     </p>
 <table class="table">
@@ -49,9 +50,9 @@
                 @Html.DisplayFor(modelItem => item.nameAR)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <a asp-action="Edit"  class="btn btn-outline-info" asp-route-Id=@item.id> Edit</a>
+                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.id>Delete</a>
+
             </td>
         </tr>
 }
