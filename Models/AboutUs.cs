@@ -2,7 +2,7 @@
 
 namespace LiperFrontend.Models
 {
-    public class AboutUsResponse
+    public class AboutUs
     {
         public int id { get; set; }
         [DisplayName("English Title ")]
@@ -14,4 +14,10 @@ namespace LiperFrontend.Models
         [DisplayName("Arabic Description ")]
         public string descriptionAR { get; set; }
     }
+    public class GetAboutUs
+    {
+        public List<AboutUs> abouts { get; set; }
+        public responseMessage responseMessage { get; set; }
+    }
+
 }

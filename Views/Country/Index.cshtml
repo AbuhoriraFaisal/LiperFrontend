@@ -1,0 +1,59 @@
+﻿@model IEnumerable<LiperFrontend.Models.Country>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nameEN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nameAR)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.flagImgUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.countrycode)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nameEN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nameAR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.flagImgUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.countrycode)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<LiperFrontend.Models.AboutUs>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    @* <a asp-action="Create" class="btn btn-outline-success">New Contact</a> *@
+</p>
+<table class="table">
+    <thead>
+        <tr>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.titleEN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.titleAR)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descriptionEN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descriptionAR)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.titleEN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.titleAR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descriptionEN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descriptionAR)
+            </td>
+            <td>
+                    <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.id> Update</a>
+               @*  @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) *@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

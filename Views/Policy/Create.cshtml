@@ -1,4 +1,4 @@
-﻿@model LiperFrontend.Models.Condition
+﻿@model LiperFrontend.Models.Policy
 
 @{
     ViewData["Title"] = "Create";
@@ -6,22 +6,22 @@
 
 <h1>Create</h1>
 
-<h4>Conditions</h4>
+<h4>Policy</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+           
             <div class="form-group">
                 <label asp-for="name" class="control-label"></label>
                 <input asp-for="name" class="form-control" />
                 <span asp-validation-for="name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="nameAR" class="control-label"></label>
-                <input asp-for="nameAR" class="form-control" />
-                <span asp-validation-for="nameAR" class="text-danger"></span>
+                <label asp-for="nameAr" class="control-label"></label>
+                <input asp-for="nameAr" class="form-control" />
+                <span asp-validation-for="nameAr" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="discription" class="control-label"></label>
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-outline-secondary">Back to  List</a>
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to Policies List</a>
 
             </div>
         </form>
