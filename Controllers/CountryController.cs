@@ -18,7 +18,7 @@ namespace LiperFrontend.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Country country)
+        public async Task<ActionResult> Create([FromBody]Country country)
         {
             try
             {
