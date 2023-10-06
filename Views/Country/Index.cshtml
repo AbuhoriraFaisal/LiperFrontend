@@ -12,20 +12,18 @@
 <table class="table">
     <thead>
         <tr>
+            
             <th>
-                @Html.DisplayNameFor(model => model.id)
+                @Html.DisplayNameFor(model => model.NameEN)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.nameEN)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.nameAR)
+                @Html.DisplayNameFor(model => model.NameAR)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.flagImgUrl)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.countrycode)
+                @Html.DisplayNameFor(model => model.CountryCode)
             </th>
             <th></th>
         </tr>
@@ -33,20 +31,18 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            
             <td>
-                @Html.DisplayFor(modelItem => item.id)
+                @Html.DisplayFor(modelItem => item.NameEN)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.nameEN)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nameAR)
+                @Html.DisplayFor(modelItem => item.NameAR)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.flagImgUrl)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.countrycode)
+                @Html.DisplayFor(modelItem => item.CountryCode)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

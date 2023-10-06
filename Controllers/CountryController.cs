@@ -18,11 +18,12 @@ namespace LiperFrontend.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([FromBody]Country country)
+        public async Task<ActionResult> Create(Country country)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Country>.CallApiPost($"AddCountry", country, "");
+
+                var response = await ApiCaller<defaultResponse, Country>.CallApiPostFile($"Countries/AddCountry", country, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {

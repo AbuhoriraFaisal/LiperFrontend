@@ -1,9 +1,12 @@
 ﻿using LiperFrontend.Models;
 using Newtonsoft.Json;
+using NuGet.Common;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Security;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -64,6 +67,46 @@ namespace LiperFrontend.Shared
 
                     return new Tuple<T, string>(responseModel, token);
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+
+        public static async Task<Tuple<T, string>> CallApiPostFile(string service, Country country, string authtoken)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    using (var content = new MultipartFormDataContent())
+                    {
+                        if (country.flagImg.Length > 0)
+                        {
+                            using(MemoryStream  ms = new MemoryStream())
+                            {
+                                country.flagImg.CopyTo(ms);
+                                country.files=ms.ToArray();
+                            }
+                        }
+                        content.Add( new StringContent(JsonConvert.SerializeObject(country), Encoding.UTF8
+                        , "application/json"));
+                        var request = client.PostAsync($"{Base_Url}{service}", content);
+                        NEPDC();
+                        string response = await request.Result.Content.ReadAsStringAsync();
+                        string responseHeaders = request.Result.Headers.ToString();
+                        string token = responseHeaders.Substring(responseHeaders.IndexOf(':') + 9);
+                        int endIndex = token.IndexOf($"\r\n");
+                        token = token.Substring(0, endIndex);
+                        var responseModel = JsonConvert.DeserializeObject<T>(response);
+
+                        return new Tuple<T, string>(responseModel, token);
+                    }
+                }
+                //return new Tuple<T, string>(responseModel, token);
+             
             }
             catch (Exception ex)
             {

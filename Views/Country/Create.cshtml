@@ -10,32 +10,29 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
             <div class="form-group">
-                <label asp-for="id" class="control-label"></label>
-                <input asp-for="id" class="form-control" />
-                <span asp-validation-for="id" class="text-danger"></span>
+                <label asp-for="NameEN" class="control-label"></label>
+                <input asp-for="NameEN" class="form-control" />
+                <span asp-validation-for="NameEN" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="nameEN" class="control-label"></label>
-                <input asp-for="nameEN" class="form-control" />
-                <span asp-validation-for="nameEN" class="text-danger"></span>
+                <label asp-for="NameAR" class="control-label"></label>
+                <input asp-for="NameAR" class="form-control" />
+                <span asp-validation-for="NameAR" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="CountryCode" class="control-label"></label>
+                <input asp-for="CountryCode" class="form-control" />
+                <span asp-validation-for="CountryCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="nameAR" class="control-label"></label>
-                <input asp-for="nameAR" class="form-control" />
-                <span asp-validation-for="nameAR" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="flagImgUrl" class="control-label"></label>
-                <input asp-for="flagImgUrl" class="form-control" />
-                <span asp-validation-for="flagImgUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="countrycode" class="control-label"></label>
-                <input asp-for="countrycode" class="form-control" />
-                <span asp-validation-for="countrycode" class="text-danger"></span>
+                <label asp-for="flagImg"></label>
+                <input asp-for="flagImg" type="file">
+                <span asp-validation-for="flagImg"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

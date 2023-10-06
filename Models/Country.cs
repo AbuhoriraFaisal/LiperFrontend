@@ -1,14 +1,16 @@
-﻿namespace LiperFrontend.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LiperFrontend.Models
 {
     public class Country
     {
-        public int id { get; set; }
-        public string nameEN { get; set; }
-        public string nameAR { get; set; }
+        public int Id { get; set; } = 0;
+        public string NameEN { get; set; }
+        public string NameAR { get; set; }
         public string flagImgUrl { get; set; }
-        public int countrycode { get; set; }
-        public IFormFile? flagImg { get; set; }
-        public IFormFile File { get; set; }
+        public int CountryCode { get; set; }
+        public IFormFile flagImg { get; set; }
+        public byte[] files { get; set; }
 
     }
 }
