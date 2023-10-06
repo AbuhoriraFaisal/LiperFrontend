@@ -14,7 +14,8 @@ namespace LiperFrontend.Shared
 {
     public class ApiCaller<T,B>
     {
-        static string Base_Url = $"http://207.180.223.113:8026/api/"; // live 
+        static string Base_Url = $"http://75.119.136.238:8016/api/"; // live 
+        //static string Base_Url = $"http://207.180.223.113:8026/api/"; // live 
         //static string Base_Url = $"https://mob.jsjbank.com:3000/JSB_OMNI_Ph2/omniServices/"; test 
 
         //static string Base_Url = $"https://mob.jsjbank.com:8383/JSB_OMNI_Ph2/omniServices/cpServices/"; // live 
