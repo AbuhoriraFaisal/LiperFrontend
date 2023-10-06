@@ -5,11 +5,11 @@
 }
 
 <h1>Index</h1>
-
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">New Country</a>
 </p>
-<table class="table">
+<table class="table" style="width:-webkit-fit-content" >
     <thead>
         <tr>
             
@@ -19,11 +19,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.NameAR)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.flagImgUrl)
+            <th style="width:20%">
+                Image
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CountryCode)
+                Code
             </th>
             <th></th>
         </tr>
@@ -38,17 +38,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NameAR)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.flagImgUrl)
+            
+            <td style="width:20%">
+                    <img src="@item.flagImgUrl" style="width:50%" alt="Country flag" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CountryCode)
+                +@Html.DisplayFor(modelItem => item.CountryCode)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.Id> Update</a>
+                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.Id> Delete</a>
+
+                </td>
         </tr>
 }
     </tbody>

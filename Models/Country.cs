@@ -9,8 +9,8 @@ namespace LiperFrontend.Models
         public string NameAR { get; set; }
         public string flagImgUrl { get; set; }
         public int CountryCode { get; set; }
-        public IFormFile flagImg { get; set; }
-        public byte[] files { get; set; }
+        //public IFormFile flagImg { get; set; }
+        public IFormFile files { get; set; }
 
     }
 }

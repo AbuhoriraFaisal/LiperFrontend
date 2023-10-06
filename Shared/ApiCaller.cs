@@ -12,20 +12,20 @@ using System.Text;
 
 namespace LiperFrontend.Shared
 {
-    public class ApiCaller<T,B>
+    public class ApiCaller<T, B>
     {
-        static string Base_Url = $"http://207.180.223.113:8026/api/"; // live 
-        //static string Base_Url = $"https://mob.jsjbank.com:3000/JSB_OMNI_Ph2/omniServices/"; test 
+        public static string Base_Url = $"http://75.119.136.238:8016/api/"; // live 
+                                                                     //static string Base_Url = $"https://mob.jsjbank.com:3000/JSB_OMNI_Ph2/omniServices/"; test 
 
         //static string Base_Url = $"https://mob.jsjbank.com:8383/JSB_OMNI_Ph2/omniServices/cpServices/"; // live 
-       static IHttpClientFactory _httpClientFactory;
+        static IHttpClientFactory _httpClientFactory;
 
         public ApiCaller(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
 
-        public  static async Task<Tuple<T, string>> callApi(string service, B model)
+        public static async Task<Tuple<T, string>> callApi(string service, B model)
         {
             var client = _httpClientFactory.CreateClient("apiClient");
             StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8
@@ -75,38 +75,100 @@ namespace LiperFrontend.Shared
             }
         }
 
-        public static async Task<Tuple<T, string>> CallApiPostFile(string service, Country country, string authtoken)
+        public static async Task<Tuple<T, string>> CallApiPostCountryFlag(string service, Country country, string authtoken)
         {
             try
             {
-                using (var client = new HttpClient())
+                
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
                 {
-                    using (var content = new MultipartFormDataContent())
-                    {
-                        if (country.flagImg.Length > 0)
-                        {
-                            using(MemoryStream  ms = new MemoryStream())
-                            {
-                                country.flagImg.CopyTo(ms);
-                                country.files=ms.ToArray();
-                            }
-                        }
-                        content.Add( new StringContent(JsonConvert.SerializeObject(country), Encoding.UTF8
-                        , "application/json"));
-                        var request = client.PostAsync($"{Base_Url}{service}", content);
-                        NEPDC();
-                        string response = await request.Result.Content.ReadAsStringAsync();
-                        string responseHeaders = request.Result.Headers.ToString();
-                        string token = responseHeaders.Substring(responseHeaders.IndexOf(':') + 9);
-                        int endIndex = token.IndexOf($"\r\n");
-                        token = token.Substring(0, endIndex);
-                        var responseModel = JsonConvert.DeserializeObject<T>(response);
+                    
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
 
-                        return new Tuple<T, string>(responseModel, token);
-                    }
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(country.NameAR);
+                    formDataContent.Add(nameContent, "NameAR");
+                    nameContent = new StringContent(country.NameEN);
+                    formDataContent.Add(nameContent, "NameEN");
+                    nameContent = new StringContent(country.Id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(country.CountryCode.ToString());
+                    formDataContent.Add(nameContent, "Countrycode");
+
+
+                    // Convert the file to stream content
+                    var fileStreamContent = new StreamContent(country.files.OpenReadStream());
+                    formDataContent.Add(fileStreamContent, "files", country.files.FileName);
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
                 }
-                //return new Tuple<T, string>(responseModel, token);
-             
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+
+        public static async Task<Tuple<T, string>> CallApiPutCountryFlag(string service, Country country, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(country.NameAR);
+                    formDataContent.Add(nameContent, "NameAR");
+                    nameContent = new StringContent(country.NameEN);
+                    formDataContent.Add(nameContent, "NameEN");
+                    nameContent = new StringContent(country.Id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(country.CountryCode.ToString());
+                    formDataContent.Add(nameContent, "Countrycode");
+
+
+                    // Convert the file to stream content
+                    var fileStreamContent = new StreamContent(country.files.OpenReadStream());
+                    formDataContent.Add(fileStreamContent, "files", country.files.FileName);
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PutAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
+                }
+
             }
             catch (Exception ex)
             {
@@ -159,7 +221,8 @@ namespace LiperFrontend.Shared
                    X509Certificate certificate,
                    X509Chain chain,
                    SslPolicyErrors sslPolicyErrors
-               ) {
+               )
+               {
                    return true;
                };
         }
@@ -216,7 +279,7 @@ namespace LiperFrontend.Shared
 
         }
         public static async Task<List<T>> CallApiGetList(string service, B model)
-        
+
         {
             using (var httpclient = new HttpClient())
             {
