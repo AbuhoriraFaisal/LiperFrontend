@@ -1,4 +1,4 @@
-﻿@model LiperFrontend.Models.Country
+﻿@model LiperFrontend.Models.State
 
 @{
     ViewData["Title"] = "Delete";
@@ -16,7 +16,7 @@
 </div>
 <!------------------------------------------>
 <div>
-    <h4>Country</h4>
+    <h4>State</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -26,38 +26,27 @@
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NameEN)
+            @Html.DisplayNameFor(model => model.nameEN)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NameEN)
+            @Html.DisplayFor(model => model.nameEN)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NameAR)
+            @Html.DisplayNameFor(model => model.nameAR)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NameAR)
+            @Html.DisplayFor(model => model.nameAR)
         </dd>
-        
-        @if (@Model is not null)
-        {
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.flagImgUrl)
-            </dt>
-            <dd class="col-sm-10">
-                <img src="@Model.flagImgUrl" alt="Country Flag" />
-            </dd>
-        }
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CountryCode)
+            @Html.DisplayNameFor(model => model.country.NameEN)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CountryCode)
+            @Html.DisplayFor(model => model.country.NameEN)
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="submit" value="Delete" class="btn btn-danger" />
         <a asp-action="Index" class="btn btn-outline-secondary">Back to Countries List</a>
-        
     </form>
 </div>

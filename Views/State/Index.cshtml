@@ -1,0 +1,53 @@
+﻿@model IEnumerable<LiperFrontend.Models.State>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nameEN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nameAR)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.country.NameEN)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nameEN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nameAR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.country.NameEN)
+            </td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.Id> Update</a>
+                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.Id> Delete</a>
+
+                </td>
+        </tr>
+}
+    </tbody>
+</table>

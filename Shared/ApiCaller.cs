@@ -149,9 +149,18 @@ namespace LiperFrontend.Shared
                     formDataContent.Add(nameContent, "Countrycode");
 
 
-                    // Convert the file to stream content
-                    var fileStreamContent = new StreamContent(country.files.OpenReadStream());
-                    formDataContent.Add(fileStreamContent, "files", country.files.FileName);
+                     //Convert the file to stream content
+                     if(country.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(country.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", Guid.NewGuid() + ".Png");
+                    }
+                    else
+                    {
+                        var fileStreamContent = await ConvertFileToStreamContent(country.flagImgUrl);
+                        formDataContent.Add(fileStreamContent, "files", Guid.NewGuid() + ".Png");
+                    }
+                    
 
                     //
                     // Send the post request to the API with the form data content
@@ -174,6 +183,71 @@ namespace LiperFrontend.Shared
             {
 
                 throw new Exception("Internet Connection Proplem ");
+            }
+        }
+
+        public static StreamContent ConvertFileToStreamContentLocal(string filePath)
+        {
+            // Open the file as a stream
+            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                // Create a new stream content with the file stream
+                var streamContent = new StreamContent(fileStream);
+
+                // Set the content headers
+                streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                streamContent.Headers.ContentLength = fileStream.Length;
+
+                return streamContent;
+            }
+        }
+        public static async Task<StreamContent> ConvertFileToStreamContent(string filePath)
+        {
+            try
+            {
+
+                // Create a new HttpClient
+                using (var httpClient = new HttpClient())
+                {
+                    // Download the file as a stream
+                    var fileStream = await httpClient.GetStreamAsync(filePath);
+
+                    // Create a new stream content with the file stream
+                    var streamContent = new StreamContent(fileStream);
+
+
+                    // Set the content headers
+                    var mediaType = GetMediaTypeFromFilePath(filePath);
+                    streamContent.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
+                    var fileInfo = new FileInfo(new Uri(filePath).AbsolutePath);
+                    //streamContent.Headers.ContentLength = fileInfo.Length;
+                    var response = await httpClient.GetAsync(filePath);
+                    if (response.Content.Headers.ContentLength.HasValue)
+                        streamContent.Headers.ContentLength = response.Content.Headers.ContentLength.Value;
+                    return streamContent;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public static string GetMediaTypeFromFilePath(string filePath)
+        {
+            var extension = Path.GetExtension(filePath).ToLower();
+            switch (extension)
+            {
+                case ".pdf":
+                    return "application/pdf";
+                case ".jpg":
+                case ".jpeg":
+                    return "image/jpeg";
+                case ".png":
+                    return "image/png";
+                // Add more cases for other supported file types
+                default:
+                    return "application/octet-stream";
             }
         }
 

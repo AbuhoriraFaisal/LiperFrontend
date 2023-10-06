@@ -1,6 +1,9 @@
-﻿using LiperFrontend.Models;
+﻿using LiperFrontend.Enums;
+using LiperFrontend.Models;
+using LiperFrontend.Services;
 using LiperFrontend.Shared;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.Metrics;
 
 namespace LiperFrontend.Controllers
 {
@@ -34,10 +37,12 @@ namespace LiperFrontend.Controllers
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    return RedirectToAction(nameof(Index));
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
+                    return View();
                 }
                 else
                 {
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, "Operation Failed !");
                     return View();
                 }
             }
@@ -67,9 +72,14 @@ namespace LiperFrontend.Controllers
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Countries/DeleteCountry?id={id}", "", "");
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    return RedirectToAction(nameof(Index));
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
+                    return View();
                 }
-                return View();
+                else
+                {
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, "Operation Failed !");
+                    return View();
+                }
             }
             catch
             {
@@ -77,12 +87,15 @@ namespace LiperFrontend.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
             var contact_result = await ApiCaller<GetCountry, string>.CallApiGet($"Countries/GetCountryById?Id={id}", "", "");
             Country country = contact_result.Item1.country;
             if (country != null)
             {
+                country.flagImgUrl = ApiCaller<Country, Country>.Base_Url.Substring(0,
+                    ApiCaller<Country, Country>.Base_Url.Length - 5) + country.flagImgUrl;
                 return View(country);
             }
             return View();
@@ -90,7 +103,7 @@ namespace LiperFrontend.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Country country)
+        public async Task<ActionResult> Edit([FromForm] Country country)
         {
             try
             {
@@ -98,16 +111,18 @@ namespace LiperFrontend.Controllers
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    return RedirectToAction(nameof(Index));
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
+                    return View();
                 }
                 else
                 {
-                    return View();
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, "Operation Failed !");
+                    return View(country);
                 }
             }
             catch
             {
-                return View();
+                return View(country);
             }
         }
 
