@@ -31,6 +31,7 @@ namespace LiperFrontend.Controllers
         {
             try
             {
+                subCategory.id = 0;
                 var response = await ApiCaller<defaultResponse, SubCategory>.CallApiPost($"SubCategories", subCategory, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))

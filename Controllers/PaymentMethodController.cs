@@ -1,4 +1,6 @@
-﻿using LiperFrontend.Models;
+﻿using LiperFrontend.Enums;
+using LiperFrontend.Models;
+using LiperFrontend.Services;
 using LiperFrontend.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,14 +37,8 @@ namespace LiperFrontend.Controllers
             {
                 var response = await ApiCaller<defaultResponse, PaymentMethod>.CallApiPost($"PaymentMethods", paymentMethod, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    return View();
-                }
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                return View();
             }
             catch
             {
@@ -69,16 +65,10 @@ namespace LiperFrontend.Controllers
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, PaymentMethod>.CallApiPut($"PaymentMethods/EditCategory", paymentMethod, "");
+                var response = await ApiCaller<defaultResponse, PaymentMethod>.CallApiPut($"PaymentMethods", paymentMethod, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    return View();
-                }
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                return View();
             }
             catch
             {
@@ -106,10 +96,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"PaymentMethods?id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
-                {
-                    return RedirectToAction(nameof(Index));
-                }
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
                 return View();
             }
             catch

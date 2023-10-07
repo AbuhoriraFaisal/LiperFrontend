@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create" class="btn btn-outline-success">New Policy</a>
 </p>
-<table class="table">
+<table class="table" style="-webkit-align-content:safe center">
     <thead>
         <tr>
             <th>
@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.nameAr)
+                @Html.DisplayNameFor(model => model.nameAR)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.discription)
@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.nameAr)
+                @Html.DisplayFor(modelItem => item.nameAR)
             </td>
             <td>
                     @Html.DisplayFor(modelItem => item.discription)
@@ -49,9 +49,9 @@
                     @Html.DisplayFor(modelItem => item.discriptionAR)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.id> Update</a>
+                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.id> Delete</a>
+
             </td>
         </tr>
 }

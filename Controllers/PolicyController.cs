@@ -1,4 +1,6 @@
-﻿using LiperFrontend.Models;
+﻿using LiperFrontend.Enums;
+using LiperFrontend.Models;
+using LiperFrontend.Services;
 using LiperFrontend.Shared;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,16 +28,90 @@ namespace LiperFrontend.Controllers
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    return RedirectToAction(nameof(Index));
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    return View();
                 }
                 else
                 {
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
                     return View();
                 }
             }
             catch
             {
                 return View();
+            }
+        }
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            var response = await ApiCaller<GetPolicy, string>.CallApiGet($"Policies/GetById?Id={id}", "", "");
+            Policy policy = response.Item1.policy;
+            if (policy != null)
+            {
+
+                return View(policy);
+            }
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Policies?id={id}", "", "");
+                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                {
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    return View();
+                }
+                else
+                {
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    return View();
+                }
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
+        {
+            var response = await ApiCaller<GetPolicy, string>.CallApiGet($"Policies/GetById?Id={id}", "", "");
+            Policy policy = response.Item1.policy;
+            if (policy != null)
+            {
+
+                return View(policy);
+            }
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit( Policy policy)
+        {
+            try
+            {
+                var response = await ApiCaller<defaultResponse, Policy>.CallApiPut($"Policies", policy, "");
+                responseMessage responseMessage = response.Item1.responseMessage;
+                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                {
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    return View();
+                }
+                else
+                {
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    return View();
+                }
+            }
+            catch
+            {
+                return View(policy);
             }
         }
     }

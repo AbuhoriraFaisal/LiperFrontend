@@ -1,8 +1,8 @@
 ﻿namespace LiperFrontend.Models
 {
-    public class Cities
+    public class GetPolicy
     {
-        public List<City> cities { get; set; }
+        public Policy policy { get; set; }
         public responseMessage responseMessage { get; set; }
     }
 }

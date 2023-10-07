@@ -1,0 +1,113 @@
+﻿@*
+@model City
+
+<div id="map" style="height: 400px;"></div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClrFqfOqOGTSGWpiZby6POa-AEFjGmJoM&callback=initMap" async defer></script>
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: @Model.latitude, lng: @Model.longitude },
+            zoom: 10
+        });
+
+        var marker = new google.maps.Marker({
+            position: { lat: @Model.latitude, lng: @Model.longitude },
+            map: map,
+            title: 'Your location'
+        });
+    }
+
+    initMap();
+
+</script>
+ *@
+@model City
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.Raw(@ViewBag.Alert)
+            </div>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="nameEN" class="control-label"></label>
+                    <input asp-for="nameEN" class="form-control" />
+                    <span asp-validation-for="nameEN" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="nameAR" class="control-label"></label>
+                    <input asp-for="nameAR" class="form-control" />
+                    <span asp-validation-for="nameAR" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="stateId" class="control-label"></label>
+                <select asp-for="stateId" asp-items="@ViewBag.statesSelectedList" class="form-control"></select>
+                    <span asp-validation-for="stateId" class="text-danger"></span>
+                </div>
+           
+            
+           
+
+<div id="map" style="height: 300px; width:300px"></div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClrFqfOqOGTSGWpiZby6POa-AEFjGmJoM&callback=initMap" async defer></script>
+<script>
+    var map;
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: @Model.latitude, lng: @Model.longitude },
+            zoom: 10
+        });
+
+        map.addListener('click', function (event) {
+            var latitude = event.latLng.lat();
+            var longitude = event.latLng.lng();
+
+            var location = {
+                name: "Your Location",
+                latitude: latitude,
+                longitude: longitude
+            };
+
+            // Send the latitude and longitude to the action using AJAX
+            $.ajax({
+                url: '/City/SendLocation',
+                type: 'POST',
+                data: { latitude: latitude, longitude: longitude, name: name },
+                success: function (response) {
+                    // Handle the response from the action
+                },
+                error: function () {
+                    // Handle any errors
+                }
+            });
+           
+        });
+
+        var marker = new google.maps.Marker({
+            position: { lat: @Model.latitude, lng: @Model.longitude },
+            map: map,
+            title: 'Your location'
+        });
+    }
+
+    initMap();
+</script>
+</br>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to Cities List</a>
+            </div>
+        </form>
+    </div>
+</div>
