@@ -1,0 +1,63 @@
+﻿@model IEnumerable<LiperFrontend.Models.Notification>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isRead)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.userTypeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.agent_customer_Id)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isRead)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.userTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.agent_customer_Id)
+            </td>
+            <td>
+               
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

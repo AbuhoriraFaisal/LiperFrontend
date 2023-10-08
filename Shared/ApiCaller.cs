@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Net.Security;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Policy;
 using System.Text;
 
 namespace LiperFrontend.Shared
@@ -15,7 +16,7 @@ namespace LiperFrontend.Shared
     public class ApiCaller<T, B>
     {
         public static string Base_Url = $"http://75.119.136.238:8016/api/"; // live 
-                                                                     //static string Base_Url = $"https://mob.jsjbank.com:3000/JSB_OMNI_Ph2/omniServices/"; test 
+                                                                            //static string Base_Url = $"https://mob.jsjbank.com:3000/JSB_OMNI_Ph2/omniServices/"; test 
 
         //static string Base_Url = $"https://mob.jsjbank.com:8383/JSB_OMNI_Ph2/omniServices/cpServices/"; // live 
         static IHttpClientFactory _httpClientFactory;
@@ -79,11 +80,11 @@ namespace LiperFrontend.Shared
         {
             try
             {
-                
+
                 // Create a new HttpClient instance
                 using (var httpClient = new HttpClient())
                 {
-                    
+
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
 
@@ -101,6 +102,90 @@ namespace LiperFrontend.Shared
                     // Convert the file to stream content
                     var fileStreamContent = new StreamContent(country.files.OpenReadStream());
                     formDataContent.Add(fileStreamContent, "files", country.files.FileName);
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+
+        public static async Task<Tuple<T, string>> CallApiPostAgentNotification(string service, Notification notification, string authtoken)
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    var topic = "agent";
+                    var url = "https://fcm.googleapis.com/fcm/send";
+                    var key = "key=AAAAmE1CfZA:APA91bETWAwnARKLgAFjnYZoToVIBifK3RQoiv2Lk4o1CCcZ7faLMXQf6eSLe3FeO1LjRoRvz2p2dQ5Gek3u3FHwXnJfDXbsfDKM-tYgAs_ibtmzKXEwxZ98ySHGhkHP1dm9Kxd3fJyL";
+                    if (notification.userTypeId == 2)
+                    {
+                        topic = "liper";
+                    }
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization",key.ToString());
+
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    //httpClient.DefaultRequestHeaders.Add("content-type", "application/json");
+
+                    var requestBody = new
+                    {
+                        to = $"/topics/" + topic,
+                        notification = new
+                        {
+                            title = notification.text,
+                            body = notification.description,
+                            image = "url"
+                        }
+                    };
+                    var response = await httpClient.PostAsJsonAsync(url, requestBody);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseData = await response.Content.ReadAsStringAsync();
+
+                    }
+
+                }
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(notification.text);
+                    formDataContent.Add(nameContent, "text");
+                    nameContent = new StringContent(notification.description);
+                    formDataContent.Add(nameContent, "description");
+                    nameContent = new StringContent(notification.id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(notification.isRead.ToString());
+                    formDataContent.Add(nameContent, "isRead");
+                    nameContent = new StringContent(notification.agent_customer_Id.ToString());
+                    formDataContent.Add(nameContent, "AgentId");
+
+
+                    // Convert the file to stream content
+                    var fileStreamContent = new StreamContent(notification.files.OpenReadStream());
+                    formDataContent.Add(fileStreamContent, "files", notification.files.FileName);
 
                     //
                     // Send the post request to the API with the form data content
@@ -149,8 +234,8 @@ namespace LiperFrontend.Shared
                     formDataContent.Add(nameContent, "Countrycode");
 
 
-                     //Convert the file to stream content
-                     if(country.files is not null)
+                    //Convert the file to stream content
+                    if (country.files is not null)
                     {
                         var fileStreamContent = new StreamContent(country.files.OpenReadStream());
                         formDataContent.Add(fileStreamContent, "files", Guid.NewGuid() + ".Png");
@@ -160,7 +245,7 @@ namespace LiperFrontend.Shared
                         var fileStreamContent = await ConvertFileToStreamContent(country.flagImgUrl);
                         formDataContent.Add(fileStreamContent, "files", Guid.NewGuid() + ".Png");
                     }
-                    
+
 
                     //
                     // Send the post request to the API with the form data content
