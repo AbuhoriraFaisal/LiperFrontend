@@ -1,0 +1,62 @@
+﻿@model IEnumerable<LiperFrontend.Models.Agent>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.city.nameEN)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.city.nameEN)
+            </td>
+            <td>
+                    <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.id> Update</a>
+                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.id> Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,56 @@
+﻿@model LiperFrontend.Models.Currency
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            @Html.Raw(@ViewBag.Alert)
+        </div>
+    </div>
+</div>
+<div>
+    <h4>Currency</h4>
+    <hr />
+    <dl class="row">
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.nameEN)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.nameEN)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.nameAR)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.nameAR)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.currencyCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.currencyCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.isActive)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.isActive)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.countryId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.countryId)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
