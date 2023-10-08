@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LiperFrontend.Controllers
 {
-    public class CurrencyController : Controller
+    public class BankController : Controller
     {
-        // GET: AgentController
+
         public async Task<ActionResult> Index()
         {
-            var currencies = await ApiCaller<Currencies, string>.CallApiGet("Currencies", "", "");
-            return View(currencies.Item1.currencies);
+            var response = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
+            return View(response.Item1.banks);
         }
 
 
@@ -36,11 +36,11 @@ namespace LiperFrontend.Controllers
         // POST: AgentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Currency currency)
+        public async Task<ActionResult> Create(Bank bank)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Currency>.CallApiPost($"Currencies/AddCurrency", currency, "");
+                var response = await ApiCaller<defaultResponse, Bank>.CallApiPost($"Banks", bank, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
@@ -72,9 +72,9 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetById?Id={id}", "", "");
-            Currency currency = result.Item1.currency;
-            if (currency != null)
+            var result = await ApiCaller<GetBank, string>.CallApiGet($"Banks/GetById?Id={id}", "", "");
+            Bank bank = result.Item1.bank;
+            if (bank != null)
             {
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                 var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
@@ -85,7 +85,7 @@ namespace LiperFrontend.Controllers
                     countriesSelectedList.Add(selectItem);
                 }
                 ViewBag.SelectedList = countriesSelectedList;
-                return View(currency);
+                return View(bank);
             }
             return View();
         }
@@ -93,11 +93,11 @@ namespace LiperFrontend.Controllers
         // POST: AgentController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Currency currency)
+        public async Task<ActionResult> Edit(int id, Bank bank)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Currency>.CallApiPut($"Currencies", currency, "");
+                var response = await ApiCaller<defaultResponse, Bank>.CallApiPut($"Banks", bank, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
@@ -118,7 +118,7 @@ namespace LiperFrontend.Controllers
                     countriesSelectedList.Add(selectItem);
                 }
                 ViewBag.SelectedList = countriesSelectedList;
-                return View();
+                return View(bank);
             }
             catch
             {
@@ -129,12 +129,12 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetById?Id={id}", "", "");
-            Currency currency = result.Item1.currency;
-            if (currency != null)
+            var result = await ApiCaller<GetBank, string>.CallApiGet($"Banks/GetById?Id={id}", "", "");
+            Bank bank = result.Item1.bank;
+            if (bank != null)
             {
-                return View(currency);
-
+               
+                return View(bank);
             }
             return View();
         }
@@ -146,7 +146,7 @@ namespace LiperFrontend.Controllers
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Currencies?id={id}", "", "");
+                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Banks?id={id}", "", "");
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);

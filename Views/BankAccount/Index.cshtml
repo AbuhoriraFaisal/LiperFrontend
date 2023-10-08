@@ -1,10 +1,11 @@
-﻿@model IEnumerable<LiperFrontend.Models.Customer>
+﻿@model IEnumerable<LiperFrontend.Models.BankAccount>
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -21,13 +22,13 @@
                 @Html.DisplayNameFor(model => model.nameAR)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.username)
+                @Html.DisplayNameFor(model => model.bankId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.gender.name)
+                @Html.DisplayNameFor(model => model.accountNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.city.nameEN)
+                @Html.DisplayNameFor(model => model.isDefault)
             </th>
             <th></th>
         </tr>
@@ -45,17 +46,18 @@
                 @Html.DisplayFor(modelItem => item.nameAR)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.username)
+                @Html.DisplayFor(modelItem => item.bankId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.gender.name)
+                @Html.DisplayFor(modelItem => item.accountNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.city.nameEN)
+                @Html.DisplayFor(modelItem => item.isDefault)
             </td>
-            <td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.id> Update</a>
                     <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.id> Delete</a>
-            </td>
+                </td>
         </tr>
 }
     </tbody>

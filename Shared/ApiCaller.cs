@@ -422,5 +422,68 @@ namespace LiperFrontend.Shared
 
         }
 
+        public static async Task<Tuple<T, string>> CallApiPostCustomer(string service, Customer customer, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(customer.nameAR);
+                    formDataContent.Add(nameContent, "NameAR");
+                    nameContent = new StringContent(customer.name);
+                    formDataContent.Add(nameContent, "Name");
+                    nameContent = new StringContent(customer.id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(customer.password.ToString());
+                    formDataContent.Add(nameContent, "Passowrd");
+                    nameContent = new StringContent(customer.confirmPassword.ToString());
+                    formDataContent.Add(nameContent, "ConfairmPassowrd");
+                    nameContent = new StringContent(customer.genderId.ToString());
+                    formDataContent.Add(nameContent, "genderId");
+                    nameContent = new StringContent(customer.username.ToString());
+                    formDataContent.Add(nameContent, "Username");
+                    nameContent = new StringContent(customer.email.ToString());
+                    formDataContent.Add(nameContent, "Email");
+                    nameContent = new StringContent(customer.phone.ToString());
+                    formDataContent.Add(nameContent, "Phone");
+                    nameContent = new StringContent(customer.cityId.ToString());
+                    formDataContent.Add(nameContent, "cityId");
+
+
+                    // Convert the file to stream content
+                    var fileStreamContent = new StreamContent(customer.files.OpenReadStream());
+                    formDataContent.Add(fileStreamContent, "files", customer.files.FileName);
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+
     }
 }

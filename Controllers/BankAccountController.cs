@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LiperFrontend.Controllers
 {
-    public class CurrencyController : Controller
+    public class BankAccountController : Controller
     {
-        // GET: AgentController
+
         public async Task<ActionResult> Index()
         {
-            var currencies = await ApiCaller<Currencies, string>.CallApiGet("Currencies", "", "");
-            return View(currencies.Item1.currencies);
+            var response = await ApiCaller<BankAccounts, string>.CallApiGet("BankAccounts", "", "");
+            return View(response.Item1.accounts);
         }
 
 
@@ -22,11 +22,11 @@ namespace LiperFrontend.Controllers
         public async Task<ActionResult> Create()
         {
             List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
-            var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-            var countriesList = countries.Item1.countries;
-            foreach (var country in countriesList)
+            var response = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
+            var banks = response.Item1.banks;
+            foreach (var bank in banks)
             {
-                var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
+                var selectItem = new SelectListItem() { Value = bank.id.ToString(), Text = bank.name };
                 countriesSelectedList.Add(selectItem);
             }
             ViewBag.SelectedList = countriesSelectedList;
@@ -36,11 +36,11 @@ namespace LiperFrontend.Controllers
         // POST: AgentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Currency currency)
+        public async Task<ActionResult> Create(BankAccount account)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Currency>.CallApiPost($"Currencies/AddCurrency", currency, "");
+                var response = await ApiCaller<defaultResponse, BankAccount>.CallApiPost($"BankAccounts", account, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
@@ -53,11 +53,11 @@ namespace LiperFrontend.Controllers
 
                 }
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
-                var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                var countriesList = countries.Item1.countries;
-                foreach (var country in countriesList)
+                var bankResponse = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
+                var banks = bankResponse.Item1.banks;
+                foreach (var bank in banks)
                 {
-                    var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
+                    var selectItem = new SelectListItem() { Value = bank.id.ToString(), Text = bank.name };
                     countriesSelectedList.Add(selectItem);
                 }
                 ViewBag.SelectedList = countriesSelectedList;
@@ -72,20 +72,20 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetById?Id={id}", "", "");
-            Currency currency = result.Item1.currency;
-            if (currency != null)
+            var result = await ApiCaller<GetBankAccount, string>.CallApiGet($"BankAccounts/GetById?Id={id}", "", "");
+            BankAccount account = result.Item1.account;
+            if (account != null)
             {
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
-                var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                var countriesList = countries.Item1.countries;
-                foreach (var country in countriesList)
+                var response = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
+                var banks = response.Item1.banks;
+                foreach (var b in banks)
                 {
-                    var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
+                    var selectItem = new SelectListItem() { Value = b.id.ToString(), Text = b.name };
                     countriesSelectedList.Add(selectItem);
                 }
                 ViewBag.SelectedList = countriesSelectedList;
-                return View(currency);
+                return View(account);
             }
             return View();
         }
@@ -93,11 +93,11 @@ namespace LiperFrontend.Controllers
         // POST: AgentController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Currency currency)
+        public async Task<ActionResult> Edit(int id, BankAccount account)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Currency>.CallApiPut($"Currencies", currency, "");
+                var response = await ApiCaller<defaultResponse, BankAccount>.CallApiPut($"BankAccounts", account, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
@@ -110,15 +110,15 @@ namespace LiperFrontend.Controllers
 
                 }
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
-                var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                var countriesList = countries.Item1.countries;
-                foreach (var country in countriesList)
+                var bankResponse = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
+                var banks = bankResponse.Item1.banks;
+                foreach (var b in banks)
                 {
-                    var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
+                    var selectItem = new SelectListItem() { Value = b.id.ToString(), Text = b.name };
                     countriesSelectedList.Add(selectItem);
                 }
                 ViewBag.SelectedList = countriesSelectedList;
-                return View();
+                return View(account);
             }
             catch
             {
@@ -129,12 +129,11 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetById?Id={id}", "", "");
-            Currency currency = result.Item1.currency;
-            if (currency != null)
-            {
-                return View(currency);
-
+            var result = await ApiCaller<GetBankAccount, string>.CallApiGet($"BankAccounts/GetById?Id={id}", "", "");
+            BankAccount account = result.Item1.account;
+            if (account != null)
+            { 
+                return View(account);
             }
             return View();
         }
@@ -146,7 +145,7 @@ namespace LiperFrontend.Controllers
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Currencies?id={id}", "", "");
+                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"BankAccounts?id={id}", "", "");
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);

@@ -1,0 +1,63 @@
+﻿@model LiperFrontend.Models.BankAccount
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            @Html.Raw(@ViewBag.Alert)
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="id" class="control-label"></label>
+                <input asp-for="id" class="form-control" />
+                <span asp-validation-for="id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="name" class="control-label"></label>
+                <input asp-for="name" class="form-control" />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="nameAR" class="control-label"></label>
+                <input asp-for="nameAR" class="form-control" />
+                <span asp-validation-for="nameAR" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="bankId" class="control-label"></label>
+                <select asp-for="bankId" asp-items="@ViewBag.SelectedList" class="form-control"></select>
+                <span asp-validation-for="bankId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="accountNumber" class="control-label"></label>
+                <input asp-for="accountNumber" class="form-control" />
+                <span asp-validation-for="accountNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="isDefault" /> @Html.DisplayNameFor(model => model.isDefault)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
