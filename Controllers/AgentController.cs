@@ -143,13 +143,20 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await ApiCaller<GetAgent, string>.CallApiGet($"Agents/GetById?Id={id}", "", "");
-            Agent agent = result.Item1.agent;
-            if (agent != null)
+            try
             {
-                return View(agent);
+                var result = await ApiCaller<GetAgent, string>.CallApiGet($"Agents/GetById?Id={id}", "", "");
+                Agent agent = result.Item1.agent;
+                if (agent != null)
+                {
+                    return View(agent);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: AgentController/Delete/5

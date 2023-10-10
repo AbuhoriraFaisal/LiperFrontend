@@ -3,20 +3,28 @@ using LiperFrontend.Models;
 using LiperFrontend.Services;
 using LiperFrontend.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics.Metrics;
+using System.Drawing.Printing;
 
 namespace LiperFrontend.Controllers
 {
     public class CountryController : Controller
     {
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index( int pg =1     )
         {
-            var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
+            Pager pager = new Pager();
+            pager.CurrentPage = pg;
+            var countries = await ApiCaller<Countries, string>.CallApiGet($"Countries?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
             foreach (var item in countries.Item1.countries)
             {
-                item.flagImgUrl = ApiCaller<Country,Country>.Base_Url.Substring(0,
-                    ApiCaller<Country, Country>.Base_Url.Length-5) + item.flagImgUrl;
+                item.flagImgUrl = ApiCaller<Country,Country>.Base_Url_files + item.flagImgUrl;
             }
+            
+            pager.CurrentPage = countries.Item1.currentPage;
+            pager.TotalPages = countries.Item1.totalPages;
+            pager.TotalItems = countries.Item1.totalCount;
+            this.ViewBag.Pager = pager;
             return View(countries.Item1.countries);
         }
         public ActionResult Create()

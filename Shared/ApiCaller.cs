@@ -16,7 +16,8 @@ namespace LiperFrontend.Shared
     public class ApiCaller<T, B>
     {
         public static string Base_Url = $"http://75.119.136.238:8016/api/"; // live 
-                                                                            //static string Base_Url = $"https://mob.jsjbank.com:3000/JSB_OMNI_Ph2/omniServices/"; test 
+        public static string Base_Url_files = $"http://75.119.136.238:8016"; // 
+        //static string Base_Url = $"https://mob.jsjbank.com:3000/JSB_OMNI_Ph2/omniServices/"; test 
 
         //static string Base_Url = $"https://mob.jsjbank.com:8383/JSB_OMNI_Ph2/omniServices/cpServices/"; // live 
         static IHttpClientFactory _httpClientFactory;
@@ -117,6 +118,165 @@ namespace LiperFrontend.Shared
                     return new Tuple<T, string>(responseModel, "");
                     //}
                     throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+
+        public static async Task<Tuple<T, string>> CallApiPostProduct(string service, Product product, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(product.NameAR);
+                    formDataContent.Add(nameContent, "NameAR");
+                    nameContent = new StringContent(product.Name);
+                    formDataContent.Add(nameContent, "Name");
+                    nameContent = new StringContent(product.Id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(product.Description);
+                    formDataContent.Add(nameContent, "Description");
+                    nameContent = new StringContent(product.DescriptionAR);
+                    formDataContent.Add(nameContent, "DescriptionAR");
+                    nameContent = new StringContent(product.Discount.ToString());
+                    formDataContent.Add(nameContent, "Discount");
+                    nameContent = new StringContent(product.subCategoryId.ToString());
+                    formDataContent.Add(nameContent, "subCategoryId");
+                    nameContent = new StringContent(product.Price.ToString());
+                    formDataContent.Add(nameContent, "Price");
+                    nameContent = new StringContent(product.isPercentage.ToString());
+                    formDataContent.Add(nameContent, "isPercentage");
+
+
+                    // Convert the file to stream content
+                    var fileStreamContent = new StreamContent(product.files.OpenReadStream());
+                    formDataContent.Add(fileStreamContent, "files", product.files.FileName);
+                   
+
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+
+        public static async Task<Tuple<T, string>> CallApiPostProductImage(string service, ProductImage image, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+
+                    // Serialize the object properties to string content
+                    
+                    var nameContent = new StringContent(image.id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(image.productId.ToString());
+                    formDataContent.Add(nameContent, "productId");
+                    
+
+
+                    // Convert the file to stream content
+                    var fileStreamContent = new StreamContent(image.files.OpenReadStream());
+                    formDataContent.Add(fileStreamContent, "files", image.files.FileName);
+
+
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+
+        public static async Task<Tuple<T, string>> CallApiPutProductImage(string service, ProductImage image, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+
+                    // Serialize the object properties to string content
+
+                    var nameContent = new StringContent(image.id.ToString());
+                    formDataContent.Add(nameContent, "id");
+                    nameContent = new StringContent(image.productId.ToString());
+                    formDataContent.Add(nameContent, "productId");
+
+
+
+                    // Convert the file to stream content
+                    var fileStreamContent = new StreamContent(image.files.OpenReadStream());
+                    formDataContent.Add(fileStreamContent, "files", image.files.FileName);
+
+
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PutAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
                 }
 
             }
@@ -245,6 +405,83 @@ namespace LiperFrontend.Shared
                         var fileStreamContent = await ConvertFileToStreamContent(country.flagImgUrl);
                         formDataContent.Add(fileStreamContent, "files", Guid.NewGuid() + ".Png");
                     }
+
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PutAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+        public static async Task<Tuple<T, string>> CallApiPutProduct(string service, Product product, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(product.NameAR);
+                    formDataContent.Add(nameContent, "NameAR");
+                    nameContent = new StringContent(product.Name);
+                    formDataContent.Add(nameContent, "Name");
+                    nameContent = new StringContent(product.Id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(product.Description);
+                    formDataContent.Add(nameContent, "Description");
+                    nameContent = new StringContent(product.DescriptionAR);
+                    formDataContent.Add(nameContent, "DescriptionAR");
+                    nameContent = new StringContent(product.Discount.ToString());
+                    formDataContent.Add(nameContent, "Discount");
+                    nameContent = new StringContent(product.subCategoryId.ToString());
+                    formDataContent.Add(nameContent, "subCategoryId");
+                    nameContent = new StringContent(product.Price.ToString());
+                    formDataContent.Add(nameContent, "Price");
+                    nameContent = new StringContent(product.isPercentage.ToString());
+                    formDataContent.Add(nameContent, "isPercentage");
+
+                    if (false)
+                    {
+                        using (HttpResponseMessage r = await httpClient.GetAsync(product.productMainImage))
+                        {
+                            if (r.IsSuccessStatusCode)
+                            {
+                                Stream stream = await r.Content.ReadAsStreamAsync();
+
+                                //MultipartFormDataContent content = new MultipartFormDataContent(stream);
+                                        formDataContent.Add(new StreamContent(stream) , "files", Guid.NewGuid() + ".Png");
+                                     
+                                
+                            }
+                        }
+                    }
+
+                    //Convert the file to stream content
+
+                    var fileStreamContent = new StreamContent(product.files.OpenReadStream());
+                    formDataContent.Add(fileStreamContent, "files", Guid.NewGuid() + ".Png");
 
 
                     //

@@ -12,17 +12,20 @@ namespace LiperFrontend.Controllers
     public class NotificationController : Controller
     {
         // GET: NotificationController
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int pg = 1)
         {
-            var response = await ApiCaller<Notifications, string>.CallApiGet("AgentNotifications", "", "");
+
+            Pager pager = new Pager();
+            pager.CurrentPage = pg;
+            var response = await ApiCaller<Notifications, string>.CallApiGet($"AgentNotifications?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
+            pager.CurrentPage = response.Item1.currentPage;
+            pager.TotalPages = response.Item1.totalPages;
+            pager.TotalItems = response.Item1.totalCount;
+            this.ViewBag.Pager = pager;
             return View(response.Item1.agentNotifications);
         }
 
-        // GET: NotificationController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+       
 
         // GET: NotificationController/Create
         public ActionResult Create()

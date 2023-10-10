@@ -1,0 +1,48 @@
+﻿@model LiperFrontend.Models.ProductImage
+
+@{
+    ViewData["Title"] = "ChangeImage";
+    var Pid = Context.GetRouteData().Values["id"];
+}
+
+<h1>Create</h1>
+
+<h4>ProductImage</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @* <div class="form-group">
+            <label asp-for="id" class="control-label"></label>
+            <input asp-for="id" class="form-control" />
+            <span asp-validation-for="id" class="text-danger"></span>
+            </div> *@
+            @* <div class="form-group">
+                <div class="preview-image-section">
+                    <img src='@Model.imageUrl' width="100px" height="100px" alt="@Model.imageUrl" />
+                </div>
+            </div> *@
+            <div class="form-group" hidden>
+            <label asp-for="productId" class="control-label"></label>
+            <input asp-for="productId" value="@Pid" class="form-control" />
+            <span asp-validation-for="productId" class="text-danger"></span>
+            </div> 
+            to change Image<input type="file" asp-for="files" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Create" class="btn btn-outline-danger" asp-route-Id=@Pid> Delete</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="ProductImage" asp-route-Id=@Pid>Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

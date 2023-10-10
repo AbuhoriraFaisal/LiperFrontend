@@ -1,7 +1,16 @@
 ﻿@model IEnumerable<LiperFrontend.Models.Notification>
-
+@using LiperFrontend.Shared
 @{
     ViewData["Title"] = "Index";
+    Pager pager = new Pager();
+
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
 <h1>Index</h1>
@@ -61,3 +70,4 @@
 }
     </tbody>
 </table>
+@Html.Partial("_PagerPartial" ,pager);

@@ -1,7 +1,16 @@
 ﻿@model IEnumerable<LiperFrontend.Models.Product>
-
+@using LiperFrontend.Shared
 @{
     ViewData["Title"] = "Index";
+    Pager pager = new Pager();
+
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
 <h1>Index</h1>
@@ -13,32 +22,32 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.id)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.name)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.nameAr)
+                @Html.DisplayNameFor(model => model.NameAR)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.description)
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.descriptionAr)
+                @Html.DisplayNameFor(model => model.DescriptionAR)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.price)
+                @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.discount)
+                @Html.DisplayNameFor(model => model.Discount)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.isPercentage)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.subCategoryId)
-            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.SubCategory.nameEN)
+            </th> *@
             <th></th>
         </tr>
     </thead>
@@ -46,38 +55,40 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.id)
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.name)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.nameAr)
+                @Html.DisplayFor(modelItem => item.NameAR)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.description)
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.descriptionAr)
+                @Html.DisplayFor(modelItem => item.DescriptionAR)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.price)
+                @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.discount)
+                @Html.DisplayFor(modelItem => item.Discount)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.isPercentage)
             </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.SubCategory.nameEN)
+            </td> *@
             <td>
-                @Html.DisplayFor(modelItem => item.subCategoryId)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.Id> Update</a>
+                    <a asp-action="Details" asp-controller="Product" class="btn btn-outline-info" asp-route-Id=@item.Id> Details</a>
+                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.Id> Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+@Html.Partial("_PagerPartial" ,pager);
+
