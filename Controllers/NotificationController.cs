@@ -30,14 +30,7 @@ namespace LiperFrontend.Controllers
         // GET: NotificationController/Create
         public ActionResult Create()
         {
-            List<SelectListItem> SelectedList = new List<SelectListItem>();
-
-            var selectItem = new SelectListItem() { Value = "1", Text = "Agent" };
-            SelectedList.Add(selectItem);
-            selectItem = new SelectListItem() { Value = "2", Text = "Client" };
-            SelectedList.Add(selectItem);
-
-            ViewBag.SelectedList = SelectedList;
+           
             return View();
         }
 
@@ -48,16 +41,34 @@ namespace LiperFrontend.Controllers
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Notification>.CallApiPostAgentNotification($"AgentNotifications", notification, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                responseMessage responseM;
+                string url = "";
+                if (notification.agent_customer_Phone is not null)
+                {
+                    var response = await ApiCaller<NotificationResponse, Notification>.CallApiPostAgentNotification($"AgentNotifications/AddWithPhoneNumber", notification, "");
+                    responseM = response.Item1.responseMessage;
+                    if (responseM.statusCode.Equals(StatusCodes.Status200OK))
+                    {
+                        url = ApiCaller<NotificationResponse, Notification>.Base_Url_files + response.Item1.imageUrl;
+                        responseM = await ApiCaller<responseMessage, Notification>.callSendAgentNotification(notification, url);
+                    }
+                }
+                else
+                {
+                    var response = await ApiCaller<NotificationResponse, Notification>.CallApiPostAgentNotification($"AgentNotifications/AddMultiAgentNotifications", notification, "");
+                    responseM = response.Item1.responseMessage;
+                    if (responseM.statusCode.Equals(StatusCodes.Status200OK))
+                    {
+                        url = ApiCaller<NotificationResponse, Notification>.Base_Url_files + response.Item1.imageUrl;
+                        responseM = await ApiCaller<responseMessage, Notification>.callSendAgentNotification(notification, url);
+                    }
+                }
+
+
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, responseM.messageEN);
                 List<SelectListItem> SelectedList = new List<SelectListItem>();
 
-                var selectItem = new SelectListItem() { Value = "1", Text = "Agent" };
-                SelectedList.Add(selectItem);
-                selectItem = new SelectListItem() { Value = "2", Text = "Client" };
-                SelectedList.Add(selectItem);
+               
                 return View();
             }
             catch

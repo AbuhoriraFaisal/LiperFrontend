@@ -12,4 +12,7 @@
     {
         public responseMessage responseMessage { get; set; }
     }
+    public class NotificationResponse : defaultResponse { 
+    public string imageUrl { get; set; }
+    }
 }

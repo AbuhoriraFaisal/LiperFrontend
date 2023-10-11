@@ -11,7 +11,7 @@ namespace LiperFrontend.Controllers
 {
     public class CountryController : Controller
     {
-        public async Task<IActionResult> Index( int pg =1     )
+        public async Task<IActionResult> Index( int pg =1 )
         {
             Pager pager = new Pager();
             pager.CurrentPage = pg;
@@ -66,6 +66,7 @@ namespace LiperFrontend.Controllers
             Country country = contact_result.Item1.country;
             if (country != null)
             {
+                country.flagImgUrl = ApiCaller<Country, Country>.Base_Url_files+country.flagImgUrl;
                 return View(country);
             }
             return View();

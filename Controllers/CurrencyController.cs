@@ -72,7 +72,7 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetById?Id={id}", "", "");
+            var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetCurrencyById?Id={id}", "", "");
             Currency currency = result.Item1.currency;
             if (currency != null)
             {
@@ -97,7 +97,7 @@ namespace LiperFrontend.Controllers
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Currency>.CallApiPut($"Currencies", currency, "");
+                var response = await ApiCaller<defaultResponse, Currency>.CallApiPut($"Currencies/EditCurrency", currency, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
@@ -129,7 +129,7 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetById?Id={id}", "", "");
+            var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetCurrencyById?Id={id}", "", "");
             Currency currency = result.Item1.currency;
             if (currency != null)
             {
@@ -146,7 +146,7 @@ namespace LiperFrontend.Controllers
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Currencies?id={id}", "", "");
+                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Currencies/DeleteCurrency?id={id}", "", "");
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);

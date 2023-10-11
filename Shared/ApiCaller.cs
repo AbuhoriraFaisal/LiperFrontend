@@ -77,6 +77,55 @@ namespace LiperFrontend.Shared
             }
         }
 
+        public static async Task<Tuple<T, string>> CallApiPostCategory(string service, Category category, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(category.nameAR);
+                    formDataContent.Add(nameContent, "NameAR");
+                    nameContent = new StringContent(category.nameEN);
+                    formDataContent.Add(nameContent, "NameEN");
+                    nameContent = new StringContent(category.id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+
+
+                    // Convert the file to stream content
+                    var fileStreamContent = new StreamContent(category.files.OpenReadStream());
+                    formDataContent.Add(fileStreamContent, "files", category.files.FileName);
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+
         public static async Task<Tuple<T, string>> CallApiPostCountryFlag(string service, Country country, string authtoken)
         {
             try
@@ -286,21 +335,122 @@ namespace LiperFrontend.Shared
                 throw new Exception("Internet Connection Proplem ");
             }
         }
-
-        public static async Task<Tuple<T, string>> CallApiPostAgentNotification(string service, Notification notification, string authtoken)
+        public static async Task<responseMessage> callSendCustNotification(Notification notification, string imgurl)
         {
             try
             {
                 using (var httpClient = new HttpClient())
                 {
-                    var topic = "agent";
+                    string topic = notification.agent_customer_Phone;
                     var url = "https://fcm.googleapis.com/fcm/send";
                     var key = "key=AAAAmE1CfZA:APA91bETWAwnARKLgAFjnYZoToVIBifK3RQoiv2Lk4o1CCcZ7faLMXQf6eSLe3FeO1LjRoRvz2p2dQ5Gek3u3FHwXnJfDXbsfDKM-tYgAs_ibtmzKXEwxZ98ySHGhkHP1dm9Kxd3fJyL";
-                    if (notification.userTypeId == 2)
+                    if (string.IsNullOrEmpty(notification.agent_customer_Phone))
                     {
                         topic = "liper";
                     }
-                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization",key.ToString());
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", key.ToString());
+
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    //httpClient.DefaultRequestHeaders.Add("content-type", "application/json");
+                    //string imgurl = $"https://media.licdn.com/dms/image/C4D03AQHQCvqTkXG9IA/profile-displayphoto-shrink_800_800/0/1629425948957?e=2147483647&v=beta&t=0QbnITVO6JzzNodv7Gw71NyP-n6pN2knSRg-JDdAhBw";
+                    var requestBody = new
+                    {
+                        to = $"/topics/" + topic,
+                        notification = new
+                        {
+                            title = notification.text,
+                            body = notification.description,
+                            image = imgurl
+                        }
+                    };
+                    var response = await httpClient.PostAsJsonAsync(url, requestBody);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseData = await response.Content.ReadAsStringAsync();
+
+                    }
+
+                }
+                return new responseMessage() { statusCode = 200, messageEN = "s" };
+            }
+            catch (Exception ex)
+            {
+                return new responseMessage();
+            }
+        }
+            public static async Task<Tuple<T, string>> CallApiPostAgentNotification(string service, Notification notification, string authtoken)
+        {
+            try
+            {
+                
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(notification.text);
+                    formDataContent.Add(nameContent, "text");
+                    nameContent = new StringContent(notification.description);
+                    formDataContent.Add(nameContent, "description");
+                    //nameContent = new StringContent(notification.id.ToString());
+                    //formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(notification.isRead.ToString());
+                    formDataContent.Add(nameContent, "isRead");
+                    if (!string.IsNullOrEmpty(notification.agent_customer_Phone))
+                    {
+
+                        nameContent = new StringContent(notification.agent_customer_Phone.ToString());
+                        formDataContent.Add(nameContent, "PhoneNumber");
+                    }
+
+
+                    // Convert the file to stream content
+                    if (notification.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(notification.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", notification.files.FileName);
+                    }
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+
+        public static async Task<responseMessage> callSendAgentNotification( Notification notification , string imgurl)
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    var topic = notification.agent_customer_Phone;
+                    var url = "https://fcm.googleapis.com/fcm/send";
+                    var key = "key=AIzaSyA8SFVHjNc6wy14MlIWig9devzW7XQepkc";
+                    if (string.IsNullOrEmpty(notification.agent_customer_Phone))
+                    {
+                        topic = "agent";
+                    }
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", key.ToString());
 
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     //httpClient.DefaultRequestHeaders.Add("content-type", "application/json");
@@ -323,6 +473,49 @@ namespace LiperFrontend.Shared
                     }
 
                 }
+                return new responseMessage() { statusCode=200 , messageEN ="s"};
+            }
+            catch (Exception ex)
+            {
+                return new responseMessage();
+            }
+        }
+            public static async Task<Tuple<T, string>> CallApiPostCustNotification(string service, Notification notification, string authtoken)
+        {
+            try
+            {
+                //using (var httpClient = new HttpClient())
+                //{
+                //    string topic = notification.agent_customer_Phone;
+                //    var url = "https://fcm.googleapis.com/fcm/send";
+                //    var key = "key=AAAAmE1CfZA:APA91bETWAwnARKLgAFjnYZoToVIBifK3RQoiv2Lk4o1CCcZ7faLMXQf6eSLe3FeO1LjRoRvz2p2dQ5Gek3u3FHwXnJfDXbsfDKM-tYgAs_ibtmzKXEwxZ98ySHGhkHP1dm9Kxd3fJyL";
+                //    if (string.IsNullOrEmpty(notification.agent_customer_Phone))
+                //    {
+                //        topic = "liper";
+                //    }
+                //    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", key.ToString());
+
+                //    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //    //httpClient.DefaultRequestHeaders.Add("content-type", "application/json");
+                //    string imgurl = $"https://media.licdn.com/dms/image/C4D03AQHQCvqTkXG9IA/profile-displayphoto-shrink_800_800/0/1629425948957?e=2147483647&v=beta&t=0QbnITVO6JzzNodv7Gw71NyP-n6pN2knSRg-JDdAhBw";
+                //    var requestBody = new
+                //    {
+                //        to = $"/topics/" + topic,
+                //        notification = new
+                //        {
+                //            title = notification.text,
+                //            body = notification.description,
+                //            image = imgurl
+                //        }
+                //    };
+                //    var response = await httpClient.PostAsJsonAsync(url, requestBody);
+                //    if (response.IsSuccessStatusCode)
+                //    {
+                //        var responseData = await response.Content.ReadAsStringAsync();
+
+                //    }
+
+                //}
                 // Create a new HttpClient instance
                 using (var httpClient = new HttpClient())
                 {
@@ -335,18 +528,24 @@ namespace LiperFrontend.Shared
                     formDataContent.Add(nameContent, "text");
                     nameContent = new StringContent(notification.description);
                     formDataContent.Add(nameContent, "description");
-                    nameContent = new StringContent(notification.id.ToString());
-                    formDataContent.Add(nameContent, "Id");
+                    //nameContent = new StringContent(notification.id.ToString());
+                    //formDataContent.Add(nameContent, "Id");
                     nameContent = new StringContent(notification.isRead.ToString());
                     formDataContent.Add(nameContent, "isRead");
-                    nameContent = new StringContent(notification.agent_customer_Id.ToString());
-                    formDataContent.Add(nameContent, "AgentId");
+                    if (!string.IsNullOrEmpty(notification.agent_customer_Phone))
+                    {
+
+                        nameContent = new StringContent(notification.agent_customer_Phone.ToString());
+                        formDataContent.Add(nameContent, "PhoneNumber");
+                    }
 
 
                     // Convert the file to stream content
-                    var fileStreamContent = new StreamContent(notification.files.OpenReadStream());
-                    formDataContent.Add(fileStreamContent, "files", notification.files.FileName);
-
+                    if (notification.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(notification.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", notification.files.FileName);
+                    }
                     //
                     // Send the post request to the API with the form data content
                     var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
@@ -777,12 +976,16 @@ namespace LiperFrontend.Shared
                     formDataContent.Add(nameContent, "Phone");
                     nameContent = new StringContent(customer.cityId.ToString());
                     formDataContent.Add(nameContent, "cityId");
+                    nameContent = new StringContent(customer.isFavoriteStar.ToString());
+                    formDataContent.Add(nameContent, "isFavoriteStar");
 
 
                     // Convert the file to stream content
-                    var fileStreamContent = new StreamContent(customer.files.OpenReadStream());
-                    formDataContent.Add(fileStreamContent, "files", customer.files.FileName);
-
+                    if (customer.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(customer.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", customer.files.FileName);
+                    }
                     //
                     // Send the post request to the API with the form data content
                     var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);

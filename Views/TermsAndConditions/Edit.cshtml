@@ -1,4 +1,4 @@
-﻿@model LiperFrontend.Models.Bank
+﻿@model LiperFrontend.Models.Condition
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,19 +6,13 @@
 
 <h1>Edit</h1>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-            @Html.Raw(@ViewBag.Alert)
-        </div>
-    </div>
-</div>
+<h4>Condition</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
+            
             <div class="form-group">
                 <label asp-for="name" class="control-label"></label>
                 <input asp-for="name" class="form-control" />
@@ -30,17 +24,24 @@
                 <span asp-validation-for="nameAR" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="countryId" class="control-label"></label>
-                <select asp-for="countryId" asp-items="@ViewBag.SelectedList" class="form-control"></select>
-                <span asp-validation-for="countryId" class="text-danger"></span>
+                <label asp-for="discription" class="control-label"></label>
+                <input asp-for="discription" class="form-control" />
+                <span asp-validation-for="discription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="discriptionAR" class="control-label"></label>
+                <input asp-for="discriptionAR" class="form-control" />
+                <span asp-validation-for="discriptionAR" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-outline-secondary">Back to Banks List</a>
+                <a asp-action="Index" class="btn btn-outline-secondary" >Back to Terms & Conditions</a>
+
             </div>
         </form>
     </div>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -19,11 +19,11 @@ namespace LiperFrontend.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Conditions conditions)
+        public async Task<ActionResult> Create(Condition condition)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Conditions>.CallApiPost($"TermsAndConditions", conditions, "");
+                var response = await ApiCaller<defaultResponse, Condition>.CallApiPost($"TermsAndConditions", condition, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
@@ -39,13 +39,36 @@ namespace LiperFrontend.Controllers
                 return View();
             }
         }
+        public async Task<ActionResult> Edit (int id)
+        {
+            try
+            {
+                var conditions = await ApiCaller<Conditions, string>.CallApiGet("TermsAndConditions", "", "");
 
+                //var condition = await ApiCaller<GetCondition, string>.CallApiGet($"TermsAndConditions/GetTermsAndConditions?Id={id}", "", "");
+                Condition cond = conditions.Item1.conditions.Where(s => s.id == id).FirstOrDefault();
+                if (cond != null)
+                {
+                    return View(cond);
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index");
+            }
+        }
         public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                var condition = await ApiCaller<GetCondition, string>.CallApiGet($"TermsAndConditions/GetTermsAndConditions?Id={id}", "", "");
-                Condition cond = condition.Item1.condition;
+                var conditions = await ApiCaller<Conditions, string>.CallApiGet("TermsAndConditions", "", "");
+
+                //var condition = await ApiCaller<GetCondition, string>.CallApiGet($"TermsAndConditions/GetTermsAndConditions?Id={id}", "", "");
+                Condition cond = conditions.Item1.conditions.Where(s=>s.id==id).FirstOrDefault();
                 if (cond != null)
                 {
                     return View(cond);
@@ -79,5 +102,30 @@ namespace LiperFrontend.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(int id, Condition condition)
+        {
+            try
+            {
+                var response = await ApiCaller<defaultResponse, Condition>.CallApiPut($"TermsAndConditions", condition, "");
+                responseMessage responseMessage = response.Item1.responseMessage;
+                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View();
+                }
+               
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }

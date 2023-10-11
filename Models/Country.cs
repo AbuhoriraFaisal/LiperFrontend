@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace LiperFrontend.Models
 {
     public class Country
     {
         public int Id { get; set; } = 0;
+        [DisplayName("Country Name")]
         public string NameEN { get; set; }
         public string NameAR { get; set; }
         public string flagImgUrl { get; set; }

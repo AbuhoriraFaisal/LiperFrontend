@@ -97,7 +97,6 @@ namespace LiperFrontend.Controllers
             else
             {
                 ViewBag.Alert = CommonServices.ShowAlert(Alerts.Warning, "Select state first!");
-                
             }
             List<SelectListItem> statesSelectedList = new List<SelectListItem>();
             var states = await ApiCaller<States, string>.CallApiGet("states", "", "");

@@ -6,8 +6,8 @@
         public string name { get; set; }
         public string nameAR { get; set; }
         public string username { get; set; }
-        public string password { get; set; }
-        public string confirmPassword { get; set; }
+        public string password { get; set; } = "123";
+        public string confirmPassword { get; set; } = "123";
 
         public string email { get; set; }
         public string phone { get; set; }
@@ -15,7 +15,8 @@
         public int genderId { get; set; }
         public City city { get; set; }
         public int cityId { get; set; }
-        public IFormFile files { get; set; }
+        public IFormFile? files { get; set; }
+        public bool isFavoriteStar { get; set; } = true;
 
     }
     public class Customers

@@ -11,6 +11,8 @@ namespace LiperFrontend.Controllers
         public async Task<ActionResult> Index()
         {
             var contacts = await ApiCaller<Contacts, string>.CallApiGet("Contacts", "", "");
+            if (contacts == null)
+                return View(new List<Contact>());
             return View(contacts.Item1.contacts);
         }
 

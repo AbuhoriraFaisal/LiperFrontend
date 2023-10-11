@@ -13,8 +13,14 @@ namespace LiperFrontend.Models
         public string descriptionEN { get; set; }
         [DisplayName("Arabic Description ")]
         public string descriptionAR { get; set; }
+        public bool isActive { get; set; }
     }
     public class GetAboutUs
+    {
+        public AboutUs abouts { get; set; }
+        public responseMessage responseMessage { get; set; }
+    }
+    public class AboutUss
     {
         public List<AboutUs> abouts { get; set; }
         public responseMessage responseMessage { get; set; }

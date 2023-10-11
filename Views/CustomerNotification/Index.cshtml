@@ -16,7 +16,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Send Agent Notification</a>
+    <a asp-action="Create">Send Customer Notification</a>
 </p>
 <table class="table">
     <thead>
@@ -43,31 +43,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.text)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.isRead)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.userTypeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.agent_customer_Phone)
-            </td>
-            <td>
-               
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.text)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.isRead)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userTypeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.agent_customer_Phone)
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 @Html.Partial("_PagerPartial" ,pager);
