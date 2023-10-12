@@ -1,12 +1,13 @@
-﻿@model IEnumerable<LiperFrontend.Models.Customer>
+﻿@model IEnumerable<LiperFrontend.Models.FAQ>
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
+
 <p>
-    <a asp-action="Create" class="btn btn-outline-success"> New Customer</a>
+    <a asp-action="Create" class="btn btn-outline-success"> New FAQ</a>
 </p>
 
 <section class="content">
@@ -24,21 +25,21 @@
 
     <thead>
         <tr>
-            
+           
             <th>
-                @Html.DisplayNameFor(model => model.name)
+                @Html.DisplayNameFor(model => model.text)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.nameAR)
+                @Html.DisplayNameFor(model => model.textAR)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.username)
+                @Html.DisplayNameFor(model => model.description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.gender.name)
+                @Html.DisplayNameFor(model => model.descriptionAR)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.city.nameEN)
+                @Html.DisplayNameFor(model => model.imageURL)
             </th>
             <th></th>
         </tr>
@@ -46,28 +47,31 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+           
             <td>
-                @Html.DisplayFor(modelItem => item.name)
+                @Html.DisplayFor(modelItem => item.text)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.nameAR)
+                @Html.DisplayFor(modelItem => item.textAR)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.username)
+                @Html.DisplayFor(modelItem => item.description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.gender.name)
+                @Html.DisplayFor(modelItem => item.descriptionAR)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.city.nameEN)
-            </td>
-            <td>
+                <td style="width:20%">
+                    <img src="@item.imageURL " style="width:50%" alt="Country flag" />
+                </td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.id> Update</a>
                     <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.id> Delete</a>
-            </td>
+
+                </td>
         </tr>
 }
     </tbody>
-                        </table>
+</table>
 
                     </div>
                 </div>

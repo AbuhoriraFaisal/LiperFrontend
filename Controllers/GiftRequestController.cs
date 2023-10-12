@@ -1,0 +1,96 @@
+﻿using LiperFrontend.Models;
+using LiperFrontend.Shared;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace LiperFrontend.Controllers
+{
+    public class GiftRequestController : Controller
+    {
+        // GET: GiftRequestController
+        public async Task<ActionResult> Index(int pg = 1)
+        {
+            Pager pager = new Pager();
+            pager.CurrentPage = pg;
+            var response = await ApiCaller<GiftRequests, string>.CallApiGet($"GiftRequiests?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
+            if (response.Item1.giftRequiests != null)
+            {
+                pager.CurrentPage = response.Item1.currentPage;
+                pager.TotalPages = response.Item1.totalPages;
+                pager.TotalItems = response.Item1.totalCount;
+                this.ViewBag.Pager = pager;
+                return View(response.Item1.giftRequiests);
+            }
+            return View(new List<GiftRequest>());
+        }
+
+        // GET: GiftRequestController/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: GiftRequestController/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: GiftRequestController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: GiftRequestController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: GiftRequestController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: GiftRequestController/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: GiftRequestController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+    }
+}

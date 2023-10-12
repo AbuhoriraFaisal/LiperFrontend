@@ -31,7 +31,7 @@
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="~/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+            <img class="animation__shake" src="~/img//liperjpg.jpg" alt="Liper Logo" height="60" width="60">
         </div>
 
         <!-- Navbar -->
@@ -293,7 +293,12 @@
                                     <p>Slider</p>
                                 </a>
                             </li>
-
+                            <li class="nav-item">
+                                <a asp-controller="GiftRequest" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Gift Requests</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
@@ -452,6 +457,12 @@
                                         <p>About Us</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a asp-controller="FAQs" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>FAQs</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 
@@ -476,7 +487,7 @@
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
-        <strong>Copyright &copy; @DateTime.Now.Year.ToString() <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+        <strong>Copyright &copy; @DateTime.Now.Year.ToString() <a href="https://adminlte.io">Intelligent analytics </a>.</strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
             <b>Version</b> 0.1

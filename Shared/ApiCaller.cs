@@ -213,12 +213,128 @@ namespace LiperFrontend.Shared
                     // Convert the file to stream content
                     var fileStreamContent = new StreamContent(product.files.OpenReadStream());
                     formDataContent.Add(fileStreamContent, "files", product.files.FileName);
-                   
+
 
 
                     //
                     // Send the post request to the API with the form data content
                     var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+        public static async Task<Tuple<T, string>> CallApiPostFaqs(string service, FAQ fAQ, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+
+                    // Serialize the object properties to string content
+
+                    var nameContent = new StringContent(fAQ.id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(fAQ.text.ToString());
+                    formDataContent.Add(nameContent, "text");
+                    nameContent = new StringContent(fAQ.textAR.ToString());
+                    formDataContent.Add(nameContent, "textAR");
+                    nameContent = new StringContent(fAQ.description.ToString());
+                    formDataContent.Add(nameContent, "description");
+                    nameContent = new StringContent(fAQ.descriptionAR.ToString());
+                    formDataContent.Add(nameContent, "descriptionAR");
+
+
+
+                    // Convert the file to stream content
+                    if (fAQ.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(fAQ.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", fAQ.files.FileName);
+                    }
+
+
+
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+        public static async Task<Tuple<T, string>> CallApiPutFaqs(string service, FAQ fAQ, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+
+                    // Serialize the object properties to string content
+
+                    var nameContent = new StringContent(fAQ.id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(fAQ.text.ToString());
+                    formDataContent.Add(nameContent, "text");
+                    nameContent = new StringContent(fAQ.textAR.ToString());
+                    formDataContent.Add(nameContent, "textAR");
+                    nameContent = new StringContent(fAQ.description.ToString());
+                    formDataContent.Add(nameContent, "description");
+                    nameContent = new StringContent(fAQ.descriptionAR.ToString());
+                    formDataContent.Add(nameContent, "descriptionAR");
+
+
+
+                    // Convert the file to stream content
+                    if (fAQ.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(fAQ.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", fAQ.files.FileName);
+                    }
+
+
+
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PutAsync($"{Base_Url}{service}", formDataContent);
                     // Check if the request was successful
                     //if (response.IsSuccessStatusCode)
                     //{
@@ -251,12 +367,12 @@ namespace LiperFrontend.Shared
                     var formDataContent = new MultipartFormDataContent();
 
                     // Serialize the object properties to string content
-                    
+
                     var nameContent = new StringContent(image.id.ToString());
                     formDataContent.Add(nameContent, "Id");
                     nameContent = new StringContent(image.productId.ToString());
                     formDataContent.Add(nameContent, "productId");
-                    
+
 
 
                     // Convert the file to stream content
@@ -378,11 +494,11 @@ namespace LiperFrontend.Shared
                 return new responseMessage();
             }
         }
-            public static async Task<Tuple<T, string>> CallApiPostAgentNotification(string service, Notification notification, string authtoken)
+        public static async Task<Tuple<T, string>> CallApiPostAgentNotification(string service, Notification notification, string authtoken)
         {
             try
             {
-                
+
                 // Create a new HttpClient instance
                 using (var httpClient = new HttpClient())
                 {
@@ -437,7 +553,7 @@ namespace LiperFrontend.Shared
             }
         }
 
-        public static async Task<responseMessage> callSendAgentNotification( Notification notification , string imgurl)
+        public static async Task<responseMessage> callSendAgentNotification(Notification notification, string imgurl)
         {
             try
             {
@@ -473,14 +589,14 @@ namespace LiperFrontend.Shared
                     }
 
                 }
-                return new responseMessage() { statusCode=200 , messageEN ="s"};
+                return new responseMessage() { statusCode = 200, messageEN = "s" };
             }
             catch (Exception ex)
             {
                 return new responseMessage();
             }
         }
-            public static async Task<Tuple<T, string>> CallApiPostCustNotification(string service, Notification notification, string authtoken)
+        public static async Task<Tuple<T, string>> CallApiPostCustNotification(string service, Notification notification, string authtoken)
         {
             try
             {
@@ -670,9 +786,9 @@ namespace LiperFrontend.Shared
                                 Stream stream = await r.Content.ReadAsStreamAsync();
 
                                 //MultipartFormDataContent content = new MultipartFormDataContent(stream);
-                                        formDataContent.Add(new StreamContent(stream) , "files", Guid.NewGuid() + ".Png");
-                                     
-                                
+                                formDataContent.Add(new StreamContent(stream), "files", Guid.NewGuid() + ".Png");
+
+
                             }
                         }
                     }

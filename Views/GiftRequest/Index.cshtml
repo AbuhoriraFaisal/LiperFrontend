@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LiperFrontend.Models.Slider>
+﻿@model IEnumerable<LiperFrontend.Models.GiftRequest>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,7 +9,6 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-
 
 <section class="content">
     <div class="container-fluid">
@@ -23,17 +22,18 @@
 
 
                             <caption>List of Categories : @Model.Count()</caption>
+
                             <thead>
                                 <tr>
-                                   
+
                                     <th>
-                                        @Html.DisplayNameFor(model => model.titleEN)
+                                        @Html.DisplayNameFor(model => model.text)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.titleAR)
+                                        @Html.DisplayNameFor(model => model.customer.username)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.isActive)
+                                        @Html.DisplayNameFor(model => model.isRead)
                                     </th>
                                     <th></th>
                                 </tr>
@@ -42,20 +42,17 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                       
+
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.titleEN)
+                                            @Html.DisplayFor(modelItem => item.text)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.titleAR)
+                                            @Html.DisplayFor(modelItem => item.customer.username)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.isActive)
+                                            @Html.DisplayFor(modelItem => item.isRead)
                                         </td>
-                                        <td>
-                                            <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.id> Update</a>
-                                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.id> Delete</a>
-                                        </td>
+                                        
                                     </tr>
                                 }
                             </tbody>

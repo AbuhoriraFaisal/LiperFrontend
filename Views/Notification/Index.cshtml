@@ -18,56 +18,69 @@
 <p>
     <a asp-action="Create">Send Agent Notification</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.text)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.isRead)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.userTypeId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.agent_customer_Phone)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.text)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.isRead)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.userTypeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.agent_customer_Phone)
-            </td>
-            <td>
-               
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            @*<table id="example" class="table table-sm table-bordered table-hover">*@
+
+
+                            <caption>List of Categories : @Model.Count()</caption>
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.text)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.description)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.isRead)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.agent_customer_Phone)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.text)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.isRead)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.agent_customer_Phone)
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 @Html.Partial("_PagerPartial" ,pager);

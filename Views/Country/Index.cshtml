@@ -19,7 +19,20 @@
 <p>
     <a asp-action="Create" class="btn btn-outline-success">New Country</a>
 </p>
-<table class="table" style="width:-webkit-fit-content" >
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            @*<table id="example" class="table table-sm table-bordered table-hover">*@
+
+
+                            <caption>List of Categories : @Model.Count()</caption>
+
     <thead>
         <tr>
             
@@ -64,4 +77,12 @@
 }
     </tbody>
 </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 @Html.Partial("_PagerPartial" ,pager)
