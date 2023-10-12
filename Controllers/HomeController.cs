@@ -15,8 +15,15 @@ namespace LiperFrontend.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View();
-            //new
+            try
+            {
+                var response = await ApiCaller<GetDashboardCounter, string>.CallApiGet("Dashboard/GetDashboardCounter", "", "");
+                return View(response.Item1.dashboardCounter);
+            }
+            catch (Exception ex)
+            {
+                return View(new DashboardCounter());
+            }
         }
 
         /// <summary>

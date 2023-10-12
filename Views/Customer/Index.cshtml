@@ -8,12 +8,23 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            @*<table id="example" class="table table-sm table-bordered table-hover">*@
+
+
+                            <caption>List of Categories : @Model.Count()</caption>
+
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.id)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.name)
             </th>
@@ -36,9 +47,6 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.name)
             </td>
             <td>
@@ -59,4 +67,12 @@
         </tr>
 }
     </tbody>
-</table>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
