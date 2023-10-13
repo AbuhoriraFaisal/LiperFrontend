@@ -8,8 +8,18 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>SubCategory</h4>
-    <hr />
+
+    <!-------Aleart Notification------->
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.Raw(@ViewBag.Alert)
+            </div>
+        </div>
+    </div>
+    <!------------------------------------------>
+
 
     <div class="row">
         <div class="col-md-4">
@@ -29,7 +39,7 @@
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Delete" class="btn btn-danger" />
-                    <a asp-action="CategorySubCategories" asp-controller="SubCategories" class="btn btn-outline-secondary" asp-route-Id=@Model.id> Back to Sub Categories</a>
+                    <a asp-action="CategorySubCategories" asp-controller="SubCategories" class="btn btn-outline-secondary" asp-route-Id=@Model.categoryId> Back to Sub Categories</a>
 
                 </div>
             </form>

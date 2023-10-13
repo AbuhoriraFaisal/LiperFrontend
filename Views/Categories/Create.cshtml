@@ -12,11 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group">
-            <label asp-for="Id" class="control-label"></label>
-            <input asp-for="Id" class="form-control" />
-            <span asp-validation-for="Id" class="text-danger"></span>
-            </div>*@
+            
             <div class="form-group">
                 <label asp-for="nameEN" class="control-label"></label>
                 <input asp-for="nameEN" class="form-control" />
@@ -32,21 +28,7 @@
                 <input asp-for="files" type="file">
                 <span asp-validation-for="files"></span>
             </div>
-            @*<div class="form-group">
-            <label asp-for="CreationDate" class="control-label"></label>
-            <input asp-for="CreationDate" class="form-control" />
-            <span asp-validation-for="CreationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-            <label asp-for="UpdateDate" class="control-label"></label>
-            <input asp-for="UpdateDate" class="form-control" />
-            <span asp-validation-for="UpdateDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-            <label asp-for="DeleteDate" class="control-label"></label>
-            <input asp-for="DeleteDate" class="form-control" />
-            <span asp-validation-for="DeleteDate" class="text-danger"></span>
-            </div>*@
+            
             <div class="form-group" style="padding-top:3%">
                 <input type="submit" value="Create" class="btn btn-primary" />
                 <a asp-action="Index" asp-controller="Categories" class="btn btn-outline-secondary">Back to Categories List</a>

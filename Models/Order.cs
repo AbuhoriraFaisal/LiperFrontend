@@ -14,8 +14,12 @@
         public bool isPaid { get; set; }
         public int orderStatusId { get; set; }
         public int paymentMethodId { get; set; }
-        public OrderStatus OrderStatus { get; set; }
+        public OrderStatus orderStatus { get; set; }
         public PaymentMethod paymentMethod { get; set; }
+        public Customer customer { get; set; }
+        public List<OrderDetails> orderDetails { get; set; }
+        public int cityId { get; set; }
+        public City city { get; set; }
 
     }
 }

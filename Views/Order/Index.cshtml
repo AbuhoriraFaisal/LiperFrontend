@@ -1,0 +1,103 @@
+﻿@model IEnumerable<LiperFrontend.Models.Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Orders List</h1>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            @*<table id="example" class="table table-sm table-bordered table-hover">*@
+
+
+                            <caption>List of Categories : @Model.Count()</caption>
+
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.orderDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.deliveryDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.discount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.totalPrice)
+                                    </th>
+                                    <th>
+                                        Customer
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.isPaid)
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th>
+                                        Payment Method
+                                    </th>
+                                    <th>
+                                       City
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.orderDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.deliveryDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.discount)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.totalPrice)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.customerId)
+                                        </td>
+                                        
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.isPaid)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.orderStatus.name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.paymentMethod.name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.city.nameEN)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Details" class="btn btn-outline-info" asp-route-Id=@item.id>Details</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

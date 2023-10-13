@@ -12,6 +12,14 @@ namespace LiperFrontend.Controllers
         public async Task<IActionResult> Index()
         {
             var categoriesList = await ApiCaller<Categories, string>.CallApiGet("Categories", "", "");
+            if (categoriesList.Item1.categories is null)
+            {
+                return View(new List<Category>());
+            }
+            foreach (var item in categoriesList.Item1.categories)
+            {
+                item.imageURL = ApiCaller<Category, Category>.Base_Url_files + item.imageURL;
+            }
             return View(categoriesList.Item1.categories);
         }
 

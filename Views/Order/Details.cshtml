@@ -1,0 +1,165 @@
+﻿@model LiperFrontend.Models.Order
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1> Order Details</h1>
+
+<div>
+
+    <hr />
+    <dl class="row">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.orderDate)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.orderDate)
+        </dd>
+       
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.deliveryDate)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.deliveryDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.discount)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.discount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.isPercentage)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.isPercentage)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.totalPrice)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.totalPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.price)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.customerId)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.customerId)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.isPaid)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.isPaid)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.orderStatusId)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.orderStatusId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.paymentMethodId)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.paymentMethodId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.city.nameEN)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.city.nameEN)
+        </dd>
+        <dt class="col-sm-6">
+
+            <a href="@Model.imageURL" target="_blank">
+                Click Here to show the Receipt
+            </a>
+        </dt>
+        
+        <dd class="col-sm-12">
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        @*<table id="example" class="table table-sm table-bordered table-hover">*@
+
+
+                                        <caption>List of Categories : @Model.orderDetails.Count()</caption>
+
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Product
+                                                </th>
+                                                <th>
+                                                   Quantity
+                                                </th>
+                                                <th>
+                                                   Discount
+                                                </th>
+                                                <th>
+                                                    price
+                                                </th>
+                                                <th>
+                                                  TotalPrice
+                                                </th>
+                                                
+                                              
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            
+                                                @foreach (var item in @Model.orderDetails)
+                                                {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.product.Name)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.quantity)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.discount)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.price)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.totalPrice)
+                                                    </td>
+                                                    
+                                                </tr>
+                                                }
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

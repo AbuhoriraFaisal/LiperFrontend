@@ -1,8 +1,11 @@
-﻿namespace LiperFrontend.Models
+﻿using System.ComponentModel;
+
+namespace LiperFrontend.Models
 {
     public class City
     {
         public int? id { get; set; }
+        [DisplayName("City")]
         public string? nameEN { get; set; }
         public string? nameAR { get; set; }
         public State? State { get; set; }

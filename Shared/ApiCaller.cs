@@ -58,6 +58,7 @@ namespace LiperFrontend.Shared
                     }
                     httpclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authtoken);
                     //content.Headers.Add("Bearer", authtoken);
+                    httpclient.DefaultRequestHeaders.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     var request = httpclient.PostAsync($"{Base_Url}{service}", content);
                     NEPDC();
                     string response = await request.Result.Content.ReadAsStringAsync();
@@ -88,7 +89,8 @@ namespace LiperFrontend.Shared
 
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
-
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     // Serialize the object properties to string content
                     var nameContent = new StringContent(category.nameAR);
                     formDataContent.Add(nameContent, "NameAR");
@@ -99,8 +101,12 @@ namespace LiperFrontend.Shared
 
 
                     // Convert the file to stream content
-                    var fileStreamContent = new StreamContent(category.files.OpenReadStream());
-                    formDataContent.Add(fileStreamContent, "files", category.files.FileName);
+                    if (category.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(category.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", category.files.FileName);
+                    }
+
 
                     //
                     // Send the post request to the API with the form data content
@@ -138,6 +144,8 @@ namespace LiperFrontend.Shared
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
 
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     // Serialize the object properties to string content
                     var nameContent = new StringContent(country.NameAR);
                     formDataContent.Add(nameContent, "NameAR");
@@ -188,7 +196,8 @@ namespace LiperFrontend.Shared
 
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
-
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     // Serialize the object properties to string content
                     var nameContent = new StringContent(product.NameAR);
                     formDataContent.Add(nameContent, "NameAR");
@@ -248,7 +257,8 @@ namespace LiperFrontend.Shared
 
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
-
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     // Serialize the object properties to string content
 
                     var nameContent = new StringContent(fAQ.id.ToString());
@@ -307,6 +317,8 @@ namespace LiperFrontend.Shared
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
 
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     // Serialize the object properties to string content
 
                     var nameContent = new StringContent(fAQ.id.ToString());
@@ -365,7 +377,8 @@ namespace LiperFrontend.Shared
 
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
-
+                    //api key
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     // Serialize the object properties to string content
 
                     var nameContent = new StringContent(image.id.ToString());
@@ -414,7 +427,9 @@ namespace LiperFrontend.Shared
 
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
-
+                    //
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     // Serialize the object properties to string content
 
                     var nameContent = new StringContent(image.id.ToString());
@@ -506,6 +521,7 @@ namespace LiperFrontend.Shared
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     // Serialize the object properties to string content
                     var nameContent = new StringContent(notification.text);
                     formDataContent.Add(nameContent, "text");
@@ -639,6 +655,8 @@ namespace LiperFrontend.Shared
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
 
+                    //Adding API Key
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     // Serialize the object properties to string content
                     var nameContent = new StringContent(notification.text);
                     formDataContent.Add(nameContent, "text");
@@ -697,7 +715,8 @@ namespace LiperFrontend.Shared
 
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
-
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     // Serialize the object properties to string content
                     var nameContent = new StringContent(country.NameAR);
                     formDataContent.Add(nameContent, "NameAR");
@@ -756,6 +775,8 @@ namespace LiperFrontend.Shared
 
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
+                    //api key
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
 
                     // Serialize the object properties to string content
                     var nameContent = new StringContent(product.NameAR);
@@ -823,21 +844,7 @@ namespace LiperFrontend.Shared
             }
         }
 
-        public static StreamContent ConvertFileToStreamContentLocal(string filePath)
-        {
-            // Open the file as a stream
-            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            {
-                // Create a new stream content with the file stream
-                var streamContent = new StreamContent(fileStream);
 
-                // Set the content headers
-                streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                streamContent.Headers.ContentLength = fileStream.Length;
-
-                return streamContent;
-            }
-        }
         public static async Task<StreamContent> ConvertFileToStreamContent(string filePath)
         {
             try
@@ -902,6 +909,7 @@ namespace LiperFrontend.Shared
                     }
                     httpclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authtoken);
                     //content.Headers.Add("Bearer", authtoken);
+                    httpclient.DefaultRequestHeaders.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     var request = httpclient.PutAsync($"{Base_Url}{service}", content);
                     NEPDC();
                     string response = await request.Result.Content.ReadAsStringAsync();
@@ -960,6 +968,7 @@ namespace LiperFrontend.Shared
                         authtoken = Guid.NewGuid().ToString();
                     }
                     Newrequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authtoken);
+                    Newrequest.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     HttpResponseMessage response =
                         await httpclient.SendAsync(Newrequest, HttpCompletionOption.ResponseHeadersRead);
                     var statusCode = response.StatusCode;
@@ -989,23 +998,6 @@ namespace LiperFrontend.Shared
             }
 
         }
-        public static async Task<List<T>> CallApiGetList(string service, B model)
-
-        {
-            using (var httpclient = new HttpClient())
-            {
-                HttpClient httpClient = new HttpClient();
-                HttpRequestMessage Newrequest = new HttpRequestMessage();
-                Newrequest.RequestUri = new Uri($"{Base_Url}{service}");
-                Newrequest.Method = HttpMethod.Get;
-                //Newrequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", model.ToString());
-                HttpResponseMessage response =
-                    await httpclient.SendAsync(Newrequest, HttpCompletionOption.ResponseHeadersRead);
-                var responseString = await response.Content.ReadAsStringAsync();
-                var statusCode = response.StatusCode;
-                return JsonConvert.DeserializeObject<List<T>>(responseString.ToString());
-            }
-        }
 
         public static async Task<Tuple<T, string>> CallApiDelete(string service, B model, string authtoken)
         {
@@ -1029,6 +1021,7 @@ namespace LiperFrontend.Shared
                         authtoken = Guid.NewGuid().ToString();
                     }
                     Newrequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authtoken);
+                    Newrequest.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
                     HttpResponseMessage response =
                         await httpclient.SendAsync(Newrequest, HttpCompletionOption.ResponseHeadersRead);
                     var statusCode = response.StatusCode;
@@ -1070,6 +1063,8 @@ namespace LiperFrontend.Shared
 
                     // Create a new multipart form data content
                     var formDataContent = new MultipartFormDataContent();
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
 
                     // Serialize the object properties to string content
                     var nameContent = new StringContent(customer.nameAR);
@@ -1116,6 +1111,120 @@ namespace LiperFrontend.Shared
                     return new Tuple<T, string>(responseModel, "");
                     //}
                     throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+
+        public static async Task<Tuple<T, string>> CallApiPostSocialMedia(string service, SocialMedia social, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
+
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(social.Name);
+                    formDataContent.Add(nameContent, "Name");
+                    nameContent = new StringContent(social.Description);
+                    formDataContent.Add(nameContent, "Description");
+                    nameContent = new StringContent(social.Id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(social.Link.ToString());
+                    formDataContent.Add(nameContent, "Link");
+                    
+
+
+                    // Convert the file to stream content
+                    if (social.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(social.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", social.files.FileName);
+                    }
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+
+        public static async Task<Tuple<T, string>> CallApiPutSocialMedia(string service, SocialMedia social, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
+                    // Serialize the object properties to string content
+
+                    var nameContent = new StringContent(social.Name);
+                    formDataContent.Add(nameContent, "Name");
+                    nameContent = new StringContent(social.Description);
+                    formDataContent.Add(nameContent, "Description");
+                    nameContent = new StringContent(social.Id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(social.Link.ToString());
+                    formDataContent.Add(nameContent, "Link");
+
+
+                    // Convert the file to stream content
+                    if (social.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(social.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", social.files.FileName);
+                    }
+
+
+
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PutAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
                 }
 
             }

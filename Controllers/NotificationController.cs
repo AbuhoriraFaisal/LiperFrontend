@@ -9,28 +9,36 @@ using System.Diagnostics.Metrics;
 
 namespace LiperFrontend.Controllers
 {
+    //agent notifications
     public class NotificationController : Controller
     {
         // GET: NotificationController
         public async Task<ActionResult> Index(int pg = 1)
         {
+            try
+            {
+                Pager pager = new Pager();
+                pager.CurrentPage = pg;
+                var response = await ApiCaller<Notifications, string>.CallApiGet($"AgentNotifications?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
+                pager.CurrentPage = response.Item1.currentPage;
+                pager.TotalPages = response.Item1.totalPages;
+                pager.TotalItems = response.Item1.totalCount;
+                this.ViewBag.Pager = pager;
+                return View(response.Item1.agentNotifications);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<Notification>());
+            }
 
-            Pager pager = new Pager();
-            pager.CurrentPage = pg;
-            var response = await ApiCaller<Notifications, string>.CallApiGet($"AgentNotifications?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
-            pager.CurrentPage = response.Item1.currentPage;
-            pager.TotalPages = response.Item1.totalPages;
-            pager.TotalItems = response.Item1.totalCount;
-            this.ViewBag.Pager = pager;
-            return View(response.Item1.agentNotifications);
         }
 
-       
+
 
         // GET: NotificationController/Create
         public ActionResult Create()
         {
-           
+
             return View();
         }
 
@@ -68,7 +76,7 @@ namespace LiperFrontend.Controllers
                 ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, responseM.messageEN);
                 List<SelectListItem> SelectedList = new List<SelectListItem>();
 
-               
+
                 return View();
             }
             catch

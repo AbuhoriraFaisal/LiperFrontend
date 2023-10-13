@@ -6,7 +6,9 @@ namespace LiperFrontend.Models
     public class Notification
     {
         public int id { get; set; } = 0;
+        [DisplayName("Title")]
         public string text { get; set; }
+        [DisplayName("Message")]
         public string description { get; set; }
         public IFormFile? files { get; set; }
         public bool isRead { get; set; } = false;

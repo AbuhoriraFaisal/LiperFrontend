@@ -1,24 +1,14 @@
-﻿@model IEnumerable<LiperFrontend.Models.Notification>
-@using LiperFrontend.Shared
+﻿@model IEnumerable<LiperFrontend.Models.SocialMedia>
+
 @{
     ViewData["Title"] = "Index";
-    Pager pager = new Pager();
-
-    int pageNo = 0;
-
-    if (ViewBag.Pager != null)
-    {
-        pager = ViewBag.Pager;
-        pageNo = pager.CurrentPage;
-    }
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-outline-success"> Send Agent Notification</a>
+    <a asp-action="Create" class="btn btn-outline-success">Create New</a>
 </p>
-
 
 <section class="content">
     <div class="container-fluid">
@@ -32,21 +22,21 @@
 
 
                             <caption>List of Categories : @Model.Count()</caption>
+
                             <thead>
                                 <tr>
 
                                     <th>
-                                        @Html.DisplayNameFor(model => model.text)
+                                        @Html.DisplayNameFor(model => model.Name)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.description)
+                                        @Html.DisplayNameFor(model => model.Description)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.isRead)
+                                        @Html.DisplayNameFor(model => model.Link)
                                     </th>
-
                                     <th>
-                                        @Html.DisplayNameFor(model => model.agent_customer_Phone)
+                                        @Html.DisplayNameFor(model => model.ImageUrl)
                                     </th>
                                     <th></th>
                                 </tr>
@@ -55,26 +45,29 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
+                                        
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Link)
+                                        </td>
+                                        <td style="width:20%">
+                                            <img src="@item.ImageUrl" style="width:50%" alt="social media pic" />
+                                        </td>
+                                        <td>
+                                            <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.Id> Update</a>
+                                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.Id> Delete</a>
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.text)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.description)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.isRead)
-                                        </td>
-
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.agent_customer_Phone)
-                                        </td>
-                                        <td>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
+
 
                     </div>
                 </div>
@@ -83,4 +76,3 @@
         </div>
     </div>
 </section>
-@Html.Partial("_PagerPartial" ,pager);
