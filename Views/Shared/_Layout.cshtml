@@ -208,26 +208,21 @@
             </div>
             </div>
             </div>*@
-
-            <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-chart-pie"></i>
+                    <!-- Add icons to the links using the .nav-icon class
+                         with font-awesome or any other icon font library -->
+                    
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fas fa-building green"></i>
                             <p>
                                 Notifications
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a asp-controller="customernotification" asp-action="Index" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Customer Notifications</p>
-                                </a>
-                            </li>
 
                             <li class="nav-item">
                                 <a asp-controller="notification" asp-action="Index" class="nav-link">
@@ -235,32 +230,33 @@
                                     <p>Agent Notifications</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a asp-controller="customernotification" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Customer Notifications</p>
+                                </a>
+                            </li>
+                            
+
                         </ul>
                     </li>
-
-                </ul>
-            </nav>
-
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-chart-pie"></i>
+                  
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fas fa-building green"></i>
                             <p>
                                 Operations
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+
                             <li class="nav-item">
                                 <a asp-controller="Categories" asp-action="Index" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Categories</p>
                                 </a>
                             </li>
-                           
-
                             <li class="nav-item">
                                 <a asp-controller="Product" asp-action="Index" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -268,7 +264,7 @@
                                 </a>
                             </li>
 
-                           
+
                             <li class="nav-item">
                                 <a asp-controller="Customer" asp-action="Index" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -299,22 +295,21 @@
                                     <p>Gift Requests</p>
                                 </a>
                             </li>
+
+
                         </ul>
                     </li>
 
-                </ul>
-            </nav>
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-chart-pie"></i>
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fas fa-building green"></i>
                             <p>
-                                Banks &Aacute; Accounts
+                                Banks & Accounts
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+
                             <li class="nav-item">
                                 <a asp-controller="bank" asp-action="Index" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -329,20 +324,17 @@
                             </li>
                         </ul>
                     </li>
-                </ul>
-            </nav>
 
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-chart-pie"></i>
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fas fa-building green"></i>
                             <p>
                                 Locations
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+
                             <li class="nav-item">
                                 <a asp-controller="country" asp-action="Index" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -355,7 +347,6 @@
                                     <p>Cities</p>
                                 </a>
                             </li>
-                            
                             <li class="nav-item">
                                 <a asp-controller="state" asp-action="Index" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -364,20 +355,17 @@
                             </li>
                         </ul>
                     </li>
-                </ul>
-            </nav>
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-chart-pie"></i>
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fas fa-building green"></i>
                             <p>
                                 Orders
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+
                             <li class="nav-item">
                                 <a asp-controller="Order" asp-action="Index" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -393,89 +381,78 @@
                         </ul>
                     </li>
 
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fas fa-building green"></i>
+                            <p>
+                                Settings
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <a asp-controller="PaymentMethod" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Payment Methods</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Contacts" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Contacts</p>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fas fa-building green"></i>
+                            <p>
+                                App Settings
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <a asp-controller="TermsAndConditions" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Terms And Conditions</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Policy" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Policies</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="AboutUs" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>About Us</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="FAQs" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>FAQs</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="SocialMedia" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Social Media</p>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
                 </ul>
             </nav>
-            <!-- setting nav-->
-            <nav class="mt-2">
-                <nav class="nav-collapse-hide-child">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-chart-pie"></i>
-                                <p>
-                                    Settings
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-controller="PaymentMethod" asp-action="Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Payment Methods</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Contacts" asp-action="Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Contacts</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
 
-                    </ul>
-                </nav>
-            </nav>
-            <!-- app setting Nav-->
-            <nav class="mt-2">
-                <nav class="nav-collapse-hide-child">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-chart-pie"></i>
-                                <p>
-                                    App Settings
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-controller="TermsAndConditions" asp-action="Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Terms And Conditions</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Policy" asp-action="Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Policies</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="AboutUs" asp-action="Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>About Us</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="FAQs" asp-action="Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>FAQs</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="SocialMedia" asp-action="Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Social Media</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                </nav>
-            </nav>
-            <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
     </aside>

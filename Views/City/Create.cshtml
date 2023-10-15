@@ -1,27 +1,4 @@
-﻿@*
-@model City
-
-<div id="map" style="height: 400px;"></div>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClrFqfOqOGTSGWpiZby6POa-AEFjGmJoM&callback=initMap" async defer></script>
-<script>
-    function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: @Model.latitude, lng: @Model.longitude },
-            zoom: 10
-        });
-
-        var marker = new google.maps.Marker({
-            position: { lat: @Model.latitude, lng: @Model.longitude },
-            map: map,
-            title: 'Your location'
-        });
-    }
-
-    initMap();
-
-</script>
- *@
+﻿
 @model City
 
     <div class="row">

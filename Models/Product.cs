@@ -14,7 +14,7 @@ namespace LiperFrontend.Models
         public bool isPercentage { get; set; }
         public SubCategory SubCategory { get; set; }
         public int subCategoryId { get; set; }
-        public IFormFile files { get; set; }
+        public IFormFile? files { get; set; }
         public string productMainImage { get; set; }
 
 

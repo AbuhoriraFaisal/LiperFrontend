@@ -99,30 +99,37 @@ namespace LiperFrontend.Controllers
         // GET: ProductController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var product = await ApiCaller<GetProduct, string>.CallApiGet($"Products/GetById?Id={id}", "", "");
-
-            if (product.Item1.getProductByIdResponseModel.product != null)
+            try
             {
-                product.Item1.getProductByIdResponseModel.product.productMainImage = ApiCaller<Product, Product>.Base_Url_files +
-                    product.Item1.getProductByIdResponseModel.product.productMainImage;
-                HttpContext.Session.SetString("productMainImage",
-                                            product.Item1.getProductByIdResponseModel.product.productMainImage);
-                List<SelectListItem> SelectedList = new List<SelectListItem>();
-                var response = await ApiCaller<SubCategories, string>.CallApiGet("SubCategories", "", "");
-                var cities = response.Item1.subCategories;
-                foreach (var city in cities)
+                var product = await ApiCaller<GetProduct, string>.CallApiGet($"Products/GetById?Id={id}", "", "");
+
+                if (product.Item1.getProductByIdResponseModel.product != null)
                 {
-                    var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
-                    if (selectItem.Value.Equals(product.Item1.getProductByIdResponseModel.product.subCategoryId))
+                    product.Item1.getProductByIdResponseModel.product.productMainImage = ApiCaller<Product, Product>.Base_Url_files +
+                        product.Item1.getProductByIdResponseModel.product.productMainImage;
+                    HttpContext.Session.SetString("productMainImage",
+                                                product.Item1.getProductByIdResponseModel.product.productMainImage);
+                    List<SelectListItem> SelectedList = new List<SelectListItem>();
+                    var response = await ApiCaller<SubCategories, string>.CallApiGet("SubCategories", "", "");
+                    var cities = response.Item1.subCategories;
+                    foreach (var city in cities)
                     {
-                        selectItem.Selected = true;
+                        var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
+                        if (selectItem.Value.Equals(product.Item1.getProductByIdResponseModel.product.subCategoryId))
+                        {
+                            selectItem.Selected = true;
+                        }
+                        SelectedList.Add(selectItem);
                     }
-                    SelectedList.Add(selectItem);
+                    ViewBag.SelectedList = SelectedList;
+                    return View(product.Item1.getProductByIdResponseModel.product);
                 }
-                ViewBag.SelectedList = SelectedList;
-                return View(product.Item1.getProductByIdResponseModel.product);
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         public IActionResult ConvertToFormFile(string externalPath)

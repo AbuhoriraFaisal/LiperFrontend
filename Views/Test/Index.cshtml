@@ -1,0 +1,49 @@
+﻿@model IEnumerable<LiperFrontend.Models.Test>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<select id="filterSelect">
+    <option value="">All</option>
+    <option value="Category1">Category 1</option>
+    <option value="Category2">Category 2</option>
+    <option value="Category3">Category 3</option>
+</select>
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.category</td>
+                <td>@item.name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#filterSelect').change(function () {
+            var selectedValue = $(this).val();
+            filterData(selectedValue);
+        });
+
+        function filterData(category) {
+            $('#dataTable tbody tr').each(function () {
+                if (category === '' || $(this).find('td:eq(0)').text() === category) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+    });
+</script>

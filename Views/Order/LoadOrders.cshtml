@@ -1,0 +1,107 @@
+﻿@model IEnumerable<LiperFrontend.Models.Order>
+
+@{
+    ViewData["Title"] = "LoadOrders";
+}
+
+<h1>LoadOrders</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.orderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.deliveryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.discount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isPercentage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.totalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.customerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.imageURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isPaid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.orderStatusId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.paymentMethodId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cityId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.orderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.deliveryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.discount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isPercentage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.totalPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.imageURL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isPaid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.orderStatusId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.paymentMethodId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cityId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

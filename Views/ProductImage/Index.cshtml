@@ -8,42 +8,53 @@
 <h1>ProductImages</h1>
 
 <p>
-    <a asp-action="Create" asp-route-Id=@Pid>Create New</a>
-    <a asp-action="Index" asp-controller="Product"> Back To Products</a>
+    <a asp-action="Create" class="btn btn-outline-success" asp-route-Id=@Pid>Create New</a>
+    <a asp-action="Index" class="btn btn-outline-secondary" asp-controller="Product"> Back To Products</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.imageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.productId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id)
-                </td>
-                <td style="width:20%">
-                   <img src="@item.imageUrl"  style="width:50%" alt="image">
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productId)
-                </td>
-                <td>
-                    <a asp-action="ChangeImage" class="btn btn-outline-info" asp-route-Id=@item.id> Change</a>
-                    <a asp-action="DeleteImage" class="btn btn-outline-danger" asp-route-Id=@item.id> Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            @*<table id="example" class="table table-sm table-bordered table-hover">*@
+
+
+                            <caption>Number of items: @Model.Count()</caption>
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.imageUrl)
+                                    </th>
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td style="width:20%">
+                                            <img src="@item.imageUrl" style="width:50%" alt="image">
+                                        </td>
+
+                                        <td>
+                                            <a asp-action="ChangeImage" class="btn btn-outline-info" asp-route-Id=@item.id> Change</a>
+                                            <a asp-action="DeleteImage" class="btn btn-outline-danger" asp-route-Id=@item.id> Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

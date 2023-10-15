@@ -5,8 +5,21 @@
 }
 
 <h1>Orders List</h1>
-
-
+@* 
+<select id="filterSelect" class="form-control">
+    <option value="">All</option>
+    <option value="0">Delivered</option>
+    <option value="1">Canceled</option>
+    <option value="processing">Under processing</option>
+    <option value="Recived">Recived</option>
+</select> *@
+@* <div class="form-group">
+    Order Status
+    <select id="mySelect" asp-items="@ViewBag.SelectedList" onchange="postStatus()" class="form-control"></select>
+</div> *@
+@* <div class="form-group">
+    <button id="submitBtn" class="btn btn-primary"> Load Orders</button>
+</div> *@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -14,7 +27,7 @@
                 <div class="card">
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="dataTable" class="table table-bordered table-striped">
                             @*<table id="example" class="table table-sm table-bordered table-hover">*@
 
 
@@ -48,7 +61,7 @@
                                         Payment Method
                                     </th>
                                     <th>
-                                       City
+                                        City
                                     </th>
                                     <th></th>
                                 </tr>
@@ -73,7 +86,7 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.customerId)
                                         </td>
-                                        
+
                                         <td>
                                             @Html.DisplayFor(modelItem => item.isPaid)
                                         </td>
@@ -101,3 +114,45 @@
         </div>
     </div>
 </section>
+@* 
+<script>
+    function postStatus() {
+        var id = $('#mySelect').val();
+        if (id !== '' && id != null) {
+            var url = '../Order/LoadOrders?id' + id;
+            var settings = {
+                "url": url,
+                "method": 'GET'
+            };
+            $.ajax(settings);
+        }
+    }
+</script> 
+<script>
+    $(document).ready(function () {
+        $("#submitBtn").click(function () {
+            var sValididue = $('#mySelect').val();
+            window.location.href = '/Order/LoadOrders?id=' + sValue;
+        })
+    })
+</script>
+ *@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#filterSelect').change(function () {
+            var selectedValue = $(this).val();
+            filterData(selectedValue);
+        });
+
+        function filterData(status) {
+            $('#dataTable tbody tr').each(function () {
+                if (status === '' || $(this).find('td:eq(2)').text() === status) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+    });
+</script>

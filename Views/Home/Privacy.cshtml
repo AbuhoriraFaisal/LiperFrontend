@@ -1,6 +1,82 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿<nav class="navbar">
+    <button class="navbar-toggle">Toggle Navigation</button>
+    <ul class="navbar-menu">
+        <li class="navbar-group">Group 1
+            <ul class="navbar-submenu">
+                <li>@Html.ActionLink("Item 1", "Action1", "Controller1")</li>
+                <li>@Html.ActionLink("Item 2", "Action2", "Controller2")</li>
+            </ul>
+        </li>
+        <li class="navbar-group">Group 2
+            <ul class="navbar-submenu">
+                <li>@Html.ActionLink("Item 3", "Action3", "Controller3")</li>
+                <li>@Html.ActionLink("Item 4", "Action4", "Controller4")</li>
+            </ul>
+        </li>
+    </ul>
+</nav>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<script>
+    // Add toggle functionality
+    $(document).ready(function () {
+        $('.navbar-toggle').click(function () {
+            $('.navbar-menu').toggleClass('active');
+        });
+    });
+</script>
+
+
+2. Add the following CSS code to your site's CSS file or in a <style> tag within your layout file:
+
+css
+.navbar {
+    background-color: #f8f8f8;
+    padding: 10px;
+}
+
+.navbar-toggle {
+    display: none;
+}
+
+.navbar-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar-group {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.navbar-submenu {
+    display: none;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar-submenu li {
+    margin-bottom: 5px;
+}
+
+.navbar-menu.active .navbar-submenu {
+    display: block;
+}
+/* 
+.media (max-width: 768px) {
+    .navbar-toggle {
+        display: block;
+        cursor: pointer;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+ */
+    .navbar-menu {
+        display: none;
+    }
+}
+
