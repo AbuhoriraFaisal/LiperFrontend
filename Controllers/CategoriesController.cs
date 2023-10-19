@@ -11,16 +11,23 @@ namespace LiperFrontend.Controllers
         // GET: CategoryController
         public async Task<IActionResult> Index()
         {
-            var categoriesList = await ApiCaller<Categories, string>.CallApiGet("Categories", "", "");
-            if (categoriesList.Item1.categories is null)
+            try
             {
-                return View(new List<Category>());
+                var categoriesList = await ApiCaller<Categories, string>.CallApiGet("Categories", "", "");
+                if (categoriesList.Item1.categories is null)
+                {
+                    return View(new List<Category>());
+                }
+                foreach (var item in categoriesList.Item1.categories)
+                {
+                    item.imageURL = ApiCaller<Category, Category>.Base_Url_files + item.imageURL;
+                }
+                return View(categoriesList.Item1.categories);
             }
-            foreach (var item in categoriesList.Item1.categories)
+            catch (Exception ex)
             {
-                item.imageURL = ApiCaller<Category, Category>.Base_Url_files + item.imageURL;
+                return View(new List<Categories>());
             }
-            return View(categoriesList.Item1.categories);
         }
 
         // GET: CategoryController/Details/5
@@ -63,13 +70,20 @@ namespace LiperFrontend.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var getcategory = await ApiCaller<GetCategory, string>.CallApiGet($"Categories/GetCategoryById?Id={id}", "", "");
-            Category category = getcategory.Item1.category;
-            if (category != null)
+            try
             {
-                return View(category);
+                var getcategory = await ApiCaller<GetCategory, string>.CallApiGet($"Categories/GetCategoryById?Id={id}", "", "");
+                Category category = getcategory.Item1.category;
+                if (category != null)
+                {
+                    return View(category);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: CategoryController/Edit/5
@@ -99,13 +113,20 @@ namespace LiperFrontend.Controllers
         // GET: CategoryController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var getcategory = await ApiCaller<GetCategory, string>.CallApiGet($"Categories/GetCategoryById?Id={ id}", "", "");
-            Category category = getcategory.Item1.category;
-            if (category != null)
+            try
             {
-                return View(category);
+                var getcategory = await ApiCaller<GetCategory, string>.CallApiGet($"Categories/GetCategoryById?Id={id}", "", "");
+                Category category = getcategory.Item1.category;
+                if (category != null)
+                {
+                    return View(category);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: CategoryController/Delete/5

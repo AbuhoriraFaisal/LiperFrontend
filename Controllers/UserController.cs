@@ -2,48 +2,81 @@
 using LiperFrontend.Models;
 using LiperFrontend.Services;
 using LiperFrontend.Shared;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LiperFrontend.Controllers
 {
-    public class OrderStatusController : Controller
+    public class UserController : Controller
     {
-        // GET: OrderStatusController
-        public async Task<ActionResult> Index()
+        public async Task< IActionResult> Index()
         {
+			try
+			{
+                var response = await ApiCaller<Users, string>.CallApiGet("Users", "", "");
+                if (response.Item1.users != null)
+                {
+                    return View(response.Item1.users);
+                }
+                return View(new List<Users>());
+            }
+			catch (Exception ex)
+            {
+                return View(new List<Users>());
+            }
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(UserLogin userLogin)
+        {
+            
             try
             {
-                var response = await ApiCaller<OrderStatuses, string>.CallApiGet("OrderStatuses", "", "");
-                if (response.Item1.orderStatuses != null)
+                var response = await ApiCaller<loginResponse, string>.CallApiGet($"Users/Login?userName={userLogin.userName}&passwprd={userLogin.passwprd}", "", "");
+               loginResponse loginResponse = response.Item1;
+                if (loginResponse is not null)
                 {
-                    return View(response.Item1.orderStatuses);
+                    if (loginResponse.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                    {
+                        //ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
+                        HttpContext.Session.SetString("token", loginResponse.token);
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, "User  Failed to Login!");
+
+                        return View();
+                    }
                 }
-                return View(new List<OrderStatus>());
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, "User  Failed to Login!");
+
+                return View();
             }
             catch (Exception ex)
             {
-                return View(new List<OrderStatus>());
-            }
 
+                throw;
+            }
         }
 
-        
-
-        // GET: OrderStatusController/Create
         public ActionResult Create()
         {
             return View();
         }
-
-        // POST: OrderStatusController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(OrderStatus status)
+        public async Task<ActionResult> Create(User user)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, OrderStatus>.CallApiPost($"OrderStatuses", status, "");
+                var response = await ApiCaller<defaultResponse, User>.CallApiPost($"Users", user, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
@@ -63,15 +96,14 @@ namespace LiperFrontend.Controllers
             }
         }
 
-        // GET: OrderStatusController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
             try
             {
-                var response = await ApiCaller<OrderStatuses, string>.CallApiGet("OrderStatuses", "", "");
-                if (response.Item1.orderStatuses != null)
+                var response = await ApiCaller<GetUser, string>.CallApiGet($"Users/GetById?Id={id}", "", "");
+                if (response.Item1.user is not null)
                 {
-                    return View(response.Item1.orderStatuses.Where(s => s.id == id).FirstOrDefault());
+                    return View(response.Item1.user);
                 }
                 return RedirectToAction("Index");
             }
@@ -80,15 +112,13 @@ namespace LiperFrontend.Controllers
                 return RedirectToAction("Index");
             }
         }
-
-        // POST: OrderStatusController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult>  Edit(int id, OrderStatus status)
+        public async Task<ActionResult> Edit(User user)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, OrderStatus>.CallApiPut($"OrderStatuses", status, "");
+                var response = await ApiCaller<defaultResponse, User>.CallApiPut($"Users", user, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
@@ -100,23 +130,22 @@ namespace LiperFrontend.Controllers
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, "Operation Failed !");
 
                 }
+                
                 return View();
             }
             catch
             {
-                return View();
+                return View(user);
             }
         }
-
-        // GET: OrderStatusController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                var response = await ApiCaller<OrderStatuses, string>.CallApiGet("OrderStatuses", "", "");
-                if (response.Item1.orderStatuses != null)
+                var response = await ApiCaller<GetUser, string>.CallApiGet($"Users/GetById?Id={id}", "", "");
+                if (response.Item1.user is not null)
                 {
-                    return View(response.Item1.orderStatuses.Where(s => s.id == id).FirstOrDefault());
+                    return View(response.Item1.user);
                 }
                 return RedirectToAction("Index");
             }
@@ -125,15 +154,13 @@ namespace LiperFrontend.Controllers
                 return RedirectToAction("Index");
             }
         }
-
-        // POST: OrderStatusController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"OrderStatuses?id={id}", "", "");
+                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Users?id={id}", "", "");
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
@@ -150,5 +177,6 @@ namespace LiperFrontend.Controllers
                 return View();
             }
         }
+
     }
 }

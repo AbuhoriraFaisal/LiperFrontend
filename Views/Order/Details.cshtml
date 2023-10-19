@@ -79,7 +79,13 @@
         <dd class="col-sm-4">
             @Html.DisplayFor(model => model.city.nameEN)
         </dd>
-        <dt class="col-sm-6">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.city.delivaryPrice)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.city.delivaryPrice)
+        </dd>
+        <dt class="col-sm-12">
 
             <a href="@Model.imageURL" target="_blank">
                 Click Here to show the Receipt

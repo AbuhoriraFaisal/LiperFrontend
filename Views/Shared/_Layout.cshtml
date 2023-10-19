@@ -28,7 +28,7 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-
+        
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="~/img//liperjpg.jpg" alt="Liper Logo" height="60" width="60">
@@ -390,7 +390,12 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-
+                            <li class="nav-item">
+                                <a asp-controller="User" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Dashboard Users</p>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a asp-controller="PaymentMethod" asp-action="Index" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -448,6 +453,7 @@
                                 </a>
                             </li>
 
+
                         </ul>
                     </li>
                 </ul>
@@ -460,7 +466,13 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
-
+        @{
+            string token = Context.Session.GetString("token");
+            if (string.IsNullOrEmpty(token))
+            {
+                 Context.Response.Redirect("/User/Login");
+            }
+        }
         <!-- Main content -->
         <section class="content">
 
@@ -522,6 +534,24 @@
     <script src="~/jquery-validate/jquery.validate.min.js"></script>
     <script src="~/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="~/plugins/jquery/jquery.min.js"></script>
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false, "bPaginate": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            //$('#example2').DataTable({
+            //    "paging": true,
+            //    "lengthChange": false,
+            //    "searching": false,
+            //    "ordering": true,
+            //    "info": true,
+            //    "autoWidth": false,
+            //    "responsive": true,
+            //});
+        });
 
+    </script>
 </body>
 </html>

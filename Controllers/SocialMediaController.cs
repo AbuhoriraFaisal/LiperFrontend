@@ -10,16 +10,23 @@ namespace LiperFrontend.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            var response = await ApiCaller<SocialMedias, string>.CallApiGet("SocialMedias", "", "");
-            if (response.Item1.socials != null)
+            try
             {
-                foreach (var item in response.Item1.socials)
+                var response = await ApiCaller<SocialMedias, string>.CallApiGet("SocialMedias", "", "");
+                if (response.Item1.socials != null)
                 {
-                    item.ImageUrl = ApiCaller<string, string>.Base_Url_files + item.ImageUrl;
+                    foreach (var item in response.Item1.socials)
+                    {
+                        item.ImageUrl = ApiCaller<string, string>.Base_Url_files + item.ImageUrl;
+                    }
+                    return View(response.Item1.socials);
                 }
-                return View(response.Item1.socials);
+                return View(new List<OrderStatus>());
             }
-            return View(new List<OrderStatus>());
+            catch (Exception ex)
+            {
+                return View(new List<OrderStatus>());
+            }
 
         }
         public ActionResult Create()

@@ -13,8 +13,15 @@ namespace LiperFrontend.Controllers
 
         public async Task<IActionResult> CategorySubCategories(int Id)
         {
-            var subcategoriesList = await ApiCaller<SubCategories, string>.CallApiGet($"SubCategories/GetSubCategoryByCategoryId?categoryId={Id}", "", "");
-            return View(subcategoriesList.Item1.subCategories);
+            try
+            {
+                var subcategoriesList = await ApiCaller<SubCategories, string>.CallApiGet($"SubCategories/GetSubCategoryByCategoryId?categoryId={Id}", "", "");
+                return View(subcategoriesList.Item1.subCategories);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<SubCategory>());
+            }
         }
 
         // GET: CategoryController/Create
@@ -54,13 +61,20 @@ namespace LiperFrontend.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var subcategory = await ApiCaller<GetSubCategory, string>.CallApiGet($"SubCategories/GetSubCategoryById?Id={id}", "", "");
-            SubCategory sCategory = subcategory.Item1.subCategory;
-            if (sCategory != null)
+            try
             {
-                return View(sCategory);
+                var subcategory = await ApiCaller<GetSubCategory, string>.CallApiGet($"SubCategories/GetSubCategoryById?Id={id}", "", "");
+                SubCategory sCategory = subcategory.Item1.subCategory;
+                if (sCategory != null)
+                {
+                    return View(sCategory);
+                }
+                return View();  
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: CategoryController/Edit/5
@@ -68,9 +82,10 @@ namespace LiperFrontend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int id, SubCategory subCategory)
         {
-            var catId = subCategory.categoryId;
+            
             try
             {
+                var catId = subCategory.categoryId;
                 var response = await ApiCaller<defaultResponse, SubCategory>.CallApiPut($"SubCategories/EditSubCategory", subCategory, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
@@ -92,14 +107,21 @@ namespace LiperFrontend.Controllers
         // GET: CategoryController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var getsubCategory = await ApiCaller<GetSubCategory, string>.CallApiGet($"SubCategories/GetSubCategoryById?Id={id}", "", "");
-            SubCategory subCategory = getsubCategory.Item1.subCategory;
-            if (subCategory != null)
+            try
             {
-                
-                return View(subCategory);
+                var getsubCategory = await ApiCaller<GetSubCategory, string>.CallApiGet($"SubCategories/GetSubCategoryById?Id={id}", "", "");
+                SubCategory subCategory = getsubCategory.Item1.subCategory;
+                if (subCategory != null)
+                {
+
+                    return View(subCategory);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: CategoryController/Delete/5

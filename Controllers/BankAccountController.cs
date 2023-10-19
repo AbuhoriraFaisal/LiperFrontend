@@ -13,24 +13,38 @@ namespace LiperFrontend.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var response = await ApiCaller<BankAccounts, string>.CallApiGet("BankAccounts", "", "");
-            return View(response.Item1.accounts);
+            try
+            {
+                var response = await ApiCaller<BankAccounts, string>.CallApiGet("BankAccounts", "", "");
+                return View(response.Item1.accounts);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<BankAccount>());
+            }
         }
 
 
         // GET: AgentController/Create
         public async Task<ActionResult> Create()
         {
-            List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
-            var response = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
-            var banks = response.Item1.banks;
-            foreach (var bank in banks)
+            try
             {
-                var selectItem = new SelectListItem() { Value = bank.id.ToString(), Text = bank.name };
-                countriesSelectedList.Add(selectItem);
+                List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
+                var response = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
+                var banks = response.Item1.banks;
+                foreach (var bank in banks)
+                {
+                    var selectItem = new SelectListItem() { Value = bank.id.ToString(), Text = bank.name };
+                    countriesSelectedList.Add(selectItem);
+                }
+                ViewBag.SelectedList = countriesSelectedList;
+                return View();
             }
-            ViewBag.SelectedList = countriesSelectedList;
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: AgentController/Create
@@ -72,22 +86,29 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var result = await ApiCaller<GetBankAccount, string>.CallApiGet($"BankAccounts/GetById?Id={id}", "", "");
-            BankAccount account = result.Item1.account;
-            if (account != null)
+            try
             {
-                List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
-                var response = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
-                var banks = response.Item1.banks;
-                foreach (var b in banks)
+                var result = await ApiCaller<GetBankAccount, string>.CallApiGet($"BankAccounts/GetById?Id={id}", "", "");
+                BankAccount account = result.Item1.account;
+                if (account != null)
                 {
-                    var selectItem = new SelectListItem() { Value = b.id.ToString(), Text = b.name };
-                    countriesSelectedList.Add(selectItem);
+                    List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
+                    var response = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
+                    var banks = response.Item1.banks;
+                    foreach (var b in banks)
+                    {
+                        var selectItem = new SelectListItem() { Value = b.id.ToString(), Text = b.name };
+                        countriesSelectedList.Add(selectItem);
+                    }
+                    ViewBag.SelectedList = countriesSelectedList;
+                    return View(account);
                 }
-                ViewBag.SelectedList = countriesSelectedList;
-                return View(account);
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: AgentController/Edit/5
@@ -129,13 +150,20 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await ApiCaller<GetBankAccount, string>.CallApiGet($"BankAccounts/GetById?Id={id}", "", "");
-            BankAccount account = result.Item1.account;
-            if (account != null)
-            { 
-                return View(account);
+            try
+            {
+                var result = await ApiCaller<GetBankAccount, string>.CallApiGet($"BankAccounts/GetById?Id={id}", "", "");
+                BankAccount account = result.Item1.account;
+                if (account != null)
+                {
+                    return View(account);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: AgentController/Delete/5

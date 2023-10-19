@@ -7,12 +7,17 @@
         public string messageAR { get; set; }
 
     }
-
+    public class loginResponse 
+    {
+        public string token { get; set; }
+        public responseMessage responseMessage { get; set; }
+    }
     public class defaultResponse
     {
         public responseMessage responseMessage { get; set; }
     }
-    public class NotificationResponse : defaultResponse { 
-    public string imageUrl { get; set; }
+    public class NotificationResponse : defaultResponse
+    {
+        public string imageUrl { get; set; }
     }
 }

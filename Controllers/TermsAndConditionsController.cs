@@ -8,9 +8,16 @@ namespace LiperFrontend.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            var conditions = await ApiCaller<Conditions, string>.CallApiGet("TermsAndConditions", "", "");
+            try
+            {
+                var conditions = await ApiCaller<Conditions, string>.CallApiGet("TermsAndConditions", "", "");
 
-            return View(conditions.Item1.conditions);
+                return View(conditions.Item1.conditions);
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         public ActionResult Create()

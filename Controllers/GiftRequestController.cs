@@ -10,18 +10,25 @@ namespace LiperFrontend.Controllers
         // GET: GiftRequestController
         public async Task<ActionResult> Index(int pg = 1)
         {
-            Pager pager = new Pager();
-            pager.CurrentPage = pg;
-            var response = await ApiCaller<GiftRequests, string>.CallApiGet($"GiftRequiests?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
-            if (response.Item1.giftRequiests != null)
+            try
             {
-                pager.CurrentPage = response.Item1.currentPage;
-                pager.TotalPages = response.Item1.totalPages;
-                pager.TotalItems = response.Item1.totalCount;
-                this.ViewBag.Pager = pager;
-                return View(response.Item1.giftRequiests);
+                Pager pager = new Pager();
+                pager.CurrentPage = pg;
+                var response = await ApiCaller<GiftRequests, string>.CallApiGet($"GiftRequiests?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
+                if (response.Item1.giftRequiests != null)
+                {
+                    pager.CurrentPage = response.Item1.currentPage;
+                    pager.TotalPages = response.Item1.totalPages;
+                    pager.TotalItems = response.Item1.totalCount;
+                    this.ViewBag.Pager = pager;
+                    return View(response.Item1.giftRequiests);
+                }
+                return View(new List<GiftRequest>());
             }
-            return View(new List<GiftRequest>());
+            catch (Exception ex)
+            {
+                return View(new List<GiftRequest>());
+            }
         }
 
         // GET: GiftRequestController/Details/5

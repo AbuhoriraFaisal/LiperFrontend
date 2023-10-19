@@ -13,19 +13,20 @@ namespace LiperFrontend.Controllers
     {
         public async Task<IActionResult> Index( int pg =1 )
         {
-            Pager pager = new Pager();
-            pager.CurrentPage = pg;
-            var countries = await ApiCaller<Countries, string>.CallApiGet($"Countries?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
-            foreach (var item in countries.Item1.countries)
+            try
             {
-                item.flagImgUrl = ApiCaller<Country,Country>.Base_Url_files + item.flagImgUrl;
+                
+                var countries = await ApiCaller<Countries, string>.CallApiGet($"Countries", "", "");
+                foreach (var item in countries.Item1.countries)
+                {
+                    item.flagImgUrl = ApiCaller<Country, Country>.Base_Url_files + item.flagImgUrl;
+                }
+                return View(countries.Item1.countries);
             }
-            
-            pager.CurrentPage = countries.Item1.currentPage;
-            pager.TotalPages = countries.Item1.totalPages;
-            pager.TotalItems = countries.Item1.totalCount;
-            this.ViewBag.Pager = pager;
-            return View(countries.Item1.countries);
+            catch (Exception ex)
+            {
+                return View(new List<Country>());
+            }
         }
         public ActionResult Create()
         {
@@ -62,14 +63,21 @@ namespace LiperFrontend.Controllers
 
         public async Task<ActionResult> Delete(int id)
         {
-            var contact_result = await ApiCaller<GetCountry, string>.CallApiGet($"Countries/GetCountryById?Id={id}", "", "");
-            Country country = contact_result.Item1.country;
-            if (country != null)
+            try
             {
-                country.flagImgUrl = ApiCaller<Country, Country>.Base_Url_files+country.flagImgUrl;
-                return View(country);
+                var contact_result = await ApiCaller<GetCountry, string>.CallApiGet($"Countries/GetCountryById?Id={id}", "", "");
+                Country country = contact_result.Item1.country;
+                if (country != null)
+                {
+                    country.flagImgUrl = ApiCaller<Country, Country>.Base_Url_files + country.flagImgUrl;
+                    return View(country);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         [HttpPost]
@@ -99,15 +107,22 @@ namespace LiperFrontend.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var contact_result = await ApiCaller<GetCountry, string>.CallApiGet($"Countries/GetCountryById?Id={id}", "", "");
-            Country country = contact_result.Item1.country;
-            if (country != null)
+            try
             {
-                country.flagImgUrl = ApiCaller<Country, Country>.Base_Url.Substring(0,
-                    ApiCaller<Country, Country>.Base_Url.Length - 5) + country.flagImgUrl;
-                return View(country);
+                var contact_result = await ApiCaller<GetCountry, string>.CallApiGet($"Countries/GetCountryById?Id={id}", "", "");
+                Country country = contact_result.Item1.country;
+                if (country != null)
+                {
+                    country.flagImgUrl = ApiCaller<Country, Country>.Base_Url.Substring(0,
+                        ApiCaller<Country, Country>.Base_Url.Length - 5) + country.flagImgUrl;
+                    return View(country);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         [HttpPost]

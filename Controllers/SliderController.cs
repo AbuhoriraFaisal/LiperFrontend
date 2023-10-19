@@ -12,8 +12,15 @@ namespace LiperFrontend.Controllers
         // GET: SliderController
         public async Task<ActionResult> Index()
         {
-            var slider = await ApiCaller<Sliders, string>.CallApiGet("Sliders", "", "");
-            return View(slider.Item1.sliders);
+            try
+            {
+                var slider = await ApiCaller<Sliders, string>.CallApiGet("Sliders", "", "");
+                return View(slider.Item1.sliders);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<Slider>());
+            }
         }
 
         // GET: SliderController/Details/5
@@ -49,13 +56,20 @@ namespace LiperFrontend.Controllers
         // GET: SliderController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var result = await ApiCaller<GetSlider, string>.CallApiGet($"Sliders/GetSlider?Id={id}", "", "");
-            Slider slider = result.Item1.slider;
-            if (slider != null)
+            try
             {
-                return View(slider);
+                var result = await ApiCaller<GetSlider, string>.CallApiGet($"Sliders/GetSlider?Id={id}", "", "");
+                Slider slider = result.Item1.slider;
+                if (slider != null)
+                {
+                    return View(slider);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: SliderController/Edit/5

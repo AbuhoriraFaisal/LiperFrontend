@@ -13,8 +13,15 @@ namespace LiperFrontend.Controllers
         // GET: AgentController
         public async Task<ActionResult> Index()
         {
-            var agents = await ApiCaller<Agents, string>.CallApiGet("Agents", "", "");
-            return View(agents.Item1.agents);
+            try
+            {
+                var agents = await ApiCaller<Agents, string>.CallApiGet("Agents", "", "");
+                return View(agents.Item1.agents);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<Agent>());
+            }
         }
 
         // GET: AgentController/Details/5
@@ -26,18 +33,25 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Create
         public async Task<ActionResult> Create()
         {
-            List<SelectListItem> SelectedList = new List<SelectListItem>();
-            var response = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
-            var cities = response.Item1.cities;
-            foreach (var city in cities)
+            try
             {
-                var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
-                if (selectItem.Value == city.countryId.ToString())
-                    selectItem.Selected = true;
-                SelectedList.Add(selectItem);
+                List<SelectListItem> SelectedList = new List<SelectListItem>();
+                var response = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
+                var cities = response.Item1.cities;
+                foreach (var city in cities)
+                {
+                    var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
+                    if (selectItem.Value == city.countryId.ToString())
+                        selectItem.Selected = true;
+                    SelectedList.Add(selectItem);
+                }
+                ViewBag.SelectedList = SelectedList;
+                return View();
             }
-            ViewBag.SelectedList = SelectedList;
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: AgentController/Create
@@ -82,24 +96,31 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Edit/5
         public async Task< ActionResult > Edit(int id)
         {
-            var result = await ApiCaller<GetAgent, string>.CallApiGet($"Agents/GetById?Id={id}", "", "");
-            Agent agent = result.Item1.agent;
-            if (agent != null)
+            try
             {
-                List<SelectListItem> SelectedList = new List<SelectListItem>();
-                var cityResponse = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
-                var cities = cityResponse.Item1.cities;
-                foreach (var city in cities)
+                var result = await ApiCaller<GetAgent, string>.CallApiGet($"Agents/GetById?Id={id}", "", "");
+                Agent agent = result.Item1.agent;
+                if (agent != null)
                 {
-                    var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
-                    if (selectItem.Value == city.countryId.ToString())
-                        selectItem.Selected = true;
-                    SelectedList.Add(selectItem);
+                    List<SelectListItem> SelectedList = new List<SelectListItem>();
+                    var cityResponse = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
+                    var cities = cityResponse.Item1.cities;
+                    foreach (var city in cities)
+                    {
+                        var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
+                        if (selectItem.Value == city.countryId.ToString())
+                            selectItem.Selected = true;
+                        SelectedList.Add(selectItem);
+                    }
+                    ViewBag.SelectedList = SelectedList;
+                    return View(agent);
                 }
-                ViewBag.SelectedList = SelectedList;
-                return View(agent);
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: AgentController/Edit/5

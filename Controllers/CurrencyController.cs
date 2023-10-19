@@ -13,24 +13,38 @@ namespace LiperFrontend.Controllers
         // GET: AgentController
         public async Task<ActionResult> Index()
         {
-            var currencies = await ApiCaller<Currencies, string>.CallApiGet("Currencies", "", "");
-            return View(currencies.Item1.currencies);
+            try
+            {
+                var currencies = await ApiCaller<Currencies, string>.CallApiGet("Currencies", "", "");
+                return View(currencies.Item1.currencies);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<Currency>());
+            }
         }
 
 
         // GET: AgentController/Create
         public async Task<ActionResult> Create()
         {
-            List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
-            var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-            var countriesList = countries.Item1.countries;
-            foreach (var country in countriesList)
+            try
             {
-                var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
-                countriesSelectedList.Add(selectItem);
+                List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
+                var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
+                var countriesList = countries.Item1.countries;
+                foreach (var country in countriesList)
+                {
+                    var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
+                    countriesSelectedList.Add(selectItem);
+                }
+                ViewBag.SelectedList = countriesSelectedList;
+                return View();
             }
-            ViewBag.SelectedList = countriesSelectedList;
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: AgentController/Create
@@ -72,22 +86,29 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetCurrencyById?Id={id}", "", "");
-            Currency currency = result.Item1.currency;
-            if (currency != null)
+            try
             {
-                List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
-                var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                var countriesList = countries.Item1.countries;
-                foreach (var country in countriesList)
+                var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetCurrencyById?Id={id}", "", "");
+                Currency currency = result.Item1.currency;
+                if (currency != null)
                 {
-                    var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
-                    countriesSelectedList.Add(selectItem);
+                    List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
+                    var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
+                    var countriesList = countries.Item1.countries;
+                    foreach (var country in countriesList)
+                    {
+                        var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
+                        countriesSelectedList.Add(selectItem);
+                    }
+                    ViewBag.SelectedList = countriesSelectedList;
+                    return View(currency);
                 }
-                ViewBag.SelectedList = countriesSelectedList;
-                return View(currency);
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: AgentController/Edit/5
@@ -129,14 +150,21 @@ namespace LiperFrontend.Controllers
         // GET: AgentController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetCurrencyById?Id={id}", "", "");
-            Currency currency = result.Item1.currency;
-            if (currency != null)
+            try
             {
-                return View(currency);
+                var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetCurrencyById?Id={id}", "", "");
+                Currency currency = result.Item1.currency;
+                if (currency != null)
+                {
+                    return View(currency);
 
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: AgentController/Delete/5

@@ -13,16 +13,23 @@ namespace LiperFrontend.Controllers
         // GET: FAQsController
         public async Task<ActionResult> Index()
         {
-            var response = await ApiCaller<FAQs, string>.CallApiGet("FAQs", "", "");
-            if (response.Item1.faqs != null)
+            try
             {
-                foreach (var item in response.Item1.faqs)
+                var response = await ApiCaller<FAQs, string>.CallApiGet("FAQs", "", "");
+                if (response.Item1.faqs != null)
                 {
-                    item.imageURL = ApiCaller<FAQs, string>.Base_Url_files + item.imageURL;
+                    foreach (var item in response.Item1.faqs)
+                    {
+                        item.imageURL = ApiCaller<FAQs, string>.Base_Url_files + item.imageURL;
+                    }
+                    return View(response.Item1.faqs);
                 }
-                return View(response.Item1.faqs);
+                return View(new List<FAQ>());
             }
-            return View(new List<FAQ>());
+            catch (Exception ex)
+            {
+                return View(new List<FAQ>());
+            }
         }
 
        

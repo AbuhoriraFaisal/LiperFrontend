@@ -10,8 +10,15 @@ namespace LiperFrontend.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            var policies = await ApiCaller<Policies, string>.CallApiGet("Policies", "", "");
-            return View(policies.Item1.policies);
+            try
+            {
+                var policies = await ApiCaller<Policies, string>.CallApiGet("Policies", "", "");
+                return View(policies.Item1.policies);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<Policy>());
+            }
         }
 
         public ActionResult Create()
@@ -45,14 +52,21 @@ namespace LiperFrontend.Controllers
 
         public async Task<ActionResult> Delete(int id)
         {
-            var response = await ApiCaller<GetPolicy, string>.CallApiGet($"Policies/GetById?Id={id}", "", "");
-            Policy policy = response.Item1.policy;
-            if (policy != null)
+            try
             {
+                var response = await ApiCaller<GetPolicy, string>.CallApiGet($"Policies/GetById?Id={id}", "", "");
+                Policy policy = response.Item1.policy;
+                if (policy != null)
+                {
 
-                return View(policy);
+                    return View(policy);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -81,18 +95,25 @@ namespace LiperFrontend.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var response = await ApiCaller<GetPolicy, string>.CallApiGet($"Policies/GetById?Id={id}", "", "");
-            Policy policy = response.Item1.policy;
-            if (policy != null)
+            try
             {
+                var response = await ApiCaller<GetPolicy, string>.CallApiGet($"Policies/GetById?Id={id}", "", "");
+                Policy policy = response.Item1.policy;
+                if (policy != null)
+                {
 
-                return View(policy);
+                    return View(policy);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit( Policy policy)
+        public async Task<ActionResult> Edit(Policy policy)
         {
             try
             {

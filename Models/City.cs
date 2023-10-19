@@ -13,6 +13,7 @@ namespace LiperFrontend.Models
         public int? countryId { get; set; }
         public float longitude { get; set; }    
         public float latitude{ get; set; }
+        public int delivaryPrice { get; set; }
 
     }
 }

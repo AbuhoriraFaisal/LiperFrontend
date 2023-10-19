@@ -11,18 +11,32 @@ namespace LiperFrontend.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            var response = await ApiCaller<Customers, string>.CallApiGet("Customers", "", "");
-            return View(response.Item1.customers);
+            try
+            {
+                var response = await ApiCaller<Customers, string>.CallApiGet("Customers", "", "");
+                return View(response.Item1.customers);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<Customer>());
+            }
         }
         public async Task<ActionResult> Delete(int id)
         {
-            var response = await ApiCaller<GetCustomer, string>.CallApiGet($"Customers/GetById?id={id}", "", "");
-            Customer customer = response.Item1.customer;
-            if (customer != null)
+            try
             {
-                return View(customer);
+                var response = await ApiCaller<GetCustomer, string>.CallApiGet($"Customers/GetById?id={id}", "", "");
+                Customer customer = response.Item1.customer;
+                if (customer != null)
+                {
+                    return View(customer);
+                }
+                return View();
             }
-            return View();
+            catch (Exception rex)
+            {
+                return View();
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -42,28 +56,35 @@ namespace LiperFrontend.Controllers
 
         public async Task<ActionResult> Create()
         {
-            List<SelectListItem> SelectedList = new List<SelectListItem>();
-            var cityResponse = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
-            var cities = cityResponse.Item1.cities;
-            foreach (var city in cities)
+            try
             {
-                var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
-                if (selectItem.Value == city.countryId.ToString())
-                    selectItem.Selected = true;
-                SelectedList.Add(selectItem);
-            }
-            ViewBag.SelectedList = SelectedList;
+                List<SelectListItem> SelectedList = new List<SelectListItem>();
+                var cityResponse = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
+                var cities = cityResponse.Item1.cities;
+                foreach (var city in cities)
+                {
+                    var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
+                    if (selectItem.Value == city.countryId.ToString())
+                        selectItem.Selected = true;
+                    SelectedList.Add(selectItem);
+                }
+                ViewBag.SelectedList = SelectedList;
 
-            List<SelectListItem> SelectedListgender = new List<SelectListItem>();
-            var gendersresponse = await ApiCaller<Genders, string>.CallApiGet("Genders", "", "");
-            var genders = gendersresponse.Item1.genders;
-            foreach (var gender in genders)
-            {
-                var selectItem = new SelectListItem() { Value = gender.id.ToString(), Text = gender.name };
-                SelectedListgender.Add(selectItem);
+                List<SelectListItem> SelectedListgender = new List<SelectListItem>();
+                var gendersresponse = await ApiCaller<Genders, string>.CallApiGet("Genders", "", "");
+                var genders = gendersresponse.Item1.genders;
+                foreach (var gender in genders)
+                {
+                    var selectItem = new SelectListItem() { Value = gender.id.ToString(), Text = gender.name };
+                    SelectedListgender.Add(selectItem);
+                }
+                ViewBag.SelectedListgender = SelectedListgender;
+                return View();
             }
-            ViewBag.SelectedListgender = SelectedListgender;
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         [HttpPost]

@@ -11,22 +11,36 @@ namespace LiperFrontend.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            var states = await ApiCaller<States, string>.CallApiGet("states", "", "");
-            return View(states.Item1.states);
+            try
+            {
+                var states = await ApiCaller<States, string>.CallApiGet("states", "", "");
+                return View(states.Item1.states);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<State>());
+            }
         }
 
         public async Task<ActionResult> Create()
         {
-            List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
-            var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-            var countriesList = countries.Item1.countries;
-            foreach (var country in countriesList)
+            try
             {
-                var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
-                countriesSelectedList.Add(selectItem);
+                List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
+                var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
+                var countriesList = countries.Item1.countries;
+                foreach (var country in countriesList)
+                {
+                    var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
+                    countriesSelectedList.Add(selectItem);
+                }
+                ViewBag.countriesSelectedList = countriesSelectedList;
+                return View();
             }
-            ViewBag.countriesSelectedList = countriesSelectedList;
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         [HttpPost]
@@ -68,13 +82,20 @@ namespace LiperFrontend.Controllers
 
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await ApiCaller<GetState, string>.CallApiGet($"states/GetStateById?Id={id}", "", "");
-            State state = result.Item1.state;
-            if (state != null)
+            try
             {
-                return View(state);
+                var result = await ApiCaller<GetState, string>.CallApiGet($"states/GetStateById?Id={id}", "", "");
+                State state = result.Item1.state;
+                if (state != null)
+                {
+                    return View(state);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         [HttpPost]
@@ -103,25 +124,32 @@ namespace LiperFrontend.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            
-            var result = await ApiCaller<GetState, string>.CallApiGet($"states/GetStateById?Id={id}", "", "");
-            State state = result.Item1.state;
-            if (state != null)
+
+            try
             {
-                List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
-                var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                var countriesList = countries.Item1.countries;
-                foreach (var country in countriesList)
+                var result = await ApiCaller<GetState, string>.CallApiGet($"states/GetStateById?Id={id}", "", "");
+                State state = result.Item1.state;
+                if (state != null)
                 {
-                    var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
-                    if (selectItem.Value == state.countryId.ToString())
-                        selectItem.Selected = true;
-                    countriesSelectedList.Add(selectItem);
+                    List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
+                    var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
+                    var countriesList = countries.Item1.countries;
+                    foreach (var country in countriesList)
+                    {
+                        var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
+                        if (selectItem.Value == state.countryId.ToString())
+                            selectItem.Selected = true;
+                        countriesSelectedList.Add(selectItem);
+                    }
+                    ViewBag.countriesSelectedList = countriesSelectedList;
+                    return View(state);
                 }
-                ViewBag.countriesSelectedList = countriesSelectedList;
-                return View(state);
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

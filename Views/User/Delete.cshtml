@@ -1,0 +1,53 @@
+﻿@model LiperFrontend.Models.User
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            @Html.Raw(@ViewBag.Alert)
+        </div>
+    </div>
+</div>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.userName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.userName)
+        </dd>
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.phone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.phone)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.isActive)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.isActive)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="submit" value="Delete" class="btn btn-danger" /> 
+        <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+    </form>
+</div>

@@ -10,10 +10,17 @@ namespace LiperFrontend.Controllers
         // GET: ContactsController
         public async Task<ActionResult> Index()
         {
-            var contacts = await ApiCaller<Contacts, string>.CallApiGet("Contacts", "", "");
-            if (contacts == null)
+            try
+            {
+                var contacts = await ApiCaller<Contacts, string>.CallApiGet("Contacts", "", "");
+                if (contacts == null)
+                    return View(new List<Contact>());
+                return View(contacts.Item1.contacts);
+            }
+            catch (Exception ex)
+            {
                 return View(new List<Contact>());
-            return View(contacts.Item1.contacts);
+            }
         }
 
         // GET: ContactsController/Details/5
@@ -55,13 +62,20 @@ namespace LiperFrontend.Controllers
         // GET: ContactsController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var getcategory = await ApiCaller<GetContacts, string>.CallApiGet($"Contacts/GetById?id={id}", "", "");
-            Contact contact = getcategory.Item1.contact;
-            if (contact != null)
+            try
             {
-                return View(contact);
+                var getcategory = await ApiCaller<GetContacts, string>.CallApiGet($"Contacts/GetById?id={id}", "", "");
+                Contact contact = getcategory.Item1.contact;
+                if (contact != null)
+                {
+                    return View(contact);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: ContactsController/Edit/5
@@ -91,13 +105,20 @@ namespace LiperFrontend.Controllers
         // GET: ContactsController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var contact_result = await ApiCaller<GetContacts, string>.CallApiGet($"Contacts/GetById?id={id}", "", "");
-            Contact contact = contact_result.Item1.contact;
-            if (contact != null)
+            try
             {
-                return View(contact);
+                var contact_result = await ApiCaller<GetContacts, string>.CallApiGet($"Contacts/GetById?id={id}", "", "");
+                Contact contact = contact_result.Item1.contact;
+                if (contact != null)
+                {
+                    return View(contact);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: ContactsController/Delete/5

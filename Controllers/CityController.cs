@@ -14,114 +14,149 @@ namespace LiperFrontend.Controllers
         const string SessionLong = "long";
         public async Task<IActionResult> Index()
         {
-            var cities = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
-            return View(cities.Item1.cities);
+            try
+            {
+                var cities = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
+                return View(cities.Item1.cities);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<City>());
+            }
         }
         [HttpGet]
-        public async Task<IActionResult >Create()
+        public async Task<IActionResult> Create()
         {
             // Retrieve latitude and longitude values from your data source
-            var city = new City
+            try
             {
-                latitude = 10.9f,
-                longitude = 2.4194f
-            };
-            var lat = HttpContext.Session.GetString(SessionLat);
-            var lon = HttpContext.Session.GetString(SessionLong);
-            if (lat is not null && lon is not null)
-            {
-                city.latitude = float.Parse(lat);
-                city.longitude = float.Parse(lon);
-            }
-            List<SelectListItem> statesSelectedList = new List<SelectListItem>();
-            var states = await ApiCaller<States, string>.CallApiGet("states", "", "");
-            var statesList= states.Item1.states;
-            foreach (var state in statesList)
-            {
-                var selectItem = new SelectListItem() { Value = state.Id.ToString(), Text = state.nameEN };
-                if (selectItem.Value == state.countryId.ToString())
-                    selectItem.Selected = true;
-                statesSelectedList.Add(selectItem);
-            }
-            ViewBag.statesSelectedList = statesSelectedList;
+                var city = new City
+                {
+                    latitude = 10.9f,
+                    longitude = 2.4194f
+                };
+                var lat = HttpContext.Session.GetString(SessionLat);
+                var lon = HttpContext.Session.GetString(SessionLong);
+                if (lat is not null && lon is not null)
+                {
+                    city.latitude = float.Parse(lat);
+                    city.longitude = float.Parse(lon);
+                }
+                List<SelectListItem> statesSelectedList = new List<SelectListItem>();
+                var states = await ApiCaller<States, string>.CallApiGet("states", "", "");
+                var statesList = states.Item1.states;
+                foreach (var state in statesList)
+                {
+                    var selectItem = new SelectListItem() { Value = state.Id.ToString(), Text = state.nameEN };
+                    if (selectItem.Value == state.countryId.ToString())
+                        selectItem.Selected = true;
+                    statesSelectedList.Add(selectItem);
+                }
+                ViewBag.statesSelectedList = statesSelectedList;
 
-            //add country ddl
-            int? alert = HttpContext.Session.GetInt32("Alert");
-            HttpContext.Session.Remove("Alert");
-            if (alert is not null)
-                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Info, "location selection Succeeded!");
-            return View(city);
+                //add country ddl
+                int? alert = HttpContext.Session.GetInt32("Alert");
+                HttpContext.Session.Remove("Alert");
+                if (alert is not null)
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Info, "location selection Succeeded!");
+                return View(city);
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
         [HttpPost]
         public IActionResult SendLocation(float latitude, float longitude)
         {
-            HttpContext.Session.SetString(SessionLat, latitude.ToString());
-            HttpContext.Session.SetString(SessionLong, longitude.ToString());
-
-            var location = new City
+            try
             {
-                latitude =latitude,
-                longitude = longitude
-            };
-            
-            HttpContext.Session.SetInt32("Alert", 1);
-            
-            return RedirectToAction("Create");
+                HttpContext.Session.SetString(SessionLat, latitude.ToString());
+                HttpContext.Session.SetString(SessionLong, longitude.ToString());
+
+                var location = new City
+                {
+                    latitude = latitude,
+                    longitude = longitude
+                };
+
+                HttpContext.Session.SetInt32("Alert", 1);
+
+                return RedirectToAction("Create");
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
-       
+
         [HttpPost]
         public async Task<IActionResult> Create(City city)
         {
-            var lat = HttpContext.Session.GetString(SessionLat);
-            var lon = HttpContext.Session.GetString(SessionLong);
-            HttpContext.Session.Remove(SessionLat);
-            HttpContext.Session.Remove(SessionLong);
-            if (lat is not null && lon is not null)
+            try
             {
-                city.latitude = float.Parse( lat);
-                city.longitude = float.Parse(lon);
-                var response = await ApiCaller<defaultResponse, City>.CallApiPost($"cities/Addcity", city, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                var lat = HttpContext.Session.GetString(SessionLat);
+                var lon = HttpContext.Session.GetString(SessionLong);
+                HttpContext.Session.Remove(SessionLat);
+                HttpContext.Session.Remove(SessionLong);
+                if (lat is not null && lon is not null)
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
+                    city.latitude = float.Parse(lat);
+                    city.longitude = float.Parse(lon);
+                    var response = await ApiCaller<defaultResponse, City>.CallApiPost($"cities/Addcity", city, "");
+                    responseMessage responseMessage = response.Item1.responseMessage;
+                    if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                    {
+                        ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
+                    }
+                    else
+                    {
+                        ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, "Operation Failed !");
+
+                    }
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, "Operation Failed !");
-
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Warning, "Select state first!");
                 }
+                List<SelectListItem> statesSelectedList = new List<SelectListItem>();
+                var states = await ApiCaller<States, string>.CallApiGet("states", "", "");
+                var statesList = states.Item1.states;
+                foreach (var state in statesList)
+                {
+                    var selectItem = new SelectListItem() { Value = state.Id.ToString(), Text = state.nameEN };
+                    if (selectItem.Value == state.countryId.ToString())
+                        selectItem.Selected = true;
+                    statesSelectedList.Add(selectItem);
+                }
+                ViewBag.statesSelectedList = statesSelectedList;
+
+                return View(city);
             }
-            else
+            catch (Exception ex)
             {
-                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Warning, "Select state first!");
+                return View();
             }
-            List<SelectListItem> statesSelectedList = new List<SelectListItem>();
-            var states = await ApiCaller<States, string>.CallApiGet("states", "", "");
-            var statesList = states.Item1.states;
-            foreach (var state in statesList)
-            {
-                var selectItem = new SelectListItem() { Value = state.Id.ToString(), Text = state.nameEN };
-                if (selectItem.Value == state.countryId.ToString())
-                    selectItem.Selected = true;
-                statesSelectedList.Add(selectItem);
-            }
-            ViewBag.statesSelectedList = statesSelectedList;
-            
-            return View(city);
         }
 
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await ApiCaller<GetCity, string>.CallApiGet($"Cities/GetCityById?Id={id}", "", "");
-            City city = result.Item1.city;
-            if (city != null)
+            try
             {
-                return View(city);
+                var result = await ApiCaller<GetCity, string>.CallApiGet($"Cities/GetCityById?Id={id}", "", "");
+                City city = result.Item1.city;
+                if (city != null)
+                {
+                    return View(city);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -151,24 +186,31 @@ namespace LiperFrontend.Controllers
         public async Task<ActionResult> Edit(int id)
         {
 
-            var result = await ApiCaller<GetCity, string>.CallApiGet($"Cities/GetCityById?Id={id}", "", "");
-            City city = result.Item1.city;
-            if (city != null)
+            try
             {
-                List<SelectListItem> statesSelectedList = new List<SelectListItem>();
-                var states = await ApiCaller<States, string>.CallApiGet("states", "", "");
-                var statesList = states.Item1.states;
-                foreach (var state in statesList)
+                var result = await ApiCaller<GetCity, string>.CallApiGet($"Cities/GetCityById?Id={id}", "", "");
+                City city = result.Item1.city;
+                if (city != null)
                 {
-                    var selectItem = new SelectListItem() { Value = state.Id.ToString(), Text = state.nameEN };
-                    if (selectItem.Value == state.countryId.ToString())
-                        selectItem.Selected = true;
-                    statesSelectedList.Add(selectItem);
+                    List<SelectListItem> statesSelectedList = new List<SelectListItem>();
+                    var states = await ApiCaller<States, string>.CallApiGet("states", "", "");
+                    var statesList = states.Item1.states;
+                    foreach (var state in statesList)
+                    {
+                        var selectItem = new SelectListItem() { Value = state.Id.ToString(), Text = state.nameEN };
+                        if (selectItem.Value == state.countryId.ToString())
+                            selectItem.Selected = true;
+                        statesSelectedList.Add(selectItem);
+                    }
+                    ViewBag.statesSelectedList = statesSelectedList;
+                    return View(city);
                 }
-                ViewBag.statesSelectedList = statesSelectedList;
-                return View(city);
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -208,26 +250,3 @@ namespace LiperFrontend.Controllers
         }
     }
 }
-//public async Task<IActionResult> UpdtaestatesListItems(string id)
-//{
-//    var lat = HttpContext.Session.GetString(SessionLat);
-//    var lon = HttpContext.Session.GetString(SessionLong);
-//    City city = new City();
-//    if (lat is not null && lon is not null)
-//    {
-//        city.latitude = float.Parse(lat);
-//        city.longitude = float.Parse(lon);
-//    }
-//    List<SelectListItem> statesSelectedList = new List<SelectListItem>();
-//    var states = await ApiCaller<States, string>.CallApiGet("states", "", "");
-//    var statesList = states.Item1.states;
-//    foreach (var state in statesList)
-//    {
-//        var selectItem = new SelectListItem() { Value = state.Id.ToString(), Text = state.nameEN };
-//        if (selectItem.Value == state.countryId.ToString())
-//            selectItem.Selected = true;
-//        statesSelectedList.Add(selectItem);
-//    }
-//    ViewBag.countriesSelectedList = statesSelectedList;
-//    return View("Create", city);
-//}

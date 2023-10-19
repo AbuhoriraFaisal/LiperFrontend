@@ -12,8 +12,15 @@ namespace LiperFrontend.Controllers
         // GET: PaymentMethodController
         public async Task<ActionResult> Index()
         {
-            var paymentMethod = await ApiCaller<PaymentMethods, string>.CallApiGet("PaymentMethods", "", "");
-            return View(paymentMethod.Item1.paymentMethods);
+            try
+            {
+                var paymentMethod = await ApiCaller<PaymentMethods, string>.CallApiGet("PaymentMethods", "", "");
+                return View(paymentMethod.Item1.paymentMethods);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<PaymentMethod>());
+            }
         }
 
         // GET: PaymentMethodController/Details/5
@@ -49,13 +56,20 @@ namespace LiperFrontend.Controllers
         // GET: PaymentMethodController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var getpaymentMethod = await ApiCaller<GetPaymentMethods, string>.CallApiGet($"PaymentMethods/GetById?id={id}", "", "");
-            PaymentMethod pMethod = getpaymentMethod.Item1.paymentMethod;
-            if (pMethod != null)
+            try
             {
-                return View(pMethod);
+                var getpaymentMethod = await ApiCaller<GetPaymentMethods, string>.CallApiGet($"PaymentMethods/GetById?id={id}", "", "");
+                PaymentMethod pMethod = getpaymentMethod.Item1.paymentMethod;
+                if (pMethod != null)
+                {
+                    return View(pMethod);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: PaymentMethodController/Edit/5
@@ -79,13 +93,20 @@ namespace LiperFrontend.Controllers
         // GET: PaymentMethodController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var getpaymentMethod = await ApiCaller<GetPaymentMethods, string>.CallApiGet($"PaymentMethods/GetById?id={id}", "", "");
-            PaymentMethod pMethod = getpaymentMethod.Item1.paymentMethod;
-            if (pMethod != null)
+            try
             {
-                return View(pMethod);
+                var getpaymentMethod = await ApiCaller<GetPaymentMethods, string>.CallApiGet($"PaymentMethods/GetById?id={id}", "", "");
+                PaymentMethod pMethod = getpaymentMethod.Item1.paymentMethod;
+                if (pMethod != null)
+                {
+                    return View(pMethod);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         // POST: PaymentMethodController/Delete/5

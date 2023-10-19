@@ -10,8 +10,15 @@ namespace LiperFrontend.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            var abouts = await ApiCaller<AboutUss, string>.CallApiGet("AboutUs", "", "");
-            return View(abouts.Item1.abouts);
+            try
+            {
+                var abouts = await ApiCaller<AboutUss, string>.CallApiGet("AboutUs", "", "");
+                return View(abouts.Item1.abouts);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<AboutUs>());
+            }
         }
         public ActionResult Create()
         {
@@ -44,17 +51,24 @@ namespace LiperFrontend.Controllers
 
         public async Task<ActionResult> Delete(int id)
         {
-            var abouts = await ApiCaller<AboutUss, string>.CallApiGet("AboutUs", "", "");
-            if (abouts == null)
-                return RedirectToAction("Index");
-
-            AboutUs aboutUs = abouts.Item1.abouts.Where(s=>s.id==id).FirstOrDefault();
-            if (aboutUs != null)
+            try
             {
+                var abouts = await ApiCaller<AboutUss, string>.CallApiGet("AboutUs", "", "");
+                if (abouts == null)
+                    return RedirectToAction("Index");
 
-                return View(aboutUs);
+                AboutUs aboutUs = abouts.Item1.abouts.Where(s => s.id == id).FirstOrDefault();
+                if (aboutUs != null)
+                {
+
+                    return View(aboutUs);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -81,17 +95,24 @@ namespace LiperFrontend.Controllers
         }
         public async Task<ActionResult> Edit(int id)
         {
-            var abouts = await ApiCaller<AboutUss, string>.CallApiGet("AboutUs", "", "");
-            if (abouts == null)
-                return RedirectToAction("Index");
-
-            AboutUs aboutUs = abouts.Item1.abouts.Where(s => s.id == id).FirstOrDefault();
-            if (aboutUs != null)
+            try
             {
+                var abouts = await ApiCaller<AboutUss, string>.CallApiGet("AboutUs", "", "");
+                if (abouts == null)
+                    return RedirectToAction("Index");
 
-                return View(aboutUs);
+                AboutUs aboutUs = abouts.Item1.abouts.Where(s => s.id == id).FirstOrDefault();
+                if (aboutUs != null)
+                {
+
+                    return View(aboutUs);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
