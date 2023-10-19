@@ -33,6 +33,10 @@ namespace LiperFrontend.Controllers
                 pager.TotalPages = response.Item1.totalPages;
                 pager.TotalItems = response.Item1.totalCount;
                 this.ViewBag.Pager = pager;
+                if (response.Item1.products is null)
+                {
+                    return View(new List<Product>());
+                }
                 return View(response.Item1.products);
             }
             catch (Exception ex)

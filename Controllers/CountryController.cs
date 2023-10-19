@@ -21,7 +21,12 @@ namespace LiperFrontend.Controllers
                 {
                     item.flagImgUrl = ApiCaller<Country, Country>.Base_Url_files + item.flagImgUrl;
                 }
-                return View(countries.Item1.countries);
+                if (countries.Item1.countries is not null)
+                {
+                    return View(countries.Item1.countries);
+                }
+                return View(new List<Country>());
+
             }
             catch (Exception ex)
             {

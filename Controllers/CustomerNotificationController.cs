@@ -16,12 +16,13 @@ namespace LiperFrontend.Controllers
                 Pager pager = new Pager();
                 pager.CurrentPage = pg;
                 var response = await ApiCaller<Notifications, string>.CallApiGet($"Notifications?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
-                if (response != null)
-                {
+               
                     pager.CurrentPage = response.Item1.currentPage;
                     pager.TotalPages = response.Item1.totalPages;
                     pager.TotalItems = response.Item1.totalCount;
                     this.ViewBag.Pager = pager;
+                if (response.Item1.notifications != null)
+                {
                     return View(response.Item1.notifications);
                 }
                 return View(new List<Notification>());

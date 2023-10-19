@@ -18,7 +18,11 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<GetDashboardCounter, string>.CallApiGet("Dashboard/GetDashboardCounter", "", "");
-                return View(response.Item1.dashboardCounter);
+                if (response.Item1.dashboardCounter is not null)
+                {
+                    return View(response.Item1.dashboardCounter);
+                }
+                return View(new DashboardCounter());
             }
             catch (Exception ex)
             {

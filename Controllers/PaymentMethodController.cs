@@ -15,7 +15,11 @@ namespace LiperFrontend.Controllers
             try
             {
                 var paymentMethod = await ApiCaller<PaymentMethods, string>.CallApiGet("PaymentMethods", "", "");
-                return View(paymentMethod.Item1.paymentMethods);
+                if (paymentMethod.Item1.paymentMethods is not null)
+                {
+                    return View(paymentMethod.Item1.paymentMethods);
+                }
+                return View(new List<PaymentMethod>());
             }
             catch (Exception ex)
             {

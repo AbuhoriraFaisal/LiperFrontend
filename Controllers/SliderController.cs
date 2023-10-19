@@ -15,7 +15,11 @@ namespace LiperFrontend.Controllers
             try
             {
                 var slider = await ApiCaller<Sliders, string>.CallApiGet("Sliders", "", "");
-                return View(slider.Item1.sliders);
+                if (slider.Item1.sliders is not null)
+                {
+                    return View(slider.Item1.sliders);
+                }
+                return View(new List<Slider>());
             }
             catch (Exception ex)
             {

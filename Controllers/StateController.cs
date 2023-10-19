@@ -14,7 +14,11 @@ namespace LiperFrontend.Controllers
             try
             {
                 var states = await ApiCaller<States, string>.CallApiGet("states", "", "");
-                return View(states.Item1.states);
+                if (states.Item1.states is not null)
+                {
+                    return View(states.Item1.states);
+                }
+                return View(new List<State>());
             }
             catch (Exception ex)
             {

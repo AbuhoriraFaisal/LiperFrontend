@@ -14,7 +14,11 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<Customers, string>.CallApiGet("Customers", "", "");
-                return View(response.Item1.customers);
+               if (response.Item1.customers is not  null)
+                {
+                    return View(response.Item1.customers);
+                }
+                return View(new List<Customer>());
             }
             catch (Exception ex)
             {

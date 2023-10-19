@@ -24,7 +24,11 @@ namespace LiperFrontend.Controllers
                 pager.TotalPages = response.Item1.totalPages;
                 pager.TotalItems = response.Item1.totalCount;
                 this.ViewBag.Pager = pager;
-                return View(response.Item1.agentNotifications);
+                if (response.Item1.agentNotifications is not null)
+                {
+                    return View(response.Item1.agentNotifications);
+                }
+                return View(new List<Notification>());
             }
             catch (Exception ex)
             {

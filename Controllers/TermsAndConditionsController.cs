@@ -11,12 +11,15 @@ namespace LiperFrontend.Controllers
             try
             {
                 var conditions = await ApiCaller<Conditions, string>.CallApiGet("TermsAndConditions", "", "");
-
-                return View(conditions.Item1.conditions);
+                if (true)
+                {
+                    return View(conditions.Item1.conditions);
+                }
+                return View(new List<Condition>());
             }
             catch (Exception ex)
             {
-                return View();
+                return View(new List<Condition>());
             }
         }
 
@@ -46,7 +49,7 @@ namespace LiperFrontend.Controllers
                 return View();
             }
         }
-        public async Task<ActionResult> Edit (int id)
+        public async Task<ActionResult> Edit(int id)
         {
             try
             {
@@ -75,13 +78,14 @@ namespace LiperFrontend.Controllers
                 var conditions = await ApiCaller<Conditions, string>.CallApiGet("TermsAndConditions", "", "");
 
                 //var condition = await ApiCaller<GetCondition, string>.CallApiGet($"TermsAndConditions/GetTermsAndConditions?Id={id}", "", "");
-                Condition cond = conditions.Item1.conditions.Where(s=>s.id==id).FirstOrDefault();
+                Condition cond = conditions.Item1.conditions.Where(s => s.id == id).FirstOrDefault();
                 if (cond != null)
                 {
                     return View(cond);
                 }
-                else { 
-                return View();
+                else
+                {
+                    return View();
                 }
             }
             catch (Exception ex)
@@ -126,7 +130,7 @@ namespace LiperFrontend.Controllers
                 {
                     return View();
                 }
-               
+
             }
             catch
             {

@@ -13,7 +13,11 @@ namespace LiperFrontend.Controllers
             try
             {
                 var policies = await ApiCaller<Policies, string>.CallApiGet("Policies", "", "");
-                return View(policies.Item1.policies);
+                if (policies.Item1.policies is not null)
+                {
+                    return View(policies.Item1.policies);
+                }
+                return View(new List<Policy>());
             }
             catch (Exception ex)
             {
@@ -135,5 +139,6 @@ namespace LiperFrontend.Controllers
                 return View(policy);
             }
         }
+
     }
 }

@@ -13,7 +13,11 @@ namespace LiperFrontend.Controllers
             try
             {
                 var abouts = await ApiCaller<AboutUss, string>.CallApiGet("AboutUs", "", "");
-                return View(abouts.Item1.abouts);
+                if (abouts.Item1.abouts is not null)
+                {
+                    return View(abouts.Item1.abouts);
+                }
+                return View(new List<AboutUs>());
             }
             catch (Exception ex)
             {

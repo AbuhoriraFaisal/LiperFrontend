@@ -17,7 +17,11 @@ namespace LiperFrontend.Controllers
             try
             {
                 var cities = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
-                return View(cities.Item1.cities);
+                if (cities.Item1.cities is not null)
+                {
+                    return View(cities.Item1.cities);
+                }
+                return View(new List<City>());
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using LiperFrontend.Models;
 using Newtonsoft.Json;
 using NuGet.Common;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -15,8 +16,10 @@ namespace LiperFrontend.Shared
 {
     public class ApiCaller<T, B>
     {
-        public static string Base_Url = $"http://75.119.136.238:8016/api/"; // live 
-        public static string Base_Url_files = $"http://75.119.136.238:8016"; // 
+        public static string Base_Url = $"http://84.46.253.59:8080/api/"; // live
+        //public static string Base_Url = $"http://75.119.136.238:8016/api/"; // live
+        public static string Base_Url_files = $"http://84.46.253.59:8080"; // 
+        //http://75.119.136.238:8016/
         //static string Base_Url = $"https://mob.jsjbank.com:3000/JSB_OMNI_Ph2/omniServices/"; test 
 
         //static string Base_Url = $"https://mob.jsjbank.com:8383/JSB_OMNI_Ph2/omniServices/cpServices/"; // live 
@@ -26,7 +29,7 @@ namespace LiperFrontend.Shared
         {
             _httpClientFactory = httpClientFactory;
         }
-
+       
         public static async Task<Tuple<T, string>> callApi(string service, B model)
         {
             var client = _httpClientFactory.CreateClient("apiClient");
@@ -77,6 +80,116 @@ namespace LiperFrontend.Shared
                 throw new Exception("Internet Connection Proplem ");
             }
         }
+        public static async Task<Tuple<T, string>> CallApiPostSubCategory(string service, SubCategory subCategory, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(subCategory.nameAR);
+                    formDataContent.Add(nameContent, "NameAR");
+                    nameContent = new StringContent(subCategory.nameEN);
+                    formDataContent.Add(nameContent, "NameEN");
+                    nameContent = new StringContent(subCategory.id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(subCategory.categoryId.ToString());
+                    formDataContent.Add(nameContent, "categoryId");
+
+
+                    // Convert the file to stream content
+                    if (subCategory.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(subCategory.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", subCategory.files.FileName);
+                    }
+
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+        public static async Task<Tuple<T, string>> CallApiPutSubCategory(string service, SubCategory subCategory, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(subCategory.nameAR);
+                    formDataContent.Add(nameContent, "NameAR");
+                    nameContent = new StringContent(subCategory.nameEN);
+                    formDataContent.Add(nameContent, "NameEN");
+                    nameContent = new StringContent(subCategory.id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(subCategory.categoryId.ToString());
+                    formDataContent.Add(nameContent, "categoryId");
+
+
+                    // Convert the file to stream content
+                    if (subCategory.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(subCategory.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", subCategory.files.FileName);
+                    }
+
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PutAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
 
         public static async Task<Tuple<T, string>> CallApiPostCategory(string service, Category category, string authtoken)
         {
@@ -111,6 +224,59 @@ namespace LiperFrontend.Shared
                     //
                     // Send the post request to the API with the form data content
                     var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return new Tuple<T, string>(responseModel, "");
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+        public static async Task<Tuple<T, string>> CallApiPutCategory(string service, Category category, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(category.nameAR);
+                    formDataContent.Add(nameContent, "NameAR");
+                    nameContent = new StringContent(category.nameEN);
+                    formDataContent.Add(nameContent, "NameEN");
+                    nameContent = new StringContent(category.id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+
+
+                    // Convert the file to stream content
+                    if (category.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(category.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", category.files.FileName);
+                    }
+
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PutAsync($"{Base_Url}{service}", formDataContent);
                     // Check if the request was successful
                     //if (response.IsSuccessStatusCode)
                     //{
@@ -795,31 +961,16 @@ namespace LiperFrontend.Shared
                     formDataContent.Add(nameContent, "subCategoryId");
                     nameContent = new StringContent(product.Price.ToString());
                     formDataContent.Add(nameContent, "Price");
-                    nameContent = new StringContent(product.isPercentage.ToString());
-                    formDataContent.Add(nameContent, "isPercentage");
 
-                    if (false)
-                    {
-                        using (HttpResponseMessage r = await httpClient.GetAsync(product.productMainImage))
-                        {
-                            if (r.IsSuccessStatusCode)
-                            {
-                                Stream stream = await r.Content.ReadAsStreamAsync();
-
-                                //MultipartFormDataContent content = new MultipartFormDataContent(stream);
-                                formDataContent.Add(new StreamContent(stream), "files", Guid.NewGuid() + ".Png");
-
-
-                            }
-                        }
-                    }
+                 
 
                     //Convert the file to stream content
+                    if (product.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(product.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", Guid.NewGuid() + ".Png");
 
-                    var fileStreamContent = new StreamContent(product.files.OpenReadStream());
-                    formDataContent.Add(fileStreamContent, "files", Guid.NewGuid() + ".Png");
-
-
+                    }
                     //
                     // Send the post request to the API with the form data content
                     var response = await httpClient.PutAsync($"{Base_Url}{service}", formDataContent);
@@ -1144,7 +1295,7 @@ namespace LiperFrontend.Shared
                     formDataContent.Add(nameContent, "Id");
                     nameContent = new StringContent(social.Link.ToString());
                     formDataContent.Add(nameContent, "Link");
-                    
+
 
 
                     // Convert the file to stream content

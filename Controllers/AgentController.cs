@@ -16,7 +16,11 @@ namespace LiperFrontend.Controllers
             try
             {
                 var agents = await ApiCaller<Agents, string>.CallApiGet("Agents", "", "");
-                return View(agents.Item1.agents);
+                if (agents.Item1.agents is not null)
+                {
+                    return View(agents.Item1.agents);
+                }
+                return View(new List<Agent>());
             }
             catch (Exception ex)
             {

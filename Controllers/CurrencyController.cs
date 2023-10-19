@@ -16,7 +16,11 @@ namespace LiperFrontend.Controllers
             try
             {
                 var currencies = await ApiCaller<Currencies, string>.CallApiGet("Currencies", "", "");
-                return View(currencies.Item1.currencies);
+                if (currencies.Item1.currencies is not null)
+                {
+                    return View(currencies.Item1.currencies);
+                }
+                return View(new List<Currency>());
             }
             catch (Exception ex)
             {

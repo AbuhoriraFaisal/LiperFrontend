@@ -3,6 +3,7 @@ using LiperFrontend.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Diagnostics.Metrics;
 
 namespace LiperFrontend.Controllers
 {
@@ -76,6 +77,8 @@ namespace LiperFrontend.Controllers
                 Category category = getcategory.Item1.category;
                 if (category != null)
                 {
+                    category.imageURL = ApiCaller<Country, Country>.Base_Url.Substring(0,
+                        ApiCaller<Country, Country>.Base_Url.Length - 5) + category.imageURL;
                     return View(category);
                 }
                 return View();
@@ -93,7 +96,7 @@ namespace LiperFrontend.Controllers
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Category>.CallApiPut($"Categories/EditCategory", category, "");
+                var response = await ApiCaller<defaultResponse, Category>.CallApiPutCategory($"Categories/EditCategory", category, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {

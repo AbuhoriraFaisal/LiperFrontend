@@ -9,7 +9,7 @@ namespace LiperFrontend.Models
         public string NameAR { get; set; }
         public string Description { get; set; }
         public string DescriptionAR { get; set; }
-        public decimal Price { get; set; }
+        public int Price { get; set; }
         public int Discount { get; set; }
         public bool isPercentage { get; set; }
         public SubCategory SubCategory { get; set; }

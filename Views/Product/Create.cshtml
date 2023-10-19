@@ -7,7 +7,16 @@
 <h1>Create</h1>
 
 <h4>Product</h4>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            @Html.Raw(@ViewBag.Alert)
+        </div>
+    </div>
+</div>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
@@ -43,11 +52,7 @@
                 <input asp-for="Discount" class="form-control" />
                 <span asp-validation-for="Discount" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="isPercentage" /> @Html.DisplayNameFor(model => model.isPercentage)
-                </label>
-            </div>
+            
             <div class="form-group">
                 <label asp-for="subCategoryId" class="control-label"></label>
                 <select asp-for="subCategoryId" asp-items="@ViewBag.SelectedList" class="form-control"></select>

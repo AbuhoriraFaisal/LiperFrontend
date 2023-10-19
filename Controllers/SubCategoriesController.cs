@@ -16,7 +16,11 @@ namespace LiperFrontend.Controllers
             try
             {
                 var subcategoriesList = await ApiCaller<SubCategories, string>.CallApiGet($"SubCategories/GetSubCategoryByCategoryId?categoryId={Id}", "", "");
-                return View(subcategoriesList.Item1.subCategories);
+                if (subcategoriesList.Item1.subCategories is not null)
+                {
+                    return View(subcategoriesList.Item1.subCategories);
+                }
+                return View(new List<SubCategory>());
             }
             catch (Exception ex)
             {
@@ -39,7 +43,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 subCategory.id = 0;
-                var response = await ApiCaller<defaultResponse, SubCategory>.CallApiPost($"SubCategories", subCategory, "");
+                var response = await ApiCaller<defaultResponse, SubCategory>.CallApiPostSubCategory($"SubCategories", subCategory, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
@@ -67,6 +71,9 @@ namespace LiperFrontend.Controllers
                 SubCategory sCategory = subcategory.Item1.subCategory;
                 if (sCategory != null)
                 {
+                    sCategory.imageURL = ApiCaller<Country, Country>.Base_Url.Substring(0,
+                        ApiCaller<Country, Country>.Base_Url.Length - 5) + sCategory.imageURL;
+
                     return View(sCategory);
                 }
                 return View();  
@@ -86,7 +93,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var catId = subCategory.categoryId;
-                var response = await ApiCaller<defaultResponse, SubCategory>.CallApiPut($"SubCategories/EditSubCategory", subCategory, "");
+                var response = await ApiCaller<defaultResponse, SubCategory>.CallApiPutSubCategory($"SubCategories/EditSubCategory", subCategory, "");
                 responseMessage responseMessage = response.Item1.responseMessage;
                 if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
