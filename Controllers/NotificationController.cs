@@ -20,13 +20,13 @@ namespace LiperFrontend.Controllers
                 Pager pager = new Pager();
                 pager.CurrentPage = pg;
                 var response = await ApiCaller<Notifications, string>.CallApiGet($"AgentNotifications?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
-                pager.CurrentPage = response.Item1.currentPage;
-                pager.TotalPages = response.Item1.totalPages;
-                pager.TotalItems = response.Item1.totalCount;
+                pager.CurrentPage = response.currentPage;
+                pager.TotalPages = response.totalPages;
+                pager.TotalItems = response.totalCount;
                 this.ViewBag.Pager = pager;
-                if (response.Item1.agentNotifications is not null)
+                if (response.agentNotifications is not null)
                 {
-                    return View(response.Item1.agentNotifications);
+                    return View(response.agentNotifications);
                 }
                 return View(new List<Notification>());
             }
@@ -58,20 +58,20 @@ namespace LiperFrontend.Controllers
                 if (notification.agent_customer_Phone is not null)
                 {
                     var response = await ApiCaller<NotificationResponse, Notification>.CallApiPostAgentNotification($"AgentNotifications/AddWithPhoneNumber", notification, "");
-                    responseM = response.Item1.responseMessage;
+                    responseM = response.responseMessage;
                     if (responseM.statusCode.Equals(StatusCodes.Status200OK))
                     {
-                        url = ApiCaller<NotificationResponse, Notification>.Base_Url_files + response.Item1.imageUrl;
+                        url = ApiCaller<NotificationResponse, Notification>.Base_Url_files + response.imageUrl;
                         responseM = await ApiCaller<responseMessage, Notification>.callSendAgentNotification(notification, url);
                     }
                 }
                 else
                 {
                     var response = await ApiCaller<NotificationResponse, Notification>.CallApiPostAgentNotification($"AgentNotifications/AddMultiAgentNotifications", notification, "");
-                    responseM = response.Item1.responseMessage;
+                    responseM = response.responseMessage;
                     if (responseM.statusCode.Equals(StatusCodes.Status200OK))
                     {
-                        url = ApiCaller<NotificationResponse, Notification>.Base_Url_files + response.Item1.imageUrl;
+                        url = ApiCaller<NotificationResponse, Notification>.Base_Url_files + response.imageUrl;
                         responseM = await ApiCaller<responseMessage, Notification>.callSendAgentNotification(notification, url);
                     }
                 }

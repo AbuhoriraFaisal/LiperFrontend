@@ -29,15 +29,15 @@ namespace LiperFrontend.Controllers
                 Pager pager = new Pager();
                 pager.CurrentPage = pg;
                 var response = await ApiCaller<Products, string>.CallApiGet($"Products?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
-                pager.CurrentPage = response.Item1.currentPage;
-                pager.TotalPages = response.Item1.totalPages;
-                pager.TotalItems = response.Item1.totalCount;
+                pager.CurrentPage = response.currentPage;
+                pager.TotalPages = response.totalPages;
+                pager.TotalItems = response.totalCount;
                 this.ViewBag.Pager = pager;
-                if (response.Item1.products is null)
+                if (response.products is null)
                 {
                     return View(new List<Product>());
                 }
-                return View(response.Item1.products);
+                return View(response.products);
             }
             catch (Exception ex)
             {
@@ -53,9 +53,9 @@ namespace LiperFrontend.Controllers
             {
                 var product = await ApiCaller<GetProduct, string>.CallApiGet($"Products/GetById?Id={id}", "", "");
 
-                if (product.Item1.getProductByIdResponseModel.product != null)
+                if (product.getProductByIdResponseModel.product != null)
                 {
-                    return View(product.Item1.getProductByIdResponseModel.product);
+                    return View(product.getProductByIdResponseModel.product);
                 }
                 return View();
             }
@@ -73,7 +73,7 @@ namespace LiperFrontend.Controllers
             {
                 List<SelectListItem> SelectedList = new List<SelectListItem>();
                 var response = await ApiCaller<SubCategories, string>.CallApiGet("SubCategories", "", "");
-                var cities = response.Item1.subCategories;
+                var cities = response.subCategories;
                 foreach (var city in cities)
                 {
                     var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
@@ -96,8 +96,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Product>.CallApiPostProduct($"Products", product, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -119,26 +119,26 @@ namespace LiperFrontend.Controllers
             {
                 var product = await ApiCaller<GetProduct, string>.CallApiGet($"Products/GetById?Id={id}", "", "");
 
-                if (product.Item1.getProductByIdResponseModel.product != null)
+                if (product.getProductByIdResponseModel.product != null)
                 {
-                    product.Item1.getProductByIdResponseModel.product.productMainImage = ApiCaller<Product, Product>.Base_Url_files +
-                        product.Item1.getProductByIdResponseModel.product.productMainImage;
+                    product.getProductByIdResponseModel.product.productMainImage = ApiCaller<Product, Product>.Base_Url_files +
+                        product.getProductByIdResponseModel.product.productMainImage;
                     HttpContext.Session.SetString("productMainImage",
-                                                product.Item1.getProductByIdResponseModel.product.productMainImage);
+                                                product.getProductByIdResponseModel.product.productMainImage);
                     List<SelectListItem> SelectedList = new List<SelectListItem>();
                     var response = await ApiCaller<SubCategories, string>.CallApiGet("SubCategories", "", "");
-                    var cities = response.Item1.subCategories;
+                    var cities = response.subCategories;
                     foreach (var city in cities)
                     {
                         var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
-                        if (selectItem.Value.Equals(product.Item1.getProductByIdResponseModel.product.subCategoryId))
+                        if (selectItem.Value.Equals(product.getProductByIdResponseModel.product.subCategoryId))
                         {
                             selectItem.Selected = true;
                         }
                         SelectedList.Add(selectItem);
                     }
                     ViewBag.SelectedList = SelectedList;
-                    return View(product.Item1.getProductByIdResponseModel.product);
+                    return View(product.getProductByIdResponseModel.product);
                 }
                 return View();
             }
@@ -155,7 +155,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Product>.CallApiPutProduct($"Products", product, "");
-                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                 return View();
             }
             catch
@@ -171,9 +171,9 @@ namespace LiperFrontend.Controllers
             {
                 var product = await ApiCaller<GetProduct, string>.CallApiGet($"Products/GetById?Id={id}", "", "");
 
-                if (product.Item1.getProductByIdResponseModel.product != null)
+                if (product.getProductByIdResponseModel.product != null)
                 {
-                    return View(product.Item1.getProductByIdResponseModel.product);
+                    return View(product.getProductByIdResponseModel.product);
                 }
                 return View();
             }
@@ -191,7 +191,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Products?id={id}", "", "");
-                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                 return View();
             }
             catch

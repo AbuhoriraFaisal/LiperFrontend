@@ -16,9 +16,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var currencies = await ApiCaller<Currencies, string>.CallApiGet("Currencies", "", "");
-                if (currencies.Item1.currencies is not null)
+                if (currencies.currencies is not null)
                 {
-                    return View(currencies.Item1.currencies);
+                    return View(currencies.currencies);
                 }
                 return View(new List<Currency>());
             }
@@ -36,7 +36,7 @@ namespace LiperFrontend.Controllers
             {
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                 var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                var countriesList = countries.Item1.countries;
+                var countriesList = countries.countries;
                 foreach (var country in countriesList)
                 {
                     var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
@@ -59,8 +59,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Currency>.CallApiPost($"Currencies/AddCurrency", currency, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -72,7 +72,7 @@ namespace LiperFrontend.Controllers
                 }
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                 var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                var countriesList = countries.Item1.countries;
+                var countriesList = countries.countries;
                 foreach (var country in countriesList)
                 {
                     var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
@@ -93,12 +93,12 @@ namespace LiperFrontend.Controllers
             try
             {
                 var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetCurrencyById?Id={id}", "", "");
-                Currency currency = result.Item1.currency;
+                Currency currency = result.currency;
                 if (currency != null)
                 {
                     List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                     var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                    var countriesList = countries.Item1.countries;
+                    var countriesList = countries.countries;
                     foreach (var country in countriesList)
                     {
                         var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
@@ -123,8 +123,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Currency>.CallApiPut($"Currencies/EditCurrency", currency, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -136,7 +136,7 @@ namespace LiperFrontend.Controllers
                 }
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                 var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                var countriesList = countries.Item1.countries;
+                var countriesList = countries.countries;
                 foreach (var country in countriesList)
                 {
                     var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
@@ -157,7 +157,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var result = await ApiCaller<GetCurrency, string>.CallApiGet($"Currencies/GetCurrencyById?Id={id}", "", "");
-                Currency currency = result.Item1.currency;
+                Currency currency = result.currency;
                 if (currency != null)
                 {
                     return View(currency);
@@ -179,14 +179,14 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Currencies/DeleteCurrency?id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, response.responseMessage.messageEN);
                     return View();
                 }
             }

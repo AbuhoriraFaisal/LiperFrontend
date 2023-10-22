@@ -14,9 +14,9 @@ namespace LiperFrontend.Controllers
 			try
 			{
                 var response = await ApiCaller<Users, string>.CallApiGet("Users", "", "");
-                if (response.Item1.users != null)
+                if (response.users != null)
                 {
-                    return View(response.Item1.users);
+                    return View(response.users);
                 }
                 return View(new List<Users>());
             }
@@ -38,7 +38,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<loginResponse, string>.CallApiGet($"Users/Login?userName={userLogin.userName}&passwprd={userLogin.passwprd}", "", "");
-               loginResponse loginResponse = response.Item1;
+               loginResponse loginResponse = response;
                 if (loginResponse is not null)
                 {
                     if (loginResponse.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
@@ -77,8 +77,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, User>.CallApiPost($"Users", user, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -101,9 +101,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<GetUser, string>.CallApiGet($"Users/GetById?Id={id}", "", "");
-                if (response.Item1.user is not null)
+                if (response.user is not null)
                 {
-                    return View(response.Item1.user);
+                    return View(response.user);
                 }
                 return RedirectToAction("Index");
             }
@@ -119,8 +119,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, User>.CallApiPut($"Users", user, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -143,9 +143,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<GetUser, string>.CallApiGet($"Users/GetById?Id={id}", "", "");
-                if (response.Item1.user is not null)
+                if (response.user is not null)
                 {
-                    return View(response.Item1.user);
+                    return View(response.user);
                 }
                 return RedirectToAction("Index");
             }
@@ -161,14 +161,14 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Users?id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, response.responseMessage.messageEN);
                     return View();
                 }
             }

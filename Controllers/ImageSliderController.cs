@@ -2,38 +2,32 @@
 using LiperFrontend.Models;
 using LiperFrontend.Services;
 using LiperFrontend.Shared;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LiperFrontend.Controllers
 {
-    public class SliderController : Controller
+    public class ImageSliderController : Controller
     {
-        // GET: SliderController
         public async Task<ActionResult> Index()
         {
             try
             {
-                var slider = await ApiCaller<Sliders, string>.CallApiGet("Sliders", "", "");
-                if (slider.sliders is not null)
+                var slider = await ApiCaller<ImageSliders, string>.CallApiGet("SilderImages", "", "");
+                if (slider.silders is not null)
                 {
-                    return View(slider.sliders);
+                    foreach (var item in slider.silders)
+                    {
+                        item.imageURL = ApiCaller<string,string>.Base_Url_files+item.imageURL;
+                    }
+                    return View(slider.silders);
                 }
-                return View(new List<Slider>());
+                return View(new List<ImageSlider>());
             }
             catch (Exception ex)
             {
-                return View(new List<Slider>());
+                return View(new List<ImageSlider>());
             }
         }
-
-        // GET: SliderController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: SliderController/Create
         public ActionResult Create()
         {
             return View();
@@ -42,11 +36,11 @@ namespace LiperFrontend.Controllers
         // POST: SliderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Slider slider)
+        public async Task<ActionResult> Create(ImageSlider slider)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Slider>.CallApiPost($"Sliders/AddSlider", slider, "");
+                var response = await ApiCaller<defaultResponse, ImageSlider>.CallApiPostImageSliedr($"SilderImages", slider, "");
 
                 ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                 return View();
@@ -62,10 +56,11 @@ namespace LiperFrontend.Controllers
         {
             try
             {
-                var result = await ApiCaller<GetSlider, string>.CallApiGet($"Sliders/GetSlider?Id={id}", "", "");
-                Slider slider = result.slider;
+                var result = await ApiCaller<GetImageSlider, string>.CallApiGet($"SilderImages/GetById?id={id}", "", "");
+                ImageSlider slider = result.silder;
                 if (slider != null)
                 {
+                    slider.imageURL = ApiCaller<string, string>.Base_Url_files + slider.imageURL;
                     return View(slider);
                 }
                 return View();
@@ -79,11 +74,11 @@ namespace LiperFrontend.Controllers
         // POST: SliderController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Slider slider)
+        public async Task<ActionResult> Edit(int id, ImageSlider slider)
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, Slider>.CallApiPut($"Sliders/EditSlider", slider, "");
+                var response = await ApiCaller<defaultResponse, ImageSlider>.CallApiPutImageSliedr($"SilderImages", slider, "");
                 ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                 return View();
             }
@@ -98,10 +93,11 @@ namespace LiperFrontend.Controllers
         {
             try
             {
-                var result = await ApiCaller<GetSlider, string>.CallApiGet($"Sliders/GetSlider?Id={id}", "", "");
-                Slider slider = result.slider;
+                var result = await ApiCaller<GetImageSlider, string>.CallApiGet($"SilderImages/GetById?id={id}", "", "");
+                ImageSlider slider = result.silder;
                 if (slider != null)
                 {
+                    slider.imageURL = ApiCaller<string, string>.Base_Url_files + slider.imageURL;
                     return View(slider);
                 }
                 return View();
@@ -119,7 +115,7 @@ namespace LiperFrontend.Controllers
         {
             try
             {
-                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Sliders/DeleteSlider?id={id}", "", "");
+                var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"SilderImages?id={id}", "", "");
                 if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);

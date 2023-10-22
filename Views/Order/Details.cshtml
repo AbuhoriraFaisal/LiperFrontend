@@ -85,12 +85,40 @@
         <dd class="col-sm-4">
             @Html.DisplayFor(model => model.city.delivaryPrice)
         </dd>
-        <dt class="col-sm-12">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReceiverName)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.ReceiverName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReceiverPhone)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.ReceiverPhone)
+        </dd>
+        <dt class="col-sm-6">
 
             <a href="@Model.imageURL" target="_blank">
                 Click Here to show the Receipt
             </a>
         </dt>
+        @if (Model.orderStatusId ==7 || Model.orderStatusId ==1)
+        {
+            <dt class="col-sm-6">
+                <a asp-action="UpdateStatus" class="btn btn-outline-success" asp-route-Id=@Model.id>
+                    Click Here to Approve The Order
+                </a>
+            </dt>
+        }
+        else
+        {
+            <dt class="col-sm-6">
+                <a href="#" class="btn btn-outline-secondary">
+                   The Order already Approved
+                </a>
+            </dt>
+        }
         
         <dd class="col-sm-12">
             <section class="content">
@@ -166,5 +194,5 @@
     </dl>
 </div>
 <div>
-   
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
 </div>

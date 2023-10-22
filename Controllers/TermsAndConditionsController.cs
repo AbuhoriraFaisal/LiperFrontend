@@ -11,9 +11,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var conditions = await ApiCaller<Conditions, string>.CallApiGet("TermsAndConditions", "", "");
-                if (true)
+                if (conditions.conditions is not null)
                 {
-                    return View(conditions.Item1.conditions);
+                    return View(conditions.conditions);
                 }
                 return View(new List<Condition>());
             }
@@ -34,8 +34,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Condition>.CallApiPost($"TermsAndConditions", condition, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -56,7 +56,7 @@ namespace LiperFrontend.Controllers
                 var conditions = await ApiCaller<Conditions, string>.CallApiGet("TermsAndConditions", "", "");
 
                 //var condition = await ApiCaller<GetCondition, string>.CallApiGet($"TermsAndConditions/GetTermsAndConditions?Id={id}", "", "");
-                Condition cond = conditions.Item1.conditions.Where(s => s.id == id).FirstOrDefault();
+                Condition cond = conditions.conditions.Where(s => s.id == id).FirstOrDefault();
                 if (cond != null)
                 {
                     return View(cond);
@@ -78,7 +78,7 @@ namespace LiperFrontend.Controllers
                 var conditions = await ApiCaller<Conditions, string>.CallApiGet("TermsAndConditions", "", "");
 
                 //var condition = await ApiCaller<GetCondition, string>.CallApiGet($"TermsAndConditions/GetTermsAndConditions?Id={id}", "", "");
-                Condition cond = conditions.Item1.conditions.Where(s => s.id == id).FirstOrDefault();
+                Condition cond = conditions.conditions.Where(s => s.id == id).FirstOrDefault();
                 if (cond != null)
                 {
                     return View(cond);
@@ -100,7 +100,7 @@ namespace LiperFrontend.Controllers
         public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
             var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"TermsAndConditions?Id={id}", "", "");
-            if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+            if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
             {
                 return RedirectToAction(nameof(Index));
             }
@@ -121,8 +121,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Condition>.CallApiPut($"TermsAndConditions", condition, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction("Index");
                 }

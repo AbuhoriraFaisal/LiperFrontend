@@ -17,13 +17,13 @@ namespace LiperFrontend.Controllers
             {
                 
                 var countries = await ApiCaller<Countries, string>.CallApiGet($"Countries", "", "");
-                foreach (var item in countries.Item1.countries)
+                foreach (var item in countries.countries)
                 {
                     item.flagImgUrl = ApiCaller<Country, Country>.Base_Url_files + item.flagImgUrl;
                 }
-                if (countries.Item1.countries is not null)
+                if (countries.countries is not null)
                 {
-                    return View(countries.Item1.countries);
+                    return View(countries.countries);
                 }
                 return View(new List<Country>());
 
@@ -48,8 +48,8 @@ namespace LiperFrontend.Controllers
                 
 
                 var response = await ApiCaller<defaultResponse, Country>.CallApiPostCountryFlag($"Countries/AddCountry", country, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
                     return View();
@@ -71,7 +71,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var contact_result = await ApiCaller<GetCountry, string>.CallApiGet($"Countries/GetCountryById?Id={id}", "", "");
-                Country country = contact_result.Item1.country;
+                Country country = contact_result.country;
                 if (country != null)
                 {
                     country.flagImgUrl = ApiCaller<Country, Country>.Base_Url_files + country.flagImgUrl;
@@ -92,7 +92,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Countries/DeleteCountry?id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
                     return View();
@@ -115,7 +115,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var contact_result = await ApiCaller<GetCountry, string>.CallApiGet($"Countries/GetCountryById?Id={id}", "", "");
-                Country country = contact_result.Item1.country;
+                Country country = contact_result.country;
                 if (country != null)
                 {
                     country.flagImgUrl = ApiCaller<Country, Country>.Base_Url.Substring(0,
@@ -137,8 +137,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Country>.CallApiPutCountryFlag($"Countries/EditCountry", country, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
                     return View();

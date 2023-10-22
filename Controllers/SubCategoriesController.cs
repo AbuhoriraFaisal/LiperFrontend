@@ -16,9 +16,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var subcategoriesList = await ApiCaller<SubCategories, string>.CallApiGet($"SubCategories/GetSubCategoryByCategoryId?categoryId={Id}", "", "");
-                if (subcategoriesList.Item1.subCategories is not null)
+                if (subcategoriesList.subCategories is not null)
                 {
-                    return View(subcategoriesList.Item1.subCategories);
+                    return View(subcategoriesList.subCategories);
                 }
                 return View(new List<SubCategory>());
             }
@@ -44,8 +44,8 @@ namespace LiperFrontend.Controllers
             {
                 subCategory.id = 0;
                 var response = await ApiCaller<defaultResponse, SubCategory>.CallApiPostSubCategory($"SubCategories", subCategory, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction("CategorySubCategories", new { Id = subCategory.categoryId });
                 }
@@ -68,7 +68,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var subcategory = await ApiCaller<GetSubCategory, string>.CallApiGet($"SubCategories/GetSubCategoryById?Id={id}", "", "");
-                SubCategory sCategory = subcategory.Item1.subCategory;
+                SubCategory sCategory = subcategory.subCategory;
                 if (sCategory != null)
                 {
                     sCategory.imageURL = ApiCaller<Country, Country>.Base_Url.Substring(0,
@@ -94,8 +94,8 @@ namespace LiperFrontend.Controllers
             {
                 var catId = subCategory.categoryId;
                 var response = await ApiCaller<defaultResponse, SubCategory>.CallApiPutSubCategory($"SubCategories/EditSubCategory", subCategory, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction("CategorySubCategories", new { Id = catId });
                 }
@@ -117,7 +117,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var getsubCategory = await ApiCaller<GetSubCategory, string>.CallApiGet($"SubCategories/GetSubCategoryById?Id={id}", "", "");
-                SubCategory subCategory = getsubCategory.Item1.subCategory;
+                SubCategory subCategory = getsubCategory.subCategory;
                 if (subCategory != null)
                 {
 
@@ -139,7 +139,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"SubCategories/DeleteSubCategory?Id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction("CategorySubCategories", new { Id = 1 });
                 }

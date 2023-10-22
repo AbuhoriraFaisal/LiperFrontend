@@ -13,9 +13,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var abouts = await ApiCaller<AboutUss, string>.CallApiGet("AboutUs", "", "");
-                if (abouts.Item1.abouts is not null)
+                if (abouts.abouts is not null)
                 {
-                    return View(abouts.Item1.abouts);
+                    return View(abouts.abouts);
                 }
                 return View(new List<AboutUs>());
             }
@@ -35,15 +35,15 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, AboutUs>.CallApiPost($"AboutUs/AddAboutUs", aboutUs, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
             }
@@ -58,10 +58,11 @@ namespace LiperFrontend.Controllers
             try
             {
                 var abouts = await ApiCaller<AboutUss, string>.CallApiGet("AboutUs", "", "");
-                if (abouts == null)
+                if (abouts.abouts.Count ==0)
+                {
                     return RedirectToAction("Index");
-
-                AboutUs aboutUs = abouts.Item1.abouts.Where(s => s.id == id).FirstOrDefault();
+                }
+                AboutUs aboutUs = abouts.abouts.Where(s => s.id == id).FirstOrDefault();
                 if (aboutUs != null)
                 {
 
@@ -81,14 +82,14 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"?id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
             }
@@ -105,7 +106,7 @@ namespace LiperFrontend.Controllers
                 if (abouts == null)
                     return RedirectToAction("Index");
 
-                AboutUs aboutUs = abouts.Item1.abouts.Where(s => s.id == id).FirstOrDefault();
+                AboutUs aboutUs = abouts.abouts.Where(s => s.id == id).FirstOrDefault();
                 if (aboutUs != null)
                 {
 
@@ -125,14 +126,14 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, AboutUs>.CallApiPut($"AboutUs/EditAboutUs", aboutUs, "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
             }

@@ -16,9 +16,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<BankAccounts, string>.CallApiGet("BankAccounts", "", "");
-                if (response.Item1.accounts is not null)
+                if (response.accounts is not null)
                 {
-                    return View(response.Item1.accounts);
+                    return View(response.accounts);
                 }
                 return View(new List<BankAccount>());
             }
@@ -36,7 +36,7 @@ namespace LiperFrontend.Controllers
             {
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                 var response = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
-                var banks = response.Item1.banks;
+                var banks = response.banks;
                 foreach (var bank in banks)
                 {
                     var selectItem = new SelectListItem() { Value = bank.id.ToString(), Text = bank.name };
@@ -59,8 +59,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, BankAccount>.CallApiPost($"BankAccounts", account, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -72,7 +72,7 @@ namespace LiperFrontend.Controllers
                 }
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                 var bankResponse = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
-                var banks = bankResponse.Item1.banks;
+                var banks = bankResponse.banks;
                 foreach (var bank in banks)
                 {
                     var selectItem = new SelectListItem() { Value = bank.id.ToString(), Text = bank.name };
@@ -93,12 +93,12 @@ namespace LiperFrontend.Controllers
             try
             {
                 var result = await ApiCaller<GetBankAccount, string>.CallApiGet($"BankAccounts/GetById?Id={id}", "", "");
-                BankAccount account = result.Item1.account;
+                BankAccount account = result.account;
                 if (account != null)
                 {
                     List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                     var response = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
-                    var banks = response.Item1.banks;
+                    var banks = response.banks;
                     foreach (var b in banks)
                     {
                         var selectItem = new SelectListItem() { Value = b.id.ToString(), Text = b.name };
@@ -123,8 +123,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, BankAccount>.CallApiPut($"BankAccounts", account, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -136,7 +136,7 @@ namespace LiperFrontend.Controllers
                 }
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                 var bankResponse = await ApiCaller<Banks, string>.CallApiGet("Banks", "", "");
-                var banks = bankResponse.Item1.banks;
+                var banks = bankResponse.banks;
                 foreach (var b in banks)
                 {
                     var selectItem = new SelectListItem() { Value = b.id.ToString(), Text = b.name };
@@ -157,7 +157,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var result = await ApiCaller<GetBankAccount, string>.CallApiGet($"BankAccounts/GetById?Id={id}", "", "");
-                BankAccount account = result.Item1.account;
+                BankAccount account = result.account;
                 if (account != null)
                 {
                     return View(account);
@@ -178,14 +178,14 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"BankAccounts?id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, response.responseMessage.messageEN);
                     return View();
                 }
             }

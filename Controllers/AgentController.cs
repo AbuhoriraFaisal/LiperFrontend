@@ -16,9 +16,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var agents = await ApiCaller<Agents, string>.CallApiGet("Agents", "", "");
-                if (agents.Item1.agents is not null)
+                if (agents.agents is not null)
                 {
-                    return View(agents.Item1.agents);
+                    return View(agents.agents);
                 }
                 return View(new List<Agent>());
             }
@@ -41,7 +41,7 @@ namespace LiperFrontend.Controllers
             {
                 List<SelectListItem> SelectedList = new List<SelectListItem>();
                 var response = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
-                var cities = response.Item1.cities;
+                var cities = response.cities;
                 foreach (var city in cities)
                 {
                     var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
@@ -67,8 +67,8 @@ namespace LiperFrontend.Controllers
             {
                 agent.password = "121";
                 var response = await ApiCaller<defaultResponse, Agent>.CallApiPost($"Agents", agent, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -80,7 +80,7 @@ namespace LiperFrontend.Controllers
                 }
                 List<SelectListItem> SelectedList = new List<SelectListItem>();
                 var cityResponse = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
-                var cities = cityResponse.Item1.cities;
+                var cities = cityResponse.cities;
                 foreach (var city in cities)
                 {
                     var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
@@ -103,12 +103,12 @@ namespace LiperFrontend.Controllers
             try
             {
                 var result = await ApiCaller<GetAgent, string>.CallApiGet($"Agents/GetById?Id={id}", "", "");
-                Agent agent = result.Item1.agent;
+                Agent agent = result.agent;
                 if (agent != null)
                 {
                     List<SelectListItem> SelectedList = new List<SelectListItem>();
                     var cityResponse = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
-                    var cities = cityResponse.Item1.cities;
+                    var cities = cityResponse.cities;
                     foreach (var city in cities)
                     {
                         var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
@@ -135,8 +135,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Agent>.CallApiPut($"Agents",agent , "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -148,7 +148,7 @@ namespace LiperFrontend.Controllers
                 }
                 List<SelectListItem> SelectedList = new List<SelectListItem>();
                 var cityResponse = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
-                var cities = cityResponse.Item1.cities;
+                var cities = cityResponse.cities;
                 foreach (var city in cities)
                 {
                     var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
@@ -171,7 +171,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var result = await ApiCaller<GetAgent, string>.CallApiGet($"Agents/GetById?Id={id}", "", "");
-                Agent agent = result.Item1.agent;
+                Agent agent = result.agent;
                 if (agent != null)
                 {
                     return View(agent);
@@ -192,14 +192,14 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Agents?id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, response.responseMessage.messageEN);
                     return View();
                 }
             }

@@ -2042,16 +2042,16 @@ var FullCalendar = (function (exports) {
     }
     function combineTwoEventUis(item0, item1) {
         return {
-            display: item1.display != null ? item1.display : item0.display,
-            startEditable: item1.startEditable != null ? item1.startEditable : item0.startEditable,
-            durationEditable: item1.durationEditable != null ? item1.durationEditable : item0.durationEditable,
-            constraints: item0.constraints.concat(item1.constraints),
-            overlap: typeof item1.overlap === 'boolean' ? item1.overlap : item0.overlap,
-            allows: item0.allows.concat(item1.allows),
-            backgroundColor: item1.backgroundColor || item0.backgroundColor,
-            borderColor: item1.borderColor || item0.borderColor,
-            textColor: item1.textColor || item0.textColor,
-            classNames: item0.classNames.concat(item1.classNames),
+            display: display != null ? display : item0.display,
+            startEditable: startEditable != null ? startEditable : item0.startEditable,
+            durationEditable: durationEditable != null ? durationEditable : item0.durationEditable,
+            constraints: item0.constraints.concat(constraints),
+            overlap: typeof overlap === 'boolean' ? overlap : item0.overlap,
+            allows: item0.allows.concat(allows),
+            backgroundColor: backgroundColor || item0.backgroundColor,
+            borderColor: borderColor || item0.borderColor,
+            textColor: textColor || item0.textColor,
+            classNames: item0.classNames.concat(classNames),
         };
     }
 

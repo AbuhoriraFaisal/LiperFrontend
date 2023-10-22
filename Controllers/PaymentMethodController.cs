@@ -15,9 +15,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var paymentMethod = await ApiCaller<PaymentMethods, string>.CallApiGet("PaymentMethods", "", "");
-                if (paymentMethod.Item1.paymentMethods is not null)
+                if (paymentMethod.paymentMethods is not null)
                 {
-                    return View(paymentMethod.Item1.paymentMethods);
+                    return View(paymentMethod.paymentMethods);
                 }
                 return View(new List<PaymentMethod>());
             }
@@ -47,8 +47,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, PaymentMethod>.CallApiPost($"PaymentMethods", paymentMethod, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                responseMessage responseMessage = response.responseMessage;
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                 return View();
             }
             catch
@@ -63,7 +63,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var getpaymentMethod = await ApiCaller<GetPaymentMethods, string>.CallApiGet($"PaymentMethods/GetById?id={id}", "", "");
-                PaymentMethod pMethod = getpaymentMethod.Item1.paymentMethod;
+                PaymentMethod pMethod = getpaymentMethod.paymentMethod;
                 if (pMethod != null)
                 {
                     return View(pMethod);
@@ -84,8 +84,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, PaymentMethod>.CallApiPut($"PaymentMethods", paymentMethod, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                responseMessage responseMessage = response.responseMessage;
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                 return View();
             }
             catch
@@ -100,7 +100,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var getpaymentMethod = await ApiCaller<GetPaymentMethods, string>.CallApiGet($"PaymentMethods/GetById?id={id}", "", "");
-                PaymentMethod pMethod = getpaymentMethod.Item1.paymentMethod;
+                PaymentMethod pMethod = getpaymentMethod.paymentMethod;
                 if (pMethod != null)
                 {
                     return View(pMethod);
@@ -121,7 +121,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"PaymentMethods?id={id}", "", "");
-                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                 return View();
             }
             catch

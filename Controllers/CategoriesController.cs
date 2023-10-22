@@ -15,15 +15,15 @@ namespace LiperFrontend.Controllers
             try
             {
                 var categoriesList = await ApiCaller<Categories, string>.CallApiGet("Categories", "", "");
-                if (categoriesList.Item1.categories is null)
+                if (categoriesList.categories is null)
                 {
                     return View(new List<Category>());
                 }
-                foreach (var item in categoriesList.Item1.categories)
+                foreach (var item in categoriesList.categories)
                 {
                     item.imageURL = ApiCaller<Category, Category>.Base_Url_files + item.imageURL;
                 }
-                return View(categoriesList.Item1.categories);
+                return View(categoriesList.categories);
             }
             catch (Exception ex)
             {
@@ -51,8 +51,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Category>.CallApiPostCategory($"Categories/AddCategory", category, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -74,7 +74,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var getcategory = await ApiCaller<GetCategory, string>.CallApiGet($"Categories/GetCategoryById?Id={id}", "", "");
-                Category category = getcategory.Item1.category;
+                Category category = getcategory.category;
                 if (category != null)
                 {
                     category.imageURL = ApiCaller<Country, Country>.Base_Url.Substring(0,
@@ -97,8 +97,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Category>.CallApiPutCategory($"Categories/EditCategory", category, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -119,7 +119,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var getcategory = await ApiCaller<GetCategory, string>.CallApiGet($"Categories/GetCategoryById?Id={id}", "", "");
-                Category category = getcategory.Item1.category;
+                Category category = getcategory.category;
                 if (category != null)
                 {
                     return View(category);
@@ -141,7 +141,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Categories/DeleteCategory?Id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction(nameof(Index));
                 }

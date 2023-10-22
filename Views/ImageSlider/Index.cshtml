@@ -1,12 +1,13 @@
-﻿@model IEnumerable<LiperFrontend.Models.Customer>
+﻿@model IEnumerable<LiperFrontend.Models.ImageSlider>
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
+
 <p>
-    <a asp-action="Create" class="btn btn-outline-success"> New Customer</a>
+    <a asp-action="Create">Create New</a>
 </p>
 
 <section class="content">
@@ -17,31 +18,27 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
-                            @*<table id="example" class="table table-sm table-bordered table-hover">*@
-
-
+                            
                             <caption>Number of items: @Model.Count()</caption>
-
                             <thead>
                                 <tr>
-
                                     <th>
-                                        @Html.DisplayNameFor(model => model.name)
+                                        @Html.DisplayNameFor(model => model.text)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.nameAR)
+                                        @Html.DisplayNameFor(model => model.textAR)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.username)
+                                        @Html.DisplayNameFor(model => model.description)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.phone)
+                                        @Html.DisplayNameFor(model => model.descriptionAR)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.gender.name)
+                                        @Html.DisplayNameFor(model => model.imageURL)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.city.nameEN)
+                                        @Html.DisplayNameFor(model => model.isActive)
                                     </th>
                                     <th></th>
                                 </tr>
@@ -51,31 +48,32 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.name)
+                                            @Html.DisplayFor(modelItem => item.text)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.nameAR)
+                                            @Html.DisplayFor(modelItem => item.textAR)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.username)
+                                            @Html.DisplayFor(modelItem => item.description)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.phone)
+                                            @Html.DisplayFor(modelItem => item.descriptionAR)
+                                        </td>
+                                        <td style="width:20%">
+                                            <img src="@item.imageURL" style="width:50%" alt="Image" />
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.gender.name)
+                                            @Html.DisplayFor(modelItem => item.isActive)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.city.nameEN)
-                                        </td>
-                                        <td>
-                                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.id> Delete</a>
+                                            <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.Id> Update</a>
+                                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.Id> Delete</a>
+
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>

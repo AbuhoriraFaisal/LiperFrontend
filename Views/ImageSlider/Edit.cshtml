@@ -1,0 +1,76 @@
+﻿@model LiperFrontend.Models.ImageSlider
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>ImageSlider</h4>
+
+<!-------Aleart Notification------->
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            @Html.Raw(@ViewBag.Alert)
+        </div>
+    </div>
+</div>
+<!------------------------------------------>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           
+            <div class="form-group">
+                <label asp-for="text" class="control-label"></label>
+                <input asp-for="text" class="form-control" />
+                <span asp-validation-for="text" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="textAR" class="control-label"></label>
+                <input asp-for="textAR" class="form-control" />
+                <span asp-validation-for="textAR" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="description" class="control-label"></label>
+                <input asp-for="description" class="form-control" />
+                <span asp-validation-for="description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="descriptionAR" class="control-label"></label>
+                <input asp-for="descriptionAR" class="form-control" />
+                <span asp-validation-for="descriptionAR" class="text-danger"></span>
+            </div>
+            @if (Model != null)
+            {
+                <img src="@Model.imageURL" style="width:20%" alt="Country flag" />
+            }
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="files"></label>
+                    <input asp-for="files" type="file">
+                    <span asp-validation-for="files"></span>
+                </div>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="isActive" /> @Html.DisplayNameFor(model => model.isActive)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -14,9 +14,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var states = await ApiCaller<States, string>.CallApiGet("states", "", "");
-                if (states.Item1.states is not null)
+                if (states.states is not null)
                 {
-                    return View(states.Item1.states);
+                    return View(states.states);
                 }
                 return View(new List<State>());
             }
@@ -32,7 +32,7 @@ namespace LiperFrontend.Controllers
             {
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                 var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                var countriesList = countries.Item1.countries;
+                var countriesList = countries.countries;
                 foreach (var country in countriesList)
                 {
                     var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
@@ -54,8 +54,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, State>.CallApiPost($"states/Addstate", state, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
                     
@@ -67,7 +67,7 @@ namespace LiperFrontend.Controllers
                 }
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                 var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                var countriesList = countries.Item1.countries;
+                var countriesList = countries.countries;
                 foreach (var country in countriesList)
                 {
                     var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
@@ -89,7 +89,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var result = await ApiCaller<GetState, string>.CallApiGet($"states/GetStateById?Id={id}", "", "");
-                State state = result.Item1.state;
+                State state = result.state;
                 if (state != null)
                 {
                     return View(state);
@@ -109,7 +109,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"states/DeleteState?id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
                     return View();
@@ -132,12 +132,12 @@ namespace LiperFrontend.Controllers
             try
             {
                 var result = await ApiCaller<GetState, string>.CallApiGet($"states/GetStateById?Id={id}", "", "");
-                State state = result.Item1.state;
+                State state = result.state;
                 if (state != null)
                 {
                     List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                     var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                    var countriesList = countries.Item1.countries;
+                    var countriesList = countries.countries;
                     foreach (var country in countriesList)
                     {
                         var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };
@@ -162,8 +162,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, State>.CallApiPut($"states/EditState", state, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -175,7 +175,7 @@ namespace LiperFrontend.Controllers
                 }
                 List<SelectListItem> countriesSelectedList = new List<SelectListItem>();
                 var countries = await ApiCaller<Countries, string>.CallApiGet("Countries", "", "");
-                var countriesList = countries.Item1.countries;
+                var countriesList = countries.countries;
                 foreach (var country in countriesList)
                 {
                     var selectItem = new SelectListItem() { Value = country.Id.ToString(), Text = country.NameEN };

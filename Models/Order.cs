@@ -20,6 +20,8 @@
         public List<OrderDetails> orderDetails { get; set; }
         public int cityId { get; set; }
         public City city { get; set; }
+        public string? ReceiverName { get; set; }
+        public string? ReceiverPhone { get; set; }
 
     }
 }

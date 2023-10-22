@@ -14,13 +14,13 @@ namespace LiperFrontend.Controllers
             {
                 var product = await ApiCaller<ProductImages, string>.CallApiGet($"ProductsImages/GetByProductId?productId={Id}", "", "");
 
-                if (product.Item1.productsImages != null)
+                if (product.productsImages != null)
                 {
-                    foreach (var image in product.Item1.productsImages)
+                    foreach (var image in product.productsImages)
                     {
                         image.imageUrl = ApiCaller<Product, Product>.Base_Url_files + image.imageUrl;
                     }
-                    return View(product.Item1.productsImages);
+                    return View(product.productsImages);
                 }
                 return View(new List<ProductImage>());
             }
@@ -36,7 +36,7 @@ namespace LiperFrontend.Controllers
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"ProductsImages?id={id}", "", "");
 
-                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                 if (HttpContext.Session.Get("pId") is not null)
                 {
                     image.productId = int.Parse(HttpContext.Session.GetString("pId"));
@@ -55,12 +55,12 @@ namespace LiperFrontend.Controllers
             {
                 var product = await ApiCaller<GetProductImage, string>.CallApiGet($"ProductsImages/GetById?Id={id}", "", "");
 
-                if (product.Item1.productsImage != null)
+                if (product.productsImage != null)
                 {
-                    product.Item1.productsImage.imageUrl = ApiCaller<Country, Country>.Base_Url_files +
-                                                            product.Item1.productsImage.imageUrl;
-                    HttpContext.Session.SetString("pId", product.Item1.productsImage.productId.ToString());
-                    return View(product.Item1.productsImage);
+                    product.productsImage.imageUrl = ApiCaller<Country, Country>.Base_Url_files +
+                                                            product.productsImage.imageUrl;
+                    HttpContext.Session.SetString("pId", product.productsImage.productId.ToString());
+                    return View(product.productsImage);
                 }
                 return View();
             }
@@ -75,11 +75,11 @@ namespace LiperFrontend.Controllers
             {
                 var product = await ApiCaller<GetProductImage, string>.CallApiGet($"ProductsImages/GetById?Id={id}", "", "");
 
-                if (product.Item1.productsImage != null)
+                if (product.productsImage != null)
                 {
-                    product.Item1.productsImage.imageUrl = ApiCaller<Country, Country>.Base_Url_files +
-                                                            product.Item1.productsImage.imageUrl;
-                    return View(product.Item1.productsImage);
+                    product.productsImage.imageUrl = ApiCaller<Country, Country>.Base_Url_files +
+                                                            product.productsImage.imageUrl;
+                    return View(product.productsImage);
                 }
                 return View();
             }
@@ -97,16 +97,16 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, ProductImage>.CallApiPutProductImage($"ProductsImages", image, "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     var product = await ApiCaller<GetProductImage, string>.CallApiGet($"ProductsImages/GetById?Id={id}", "", "");
 
-                    if (product.Item1.productsImage != null)
+                    if (product.productsImage != null)
                     {
-                        product.Item1.productsImage.imageUrl = ApiCaller<Country, Country>.Base_Url_files +
-                                                                product.Item1.productsImage.imageUrl;
-                        return View(product.Item1.productsImage);
+                        product.productsImage.imageUrl = ApiCaller<Country, Country>.Base_Url_files +
+                                                                product.productsImage.imageUrl;
+                        return View(product.productsImage);
                     }
                     return View(image);
                 }
@@ -133,7 +133,7 @@ namespace LiperFrontend.Controllers
                     return View();
                 image.id = 0;
                 var response = await ApiCaller<defaultResponse, ProductImage>.CallApiPostProductImage($"ProductsImages", image, "");
-                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
 
                 return View();
             }

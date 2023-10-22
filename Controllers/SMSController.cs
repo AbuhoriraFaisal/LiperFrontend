@@ -22,8 +22,8 @@ namespace LiperFrontend.Controllers
                 try
                 {
                     var response = await ApiCaller<defaultResponse, Sms>.CallApiPost($"SMS.sendSMS", sms, "");
-                    responseMessage responseMessage = response.Item1.responseMessage;
-                    if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                    responseMessage responseMessage = response.responseMessage;
+                    if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                     {
                         ViewBag.Result = responseMessage.messageEN;
                         return View();

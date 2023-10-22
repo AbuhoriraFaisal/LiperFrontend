@@ -13,9 +13,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var policies = await ApiCaller<Policies, string>.CallApiGet("Policies", "", "");
-                if (policies.Item1.policies is not null)
+                if (policies.policies is not null)
                 {
-                    return View(policies.Item1.policies);
+                    return View(policies.policies);
                 }
                 return View(new List<Policy>());
             }
@@ -36,15 +36,15 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Policy>.CallApiPost($"Policies", policy, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
             }
@@ -59,7 +59,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<GetPolicy, string>.CallApiGet($"Policies/GetById?Id={id}", "", "");
-                Policy policy = response.Item1.policy;
+                Policy policy = response.policy;
                 if (policy != null)
                 {
 
@@ -79,14 +79,14 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Policies?id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
             }
@@ -102,7 +102,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<GetPolicy, string>.CallApiGet($"Policies/GetById?Id={id}", "", "");
-                Policy policy = response.Item1.policy;
+                Policy policy = response.policy;
                 if (policy != null)
                 {
 
@@ -122,15 +122,15 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Policy>.CallApiPut($"Policies", policy, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
             }

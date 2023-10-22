@@ -13,13 +13,13 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<SocialMedias, string>.CallApiGet("SocialMedias", "", "");
-                if (response.Item1.socials != null)
+                if (response.socials != null)
                 {
-                    foreach (var item in response.Item1.socials)
+                    foreach (var item in response.socials)
                     {
                         item.ImageUrl = ApiCaller<string, string>.Base_Url_files + item.ImageUrl;
                     }
-                    return View(response.Item1.socials);
+                    return View(response.socials);
                 }
                 return View(new List<OrderStatus>());
             }
@@ -41,8 +41,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, SocialMedia>.CallApiPostSocialMedia($"SocialMedias", social, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -65,7 +65,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<GetSocialMedia, string>.CallApiGet($"SocialMedias/GetById?Id={id}", "", "");
-                SocialMedia socialMedia = response.Item1.social;
+                SocialMedia socialMedia = response.social;
                 if (socialMedia != null)
                 {
                     socialMedia.ImageUrl = ApiCaller<string, string>.Base_Url_files + socialMedia.ImageUrl;
@@ -85,14 +85,14 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"SocialMedias?Id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
             }
@@ -108,7 +108,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<GetSocialMedia, string>.CallApiGet($"SocialMedias/GetById?Id={id}", "", "");
-                SocialMedia socialMedia = response.Item1.social;
+                SocialMedia socialMedia = response.social;
                 if (socialMedia != null)
                 {
                     socialMedia.ImageUrl = ApiCaller<string, string>.Base_Url_files + socialMedia.ImageUrl;
@@ -128,15 +128,15 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, SocialMedia>.CallApiPutSocialMedia($"SocialMedias", social, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
             }

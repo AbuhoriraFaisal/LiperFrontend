@@ -16,9 +16,10 @@ namespace LiperFrontend.Shared
 {
     public class ApiCaller<T, B>
     {
-        public static string Base_Url = $"http://84.46.253.59:8080/api/"; // live
-        //public static string Base_Url = $"http://75.119.136.238:8016/api/"; // live
-        public static string Base_Url_files = $"http://84.46.253.59:8080"; // 
+        //public static string Base_Url = $"http://84.46.253.59:8080/api/"; // live
+        public static string Base_Url = $"http://75.119.136.238:8016/api/"; // live
+        //public static string Base_Url_files = $"http://84.46.253.59:8080"; // 
+        public static string Base_Url_files = $"http://75.119.136.238:8016"; // 
         //http://75.119.136.238:8016/
         //static string Base_Url = $"https://mob.jsjbank.com:3000/JSB_OMNI_Ph2/omniServices/"; test 
 
@@ -29,8 +30,8 @@ namespace LiperFrontend.Shared
         {
             _httpClientFactory = httpClientFactory;
         }
-       
-        public static async Task<Tuple<T, string>> callApi(string service, B model)
+
+        public static async Task<T>callApi(string service, B model)
         {
             var client = _httpClientFactory.CreateClient("apiClient");
             StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8
@@ -44,10 +45,10 @@ namespace LiperFrontend.Shared
             int endIndex = token.IndexOf($"\r\n");
             token = token.Substring(0, endIndex);
             var responseModel = JsonConvert.DeserializeObject<T>(response);
-            return new Tuple<T, string>(responseModel, token);
+            return responseModel;
 
         }
-        public static async Task<Tuple<T, string>> CallApiPost(string service, B model, string authtoken)
+        public static async Task<T>CallApiPost(string service, B model, string authtoken)
         {
             try
             {
@@ -71,7 +72,7 @@ namespace LiperFrontend.Shared
                     token = token.Substring(0, endIndex);
                     var responseModel = JsonConvert.DeserializeObject<T>(response);
 
-                    return new Tuple<T, string>(responseModel, token);
+                    return responseModel;
                 }
             }
             catch (Exception ex)
@@ -80,7 +81,7 @@ namespace LiperFrontend.Shared
                 throw new Exception("Internet Connection Proplem ");
             }
         }
-        public static async Task<Tuple<T, string>> CallApiPostSubCategory(string service, SubCategory subCategory, string authtoken)
+        public static async Task<T>CallApiPostSubCategory(string service, SubCategory subCategory, string authtoken)
         {
             try
             {
@@ -123,7 +124,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                     //}
                     throw new Exception("Internet Connection Proplem ");
                 }
@@ -135,7 +136,7 @@ namespace LiperFrontend.Shared
                 throw new Exception("Internet Connection Proplem ");
             }
         }
-        public static async Task<Tuple<T, string>> CallApiPutSubCategory(string service, SubCategory subCategory, string authtoken)
+        public static async Task<T> CallApiPutSubCategory(string service, SubCategory subCategory, string authtoken)
         {
             try
             {
@@ -178,7 +179,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                     //}
                     throw new Exception("Internet Connection Proplem ");
                 }
@@ -186,12 +187,11 @@ namespace LiperFrontend.Shared
             }
             catch (Exception ex)
             {
-
                 throw new Exception("Internet Connection Proplem ");
             }
         }
 
-        public static async Task<Tuple<T, string>> CallApiPostCategory(string service, Category category, string authtoken)
+        public static async Task<T> CallApiPostCategory(string service, Category category, string authtoken)
         {
             try
             {
@@ -232,7 +232,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                     //}
                     throw new Exception("Internet Connection Proplem ");
                 }
@@ -244,7 +244,7 @@ namespace LiperFrontend.Shared
                 throw new Exception("Internet Connection Proplem ");
             }
         }
-        public static async Task<Tuple<T, string>> CallApiPutCategory(string service, Category category, string authtoken)
+        public static async Task<T> CallApiPutCategory(string service, Category category, string authtoken)
         {
             try
             {
@@ -285,7 +285,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                     //}
                     throw new Exception("Internet Connection Proplem ");
                 }
@@ -298,7 +298,7 @@ namespace LiperFrontend.Shared
             }
         }
 
-        public static async Task<Tuple<T, string>> CallApiPostCountryFlag(string service, Country country, string authtoken)
+        public static async Task<T> CallApiPostCountryFlag(string service, Country country, string authtoken)
         {
             try
             {
@@ -338,7 +338,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                     //}
                     throw new Exception("Internet Connection Proplem ");
                 }
@@ -351,7 +351,7 @@ namespace LiperFrontend.Shared
             }
         }
 
-        public static async Task<Tuple<T, string>> CallApiPostProduct(string service, Product product, string authtoken)
+        public static async Task<T> CallApiPostProduct(string service, Product product, string authtoken)
         {
             try
             {
@@ -402,7 +402,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                 }
 
             }
@@ -412,7 +412,7 @@ namespace LiperFrontend.Shared
                 throw new Exception("Internet Connection Proplem ");
             }
         }
-        public static async Task<Tuple<T, string>> CallApiPostFaqs(string service, FAQ fAQ, string authtoken)
+        public static async Task<T> CallApiPostFaqs(string service, FAQ fAQ, string authtoken)
         {
             try
             {
@@ -461,7 +461,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                 }
 
             }
@@ -471,7 +471,7 @@ namespace LiperFrontend.Shared
                 throw new Exception("Internet Connection Proplem ");
             }
         }
-        public static async Task<Tuple<T, string>> CallApiPutFaqs(string service, FAQ fAQ, string authtoken)
+        public static async Task<T> CallApiPutFaqs(string service, FAQ fAQ, string authtoken)
         {
             try
             {
@@ -521,7 +521,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                 }
 
             }
@@ -532,7 +532,7 @@ namespace LiperFrontend.Shared
             }
         }
 
-        public static async Task<Tuple<T, string>> CallApiPostProductImage(string service, ProductImage image, string authtoken)
+        public static async Task<T> CallApiPostProductImage(string service, ProductImage image, string authtoken)
         {
             try
             {
@@ -571,7 +571,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                 }
 
             }
@@ -582,7 +582,7 @@ namespace LiperFrontend.Shared
             }
         }
 
-        public static async Task<Tuple<T, string>> CallApiPutProductImage(string service, ProductImage image, string authtoken)
+        public static async Task<T> CallApiPutProductImage(string service, ProductImage image, string authtoken)
         {
             try
             {
@@ -622,7 +622,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                 }
 
             }
@@ -675,7 +675,7 @@ namespace LiperFrontend.Shared
                 return new responseMessage();
             }
         }
-        public static async Task<Tuple<T, string>> CallApiPostAgentNotification(string service, Notification notification, string authtoken)
+        public static async Task<T> CallApiPostAgentNotification(string service, Notification notification, string authtoken)
         {
             try
             {
@@ -722,7 +722,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                     //}
                     throw new Exception("Internet Connection Proplem ");
                 }
@@ -778,7 +778,7 @@ namespace LiperFrontend.Shared
                 return new responseMessage();
             }
         }
-        public static async Task<Tuple<T, string>> CallApiPostCustNotification(string service, Notification notification, string authtoken)
+        public static async Task<T> CallApiPostCustNotification(string service, Notification notification, string authtoken)
         {
             try
             {
@@ -857,7 +857,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                     //}
                     throw new Exception("Internet Connection Proplem ");
                 }
@@ -870,7 +870,7 @@ namespace LiperFrontend.Shared
             }
         }
 
-        public static async Task<Tuple<T, string>> CallApiPutCountryFlag(string service, Country country, string authtoken)
+        public static async Task<T>CallApiPutCountryFlag(string service, Country country, string authtoken)
         {
             try
             {
@@ -918,7 +918,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                     //}
                     throw new Exception("Internet Connection Proplem ");
                 }
@@ -930,7 +930,7 @@ namespace LiperFrontend.Shared
                 throw new Exception("Internet Connection Proplem ");
             }
         }
-        public static async Task<Tuple<T, string>> CallApiPutProduct(string service, Product product, string authtoken)
+        public static async Task<T>CallApiPutProduct(string service, Product product, string authtoken)
         {
             try
             {
@@ -962,7 +962,7 @@ namespace LiperFrontend.Shared
                     nameContent = new StringContent(product.Price.ToString());
                     formDataContent.Add(nameContent, "Price");
 
-                 
+
 
                     //Convert the file to stream content
                     if (product.files is not null)
@@ -982,7 +982,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                     //}
                     throw new Exception("Internet Connection Proplem ");
                 }
@@ -1046,7 +1046,7 @@ namespace LiperFrontend.Shared
             }
         }
 
-        public static async Task<Tuple<T, string>> CallApiPut(string service, B model, string authtoken)
+        public static async Task<T>CallApiPut(string service, B model, string authtoken)
         {
             try
             {
@@ -1070,7 +1070,7 @@ namespace LiperFrontend.Shared
                     token = token.Substring(0, endIndex);
                     var responseModel = JsonConvert.DeserializeObject<T>(response);
 
-                    return new Tuple<T, string>(responseModel, token);
+                    return responseModel;
                 }
             }
             catch (Exception ex)
@@ -1097,7 +1097,7 @@ namespace LiperFrontend.Shared
                };
         }
 
-        public static async Task<Tuple<T, string>> CallApiGet(string service, B model, string authtoken)
+        public static async Task<T>CallApiGet(string service, B model, string authtoken)
         {
             try
             {
@@ -1130,7 +1130,7 @@ namespace LiperFrontend.Shared
                     token = token.Substring(0, endIndex);
                     var responseModel = JsonConvert.DeserializeObject<T>(responseString.ToString());
                     //return responseModel;
-                    return new Tuple<T, string>(responseModel, token);
+                    return responseModel;
                     #region Comment
                     //httpclient.DefaultRequestHeaders.Accept.Clear();
                     //httpclient.DefaultRequestHeaders.Accept.Add(
@@ -1150,7 +1150,7 @@ namespace LiperFrontend.Shared
 
         }
 
-        public static async Task<Tuple<T, string>> CallApiDelete(string service, B model, string authtoken)
+        public static async Task<T>CallApiDelete(string service, B model, string authtoken)
         {
             try
             {
@@ -1183,7 +1183,7 @@ namespace LiperFrontend.Shared
                     token = token.Substring(0, endIndex);
                     var responseModel = JsonConvert.DeserializeObject<T>(responseString.ToString());
                     //return responseModel;
-                    return new Tuple<T, string>(responseModel, token);
+                    return responseModel;
                     #region Comment
                     //httpclient.DefaultRequestHeaders.Accept.Clear();
                     //httpclient.DefaultRequestHeaders.Accept.Add(
@@ -1203,7 +1203,7 @@ namespace LiperFrontend.Shared
 
         }
 
-        public static async Task<Tuple<T, string>> CallApiPostCustomer(string service, Customer customer, string authtoken)
+        public static async Task<T>CallApiPostCustomer(string service, Customer customer, string authtoken)
         {
             try
             {
@@ -1259,7 +1259,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                     //}
                     throw new Exception("Internet Connection Proplem ");
                 }
@@ -1272,7 +1272,7 @@ namespace LiperFrontend.Shared
             }
         }
 
-        public static async Task<Tuple<T, string>> CallApiPostSocialMedia(string service, SocialMedia social, string authtoken)
+        public static async Task<T>CallApiPostSocialMedia(string service, SocialMedia social, string authtoken)
         {
             try
             {
@@ -1315,7 +1315,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                     //}
                     throw new Exception("Internet Connection Proplem ");
                 }
@@ -1328,7 +1328,7 @@ namespace LiperFrontend.Shared
             }
         }
 
-        public static async Task<Tuple<T, string>> CallApiPutSocialMedia(string service, SocialMedia social, string authtoken)
+        public static async Task<T>CallApiPutSocialMedia(string service, SocialMedia social, string authtoken)
         {
             try
             {
@@ -1375,7 +1375,7 @@ namespace LiperFrontend.Shared
                     // Do something with the result
                     var responseModel = JsonConvert.DeserializeObject<T>(result);
 
-                    return new Tuple<T, string>(responseModel, "");
+                    return responseModel;
                 }
 
             }
@@ -1386,5 +1386,123 @@ namespace LiperFrontend.Shared
             }
         }
 
+        public static async Task<T>CallApiPostImageSliedr(string service, ImageSlider slider, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(slider.text);
+                    formDataContent.Add(nameContent, "text");
+                    nameContent = new StringContent(slider.textAR);
+                    formDataContent.Add(nameContent, "textAR");
+                    nameContent = new StringContent(slider.Id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(slider.description.ToString());
+                    formDataContent.Add(nameContent, "description");
+                    nameContent = new StringContent(slider.descriptionAR.ToString());
+                    formDataContent.Add(nameContent, "descriptionAR");
+                    nameContent = new StringContent(slider.isActive.ToString());
+                    formDataContent.Add(nameContent, "isActive");
+
+
+                    // Convert the file to stream content
+                    if (slider.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(slider.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", slider.files.FileName);
+                    }
+
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PostAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return responseModel;
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
+        public static async Task<T>CallApiPutImageSliedr(string service, ImageSlider slider, string authtoken)
+        {
+            try
+            {
+
+                // Create a new HttpClient instance
+                using (var httpClient = new HttpClient())
+                {
+
+                    // Create a new multipart form data content
+                    var formDataContent = new MultipartFormDataContent();
+                    //api key 
+                    formDataContent.Headers.Add("XApiKey", "pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp");
+                    // Serialize the object properties to string content
+                    var nameContent = new StringContent(slider.text);
+                    formDataContent.Add(nameContent, "text");
+                    nameContent = new StringContent(slider.textAR);
+                    formDataContent.Add(nameContent, "textAR");
+                    nameContent = new StringContent(slider.Id.ToString());
+                    formDataContent.Add(nameContent, "Id");
+                    nameContent = new StringContent(slider.description.ToString());
+                    formDataContent.Add(nameContent, "description");
+                    nameContent = new StringContent(slider.descriptionAR.ToString());
+                    formDataContent.Add(nameContent, "descriptionAR");
+                    nameContent = new StringContent(slider.isActive.ToString());
+                    formDataContent.Add(nameContent, "isActive");
+
+
+                    // Convert the file to stream content
+                    if (slider.files is not null)
+                    {
+                        var fileStreamContent = new StreamContent(slider.files.OpenReadStream());
+                        formDataContent.Add(fileStreamContent, "files", slider.files.FileName);
+                    }
+
+
+                    //
+                    // Send the post request to the API with the form data content
+                    var response = await httpClient.PutAsync($"{Base_Url}{service}", formDataContent);
+                    // Check if the request was successful
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    // Process the response
+                    var result = await response.Content.ReadAsStringAsync();
+                    // Do something with the result
+                    var responseModel = JsonConvert.DeserializeObject<T>(result);
+
+                    return responseModel;
+                    //}
+                    throw new Exception("Internet Connection Proplem ");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Internet Connection Proplem ");
+            }
+        }
     }
 }

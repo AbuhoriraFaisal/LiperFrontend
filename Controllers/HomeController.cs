@@ -18,9 +18,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<GetDashboardCounter, string>.CallApiGet("Dashboard/GetDashboardCounter", "", "");
-                if (response.Item1.dashboardCounter is not null)
+                if (response.dashboardCounter is not null)
                 {
-                    return View(response.Item1.dashboardCounter);
+                    return View(response.dashboardCounter);
                 }
                 return View(new DashboardCounter());
             }
@@ -58,7 +58,7 @@ namespace LiperFrontend.Controllers
         public async Task<IActionResult> Categories()
         {
             var categoriesList = await ApiCaller<Categories, string>.CallApiGet("Categories", "", "");
-            return View(categoriesList.Item1.categories);
+            return View(categoriesList.categories);
         }
         public IActionResult Privacy()
         {

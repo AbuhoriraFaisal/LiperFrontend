@@ -16,13 +16,13 @@ namespace LiperFrontend.Controllers
                 pager.CurrentPage = pg;
                 var response = await ApiCaller<GiftRequests, string>.CallApiGet($"GiftRequiests?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
                 
-                    pager.CurrentPage = response.Item1.currentPage;
-                    pager.TotalPages = response.Item1.totalPages;
-                    pager.TotalItems = response.Item1.totalCount;
+                    pager.CurrentPage = response.currentPage;
+                    pager.TotalPages = response.totalPages;
+                    pager.TotalItems = response.totalCount;
                     this.ViewBag.Pager = pager;
-                if (response.Item1.giftRequiests != null)
+                if (response.giftRequiests != null)
                 {
-                    return View(response.Item1.giftRequiests);
+                    return View(response.giftRequiests);
                 }
                 return View(new List<GiftRequest>());
             }

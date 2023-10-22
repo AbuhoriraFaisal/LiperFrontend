@@ -15,9 +15,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<OrderStatuses, string>.CallApiGet("OrderStatuses", "", "");
-                if (response.Item1.orderStatuses != null)
+                if (response.orderStatuses != null)
                 {
-                    return View(response.Item1.orderStatuses);
+                    return View(response.orderStatuses);
                 }
                 return View(new List<OrderStatus>());
             }
@@ -44,8 +44,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, OrderStatus>.CallApiPost($"OrderStatuses", status, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -69,9 +69,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<OrderStatuses, string>.CallApiGet("OrderStatuses", "", "");
-                if (response.Item1.orderStatuses != null)
+                if (response.orderStatuses != null)
                 {
-                    return View(response.Item1.orderStatuses.Where(s => s.id == id).FirstOrDefault());
+                    return View(response.orderStatuses.Where(s => s.id == id).FirstOrDefault());
                 }
                 return RedirectToAction("Index");
             }
@@ -89,8 +89,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, OrderStatus>.CallApiPut($"OrderStatuses", status, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -114,9 +114,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<OrderStatuses, string>.CallApiGet("OrderStatuses", "", "");
-                if (response.Item1.orderStatuses != null)
+                if (response.orderStatuses != null)
                 {
-                    return View(response.Item1.orderStatuses.Where(s => s.id == id).FirstOrDefault());
+                    return View(response.orderStatuses.Where(s => s.id == id).FirstOrDefault());
                 }
                 return RedirectToAction("Index");
             }
@@ -134,14 +134,14 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"OrderStatuses?id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                     return View();
                 }
                 else
                 {
-                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, response.Item1.responseMessage.messageEN);
+                    ViewBag.Alert = CommonServices.ShowAlert(Alerts.Danger, response.responseMessage.messageEN);
                     return View();
                 }
             }

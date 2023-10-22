@@ -16,13 +16,13 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<FAQs, string>.CallApiGet("FAQs", "", "");
-                if (response.Item1.faqs != null)
+                if (response.faqs != null)
                 {
-                    foreach (var item in response.Item1.faqs)
+                    foreach (var item in response.faqs)
                     {
                         item.imageURL = ApiCaller<FAQs, string>.Base_Url_files + item.imageURL;
                     }
-                    return View(response.Item1.faqs);
+                    return View(response.faqs);
                 }
                 return View(new List<FAQ>());
             }
@@ -47,8 +47,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, FAQ>.CallApiPostFaqs($"FAQs", fAQ, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -72,7 +72,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var contact_result = await ApiCaller<GetFAQ, string>.CallApiGet($"FAQs/GetById?Id={id}", "", "");
-                FAQ faq = contact_result.Item1.FAQ;
+                FAQ faq = contact_result.FAQ;
                 if (faq != null)
                 {
                     faq.imageURL = ApiCaller<Country, Country>.Base_Url_files + faq.imageURL;
@@ -94,8 +94,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, FAQ>.CallApiPutFaqs($"FAQs", faq, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
                     return View();
@@ -118,7 +118,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var contact_result = await ApiCaller<GetFAQ, string>.CallApiGet($"FAQs/GetById?Id={id}", "", "");
-                FAQ faq = contact_result.Item1.FAQ;
+                FAQ faq = contact_result.FAQ;
                 if (faq != null)
                 {
                     faq.imageURL = ApiCaller<Country, Country>.Base_Url_files + faq.imageURL;
@@ -140,7 +140,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"FAQs?id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
                     return View();

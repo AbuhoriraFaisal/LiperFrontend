@@ -14,9 +14,9 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<Customers, string>.CallApiGet("Customers", "", "");
-               if (response.Item1.customers is not  null)
+               if (response.customers is not  null)
                 {
-                    return View(response.Item1.customers);
+                    return View(response.customers);
                 }
                 return View(new List<Customer>());
             }
@@ -30,7 +30,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<GetCustomer, string>.CallApiGet($"Customers/GetById?id={id}", "", "");
-                Customer customer = response.Item1.customer;
+                Customer customer = response.customer;
                 if (customer != null)
                 {
                     return View(customer);
@@ -49,7 +49,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Customers?id={id}", "", "");
-                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.Item1.responseMessage.messageEN);
+                ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, response.responseMessage.messageEN);
                 return View();
             }
             catch
@@ -64,7 +64,7 @@ namespace LiperFrontend.Controllers
             {
                 List<SelectListItem> SelectedList = new List<SelectListItem>();
                 var cityResponse = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
-                var cities = cityResponse.Item1.cities;
+                var cities = cityResponse.cities;
                 foreach (var city in cities)
                 {
                     var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
@@ -76,7 +76,7 @@ namespace LiperFrontend.Controllers
 
                 List<SelectListItem> SelectedListgender = new List<SelectListItem>();
                 var gendersresponse = await ApiCaller<Genders, string>.CallApiGet("Genders", "", "");
-                var genders = gendersresponse.Item1.genders;
+                var genders = gendersresponse.genders;
                 foreach (var gender in genders)
                 {
                     var selectItem = new SelectListItem() { Value = gender.id.ToString(), Text = gender.name };
@@ -98,8 +98,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Customer>.CallApiPostCustomer($"Customers/Registration", customer, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     ViewBag.Alert = CommonServices.ShowAlert(Alerts.Success, "Operation Succeeded!");
 
@@ -111,7 +111,7 @@ namespace LiperFrontend.Controllers
                 }
                 List<SelectListItem> SelectedList = new List<SelectListItem>();
                 var cityResponse = await ApiCaller<Cities, string>.CallApiGet("cities", "", "");
-                var cities = cityResponse.Item1.cities;
+                var cities = cityResponse.cities;
                 foreach (var city in cities)
                 {
                     var selectItem = new SelectListItem() { Value = city.id.ToString(), Text = city.nameEN };
@@ -123,7 +123,7 @@ namespace LiperFrontend.Controllers
                 //
                 List<SelectListItem> SelectedListgender = new List<SelectListItem>();
                 var gendersresponse = await ApiCaller<Genders, string>.CallApiGet("Genders", "", "");
-                var genders = gendersresponse.Item1.genders;
+                var genders = gendersresponse.genders;
                 foreach (var gender in genders)
                 {
                     var selectItem = new SelectListItem() { Value = gender.id.ToString(), Text = gender.name };

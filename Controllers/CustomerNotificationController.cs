@@ -17,13 +17,13 @@ namespace LiperFrontend.Controllers
                 pager.CurrentPage = pg;
                 var response = await ApiCaller<Notifications, string>.CallApiGet($"Notifications?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
                
-                    pager.CurrentPage = response.Item1.currentPage;
-                    pager.TotalPages = response.Item1.totalPages;
-                    pager.TotalItems = response.Item1.totalCount;
+                    pager.CurrentPage = response.currentPage;
+                    pager.TotalPages = response.totalPages;
+                    pager.TotalItems = response.totalCount;
                     this.ViewBag.Pager = pager;
-                if (response.Item1.notifications != null)
+                if (response.notifications != null)
                 {
-                    return View(response.Item1.notifications);
+                    return View(response.notifications);
                 }
                 return View(new List<Notification>());
             }
@@ -49,11 +49,11 @@ namespace LiperFrontend.Controllers
                 if (notification.agent_customer_Phone is not null)
                 {
                     var response = await ApiCaller<NotificationResponse, Notification>.CallApiPostCustNotification($"Notifications/AddWithPhoneNumber", notification, "");
-                    responseM = response.Item1.responseMessage;
+                    responseM = response.responseMessage;
 
                     if (responseM.statusCode.Equals(StatusCodes.Status200OK))
                     {
-                        url = ApiCaller<NotificationResponse, Notification>.Base_Url_files + response.Item1.imageUrl;
+                        url = ApiCaller<NotificationResponse, Notification>.Base_Url_files + response.imageUrl;
 
                         responseM = await ApiCaller<responseMessage, Notification>.callSendCustNotification(notification, url);
                     }
@@ -61,10 +61,10 @@ namespace LiperFrontend.Controllers
                 else
                 {
                     var response = await ApiCaller<NotificationResponse, Notification>.CallApiPostCustNotification($"Notifications/AddMultiNotofocations", notification, "");
-                    responseM = response.Item1.responseMessage;
+                    responseM = response.responseMessage;
                     if (responseM.statusCode.Equals(StatusCodes.Status200OK))
                     {
-                        url = ApiCaller<NotificationResponse, Notification>.Base_Url_files + response.Item1.imageUrl;
+                        url = ApiCaller<NotificationResponse, Notification>.Base_Url_files + response.imageUrl;
 
                         responseM = await ApiCaller<responseMessage, Notification>.callSendCustNotification(notification, url);
                     }

@@ -15,7 +15,7 @@ namespace LiperFrontend.Controllers
                 var contacts = await ApiCaller<Contacts, string>.CallApiGet("Contacts", "", "");
                 if (contacts == null)
                     return View(new List<Contact>());
-                return View(contacts.Item1.contacts);
+                return View(contacts.contacts);
             }
             catch (Exception ex)
             {
@@ -43,8 +43,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Contact>.CallApiPost($"Contacts", contact, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -65,7 +65,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var getcategory = await ApiCaller<GetContacts, string>.CallApiGet($"Contacts/GetById?id={id}", "", "");
-                Contact contact = getcategory.Item1.contact;
+                Contact contact = getcategory.contact;
                 if (contact != null)
                 {
                     return View(contact);
@@ -86,8 +86,8 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, Contact>.CallApiPut($"Contacts", contact, "");
-                responseMessage responseMessage = response.Item1.responseMessage;
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                responseMessage responseMessage = response.responseMessage;
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -108,7 +108,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var contact_result = await ApiCaller<GetContacts, string>.CallApiGet($"Contacts/GetById?id={id}", "", "");
-                Contact contact = contact_result.Item1.contact;
+                Contact contact = contact_result.contact;
                 if (contact != null)
                 {
                     return View(contact);
@@ -129,7 +129,7 @@ namespace LiperFrontend.Controllers
             try
             {
                 var response = await ApiCaller<defaultResponse, string>.CallApiDelete($"Contacts?id={id}", "", "");
-                if (response.Item1.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
+                if (response.responseMessage.statusCode.Equals(StatusCodes.Status200OK))
                 {
                     return RedirectToAction(nameof(Index));
                 }
