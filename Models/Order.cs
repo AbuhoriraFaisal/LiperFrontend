@@ -1,7 +1,10 @@
-﻿namespace LiperFrontend.Models
+﻿using System.ComponentModel;
+
+namespace LiperFrontend.Models
 {
     public class Order
     {
+        [DisplayName("Order No")]
         public int id { get; set; }
         public DateTime orderDate { get; set; }
         public DateTime deliveryDate { get; set; }
