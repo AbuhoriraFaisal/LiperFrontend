@@ -16,10 +16,10 @@ namespace LiperFrontend.Shared
 {
     public class ApiCaller<T, B>
     {
-        //public static string Base_Url = $"http://84.46.253.59:8080/api/"; // live
-        public static string Base_Url = $"http://75.119.136.238:8016/api/"; // live
-        //public static string Base_Url_files = $"http://84.46.253.59:8080"; // 
-        public static string Base_Url_files = $"http://75.119.136.238:8016"; // 
+        public static string Base_Url = $"http://84.46.253.59:8080/api/"; // live
+       // public static string Base_Url = $"http://75.119.136.238:8016/api/"; // live
+        public static string Base_Url_files = $"http://84.46.253.59:8080"; // 
+       // public static string Base_Url_files = $"http://75.119.136.238:8016"; // 
         //http://75.119.136.238:8016/
         //static string Base_Url = $"https://mob.jsjbank.com:3000/JSB_OMNI_Ph2/omniServices/"; test 
 

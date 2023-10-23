@@ -1,7 +1,17 @@
 ﻿@model IEnumerable<LiperFrontend.Models.Customer>
+@using LiperFrontend.Shared
 
 @{
     ViewData["Title"] = "Index";
+    Pager pager = new Pager();
+
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
 <h1>Index</h1>
@@ -20,7 +30,7 @@
                             @*<table id="example" class="table table-sm table-bordered table-hover">*@
 
 
-                            <caption>Number of items: @Model.Count()</caption>
+                            <caption>Number of items: @pager.TotalItems</caption>
 
                             <thead>
                                 <tr>
@@ -83,3 +93,7 @@
         </div>
     </div>
 </section>
+
+@Html.Partial("_PagerPartial" ,pager)
+
+

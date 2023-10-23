@@ -3,60 +3,77 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
+<h1>Agents</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-outline-success"> New Agent</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.email)
-            </th>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.city.nameEN)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.city.nameEN)
-            </td>
-            <td>
-                    <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.id> Update</a>
-                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.id> Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            @*<table id="example" class="table table-sm table-bordered table-hover">*@
+
+
+                            <caption>Number of items: @Model.Count()</caption>
+
+                            <thead>
+                                <tr>
+                                   
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.phone)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.email)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.city.nameEN)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.phone)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.email)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.password)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.city.nameEN)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Edit" class="btn btn-outline-info" asp-route-Id=@item.id> Update</a>
+                                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-Id=@item.id> Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

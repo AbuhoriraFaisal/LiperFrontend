@@ -9,12 +9,18 @@ namespace LiperFrontend.Controllers
 {
     public class CustomerController : Controller
     {
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pg = 1)
         {
             try
             {
-                var response = await ApiCaller<Customers, string>.CallApiGet("Customers", "", "");
-               if (response.customers is not  null)
+                Pager pager = new Pager();
+                pager.CurrentPage = pg;
+                var response = await ApiCaller<Customers, string>.CallApiGet($"Customers?page={pager.CurrentPage}&pageSize={pager.PageSize}", "", "");
+                pager.CurrentPage = response.currentPage;
+                pager.TotalPages = response.totalPages;
+                pager.TotalItems = response.totalCount;
+                this.ViewBag.Pager = pager;
+                if (response.customers is not  null)
                 {
                     return View(response.customers);
                 }

@@ -53,15 +53,23 @@ namespace LiperFrontend.Controllers
                 var receiverInfo = await ApiCaller<GetReceiverInfo, string>.CallApiGet($"Orders/GetReceiverInfo?orderId={Id}", "", "");
                 if (receiverInfo.receiverInfo is not null)
                 {
-                    if (receiverInfo.receiverInfo.customer.name.Contains("walking"))
+                    if (receiverInfo.receiverInfo.customer is not null)
                     {
-                        order.ReceiverName = receiverInfo.receiverInfo.recipientName;
-                        order.ReceiverPhone = receiverInfo.receiverInfo.recipientPhoneNumber;
+                        if (receiverInfo.receiverInfo.customer.name.Contains("walking"))
+                        {
+                            order.ReceiverName = receiverInfo.receiverInfo.recipientName;
+                            order.ReceiverPhone = receiverInfo.receiverInfo.recipientPhoneNumber;
+                        }
+                        else
+                        {
+                            order.ReceiverName = receiverInfo.receiverInfo.customer.name;
+                            order.ReceiverPhone = receiverInfo.receiverInfo.customer.phone;
+                        }
                     }
                     else
                     {
-                        order.ReceiverName = receiverInfo.receiverInfo.customer.name;
-                        order.ReceiverPhone = receiverInfo.receiverInfo.customer.phone;
+                        order.ReceiverName = "";
+                        order.ReceiverPhone = "";
                     }
                     
                 }

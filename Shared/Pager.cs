@@ -4,7 +4,7 @@
     {
         public int TotalItems { get; set; }
         public int CurrentPage { get; set; }
-        public int PageSize { get; set; } = 5;
+        public int PageSize { get; set; } = 100;
         public int TotalPages { get; set; }
             
 

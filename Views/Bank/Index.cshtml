@@ -3,13 +3,24 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
+<h1>Banks</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-outline-success">Create New</a>
+    <a asp-action="Create" class="btn btn-outline-success">New Bank</a>
 </p>
-<table class="table">
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            @*<table id="example" class="table table-sm table-bordered table-hover">*@
+
+
+                            <caption>Number of items: @Model.Count()</caption>
+
     <thead>
         <tr>
             <th>
@@ -52,3 +63,11 @@
 }
     </tbody>
 </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
