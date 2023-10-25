@@ -68,8 +68,8 @@ namespace LiperFrontend.Controllers
                     }
                     else
                     {
-                        order.ReceiverName = "";
-                        order.ReceiverPhone = "";
+                        order.ReceiverName = receiverInfo.receiverInfo.recipientName;
+                        order.ReceiverPhone = receiverInfo.receiverInfo.recipientPhoneNumber;
                     }
                     
                 }
